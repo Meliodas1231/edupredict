@@ -571,3 +571,96 @@ input[type="range"]::-webkit-slider-thumb:hover {
   color: var(--danger);
   font-weight: 600;
 }
+
+/* ── GeoGebra export ──────────────────────────────────────── */
+.ggb-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.ggb-row {
+  background: var(--surface2);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  animation: fadeUp .3s ease both;
+}
+
+.ggb-row-inner {
+  flex: 1;
+  min-width: 0;
+}
+
+.ggb-label {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.ggb-expr {
+  font-family: 'Courier New', monospace;
+  font-size: .87rem;
+  color: var(--accent2);
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+.ggb-note {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.btn-copy {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: .75rem;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all .2s;
+  white-space: nowrap;
+}
+
+.btn-copy:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.btn-copy.copied {
+  background: var(--accent2);
+  color: #000;
+  border-color: var(--accent2);
+}
+
+.btn-copy-all {
+  width: 100%;
+  padding: 11px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: transform .15s, box-shadow .15s;
+  box-shadow: 0 4px 16px rgba(108, 99, 255, .3);
+}
+
+.btn-copy-all:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(108, 99, 255, .5);
+}

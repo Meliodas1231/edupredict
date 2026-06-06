@@ -93,8 +93,18 @@ def calcular_prediccion(datos: dict) -> dict:
     elif datos['concentracion'] <= 2:
         negativos.append("✖ Hábitos de concentración deficientes.")
 
+    # Generar la expresión z extendida
+    formula_z_str = f"z = {BIAS}"
+    formula_z_str += f" + {PESOS['asistencia']}*{norm['asistencia']:.3f}"
+    formula_z_str += f" + {PESOS['promedio']}*{norm['promedio']:.3f}"
+    formula_z_str += f" + {PESOS['horas_estudio']}*{norm['horas_estudio']:.3f}"
+    formula_z_str += f" + {PESOS['trabajos']}*{norm['trabajos']:.3f}"
+    formula_z_str += f" + {PESOS['participacion']}*{norm['participacion']:.3f}"
+    formula_z_str += f" + {PESOS['concentracion']}*{norm['concentracion']:.3f}"
+
     return {
         'z': round(z, 4),
+        'formula_z_str': formula_z_str,
         'porcentaje': porcentaje,
         'positivos': positivos,
         'negativos': negativos,

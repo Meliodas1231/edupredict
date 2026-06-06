@@ -17,8 +17,10 @@ function drawSigmoid(zActual) {
     ctx.clearRect(0, 0, W, H);
 
     // Fondo
-    ctx.fillStyle = '#1e2235';
-    ctx.roundRect(0, 0, W, H, 10);
+    ctx.beginPath();
+    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--surface2').trim() || '#1e2235';
+    if (ctx.roundRect) ctx.roundRect(0, 0, W, H, 10);
+    else ctx.rect(0, 0, W, H);
     ctx.fill();
 
     // Helpers de coordenadas
@@ -78,7 +80,9 @@ function drawSigmoid(zActual) {
     ctx.lineWidth = 2.5;
     ctx.shadowColor = '#6c63ff';
     ctx.shadowBlur = 8;
+    ctx.fillStyle = 'transparent'; // Forzar sin relleno
     ctx.stroke();
+    // NO PONER NINGUN ctx.fill() aquí.
     ctx.shadowBlur = 0;
 
     // Punto del estudiante
@@ -297,6 +301,106 @@ function setVeredicto(pct) {
     }
 }
 
+// ── GeoGebra Export ───────────────────────────────────────────────────
+let ggbExpressions = [];
+
+function renderGgb(data) {
+    const container = document.getElementById('ggbLines');
+    const btn = document.getElementById('btnCopyAll');
+
+    if (!data) {
+        container.innerHTML = '<p class="factor-empty">Calcula una predicción para ver las fórmulas</p>';
+        btn.style.display = 'none';
+        return;
+    }
+
+    const { z, formula_z_str } = data;
+    const sig = sigmoid(z);
+    const deriv = sigmoidDeriv(z);
+
+    // Fórmulas para GeoGebra
+    const lines = [
+        { label: '1. Función Sigmoide', expr: `f(x) = 1 / (1 + e^(-x))` },
+        { label: '2. Derivada de la Sigmoide', expr: `g(x) = f'(x)` },
+        { label: '3. Desarrollo de la variable z', expr: formula_z_str },
+        { label: '4. Valor Final z', expr: `z_0 = ${z.toFixed(4)}` },
+        { label: '5. Punto Estudiante en Curva', expr: `P = (z_0, f(z_0))` },
+        { label: '6. Recta Tangente (Tasa de Cambio)', expr: `t(x) = g(z_0) * (x - z_0) + f(z_0)` },
+    ];
+
+    ggbExpressions = lines.map(l => l.expr);
+
+    container.innerHTML = lines.map((l, i) => `
+    <div class="ggb-row" style="animation-delay: ${i * 0.05}s">
+      <div class="ggb-row-inner">
+        <div class="ggb-label">${l.label}</div>
+        <div class="ggb-expr">${l.expr}</div>
+      </div>
+      <button class="btn-copy" onclick="copyText('${l.expr}', this)">Copiar</button>
+    </div>
+  `).join('');
+
+    btn.style.display = 'block';
+    btn.textContent = '📋 Copiar todo al portapapeles';
+    btn.className = 'btn-copy-all';
+}
+
+function fallbackCopyTextToClipboard(text, btnElement, successMsg) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+        document.execCommand('copy');
+        animateCopyBtn(btnElement, successMsg);
+    } catch (err) {
+        alert('No se pudo copiar. Tu navegador bloqueó la acción.');
+    }
+    document.body.removeChild(textArea);
+}
+
+function animateCopyBtn(btnElement, successMsg) {
+    const old = btnElement.getAttribute('data-original-text') || btnElement.textContent;
+    if (!btnElement.hasAttribute('data-original-text')) {
+        btnElement.setAttribute('data-original-text', old);
+    }
+
+    btnElement.textContent = successMsg;
+    btnElement.classList.add('copied');
+    setTimeout(() => {
+        btnElement.textContent = old;
+        btnElement.classList.remove('copied');
+    }, 1500);
+}
+
+function copyText(text, btnElement) {
+    if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text, btnElement, '✓ Copiado');
+        return;
+    }
+    navigator.clipboard.writeText(text)
+        .then(() => animateCopyBtn(btnElement, '✓ Copiado'))
+        .catch(() => fallbackCopyTextToClipboard(text, btnElement, '✓ Copiado'));
+}
+
+function copyAllGgb() {
+    const text = ggbExpressions.join('\n');
+    const btn = document.getElementById('btnCopyAll');
+
+    if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text, btn, '✓ ¡Fórmulas copiadas!');
+        return;
+    }
+    navigator.clipboard.writeText(text)
+        .then(() => animateCopyBtn(btn, '✓ ¡Fórmulas copiadas!'))
+        .catch(() => fallbackCopyTextToClipboard(text, btn, '✓ ¡Fórmulas copiadas!'));
+}
+
 // ── Submit ────────────────────────────────────────────────────────────
 document.getElementById('predictorForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -331,7 +435,7 @@ document.getElementById('predictorForm').addEventListener('submit', async (e) =>
         currentZ = data.z;
         drawSigmoid(data.z);
         renderTable(data.z);
-
+        renderGgb(data);
 
     } catch (err) {
         alert('Error al calcular: ' + err.message);
