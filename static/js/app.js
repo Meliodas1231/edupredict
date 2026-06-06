@@ -14,11 +14,17 @@ function drawSigmoid(zActual) {
     const w = W - PAD.left - PAD.right;
     const h = H - PAD.top - PAD.bottom;
 
+    const style = getComputedStyle(document.body);
+    const bgCol = style.getPropertyValue('--surface2').trim() || '#1e2235';
+    const textColor = style.getPropertyValue('--muted').trim() || '#7b82a8';
+    const textColorStrong = style.getPropertyValue('--text').trim() || '#e8eaf6';
+    const gridColor = style.getPropertyValue('--border').trim() || 'rgba(255,255,255,.06)';
+
     ctx.clearRect(0, 0, W, H);
 
     // Fondo
     ctx.beginPath();
-    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--surface2').trim() || '#1e2235';
+    ctx.fillStyle = bgCol;
     if (ctx.roundRect) ctx.roundRect(0, 0, W, H, 10);
     else ctx.rect(0, 0, W, H);
     ctx.fill();
@@ -33,10 +39,10 @@ function drawSigmoid(zActual) {
         const y = toY(v);
         ctx.beginPath();
         ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left + w, y);
-        ctx.strokeStyle = 'rgba(255,255,255,.06)';
+        ctx.strokeStyle = gridColor;
         ctx.lineWidth = 1;
         ctx.stroke();
-        ctx.fillStyle = '#7b82a8';
+        ctx.fillStyle = textColor;
         ctx.font = '10px Inter, sans-serif';
         ctx.textAlign = 'right';
         ctx.fillText(v.toFixed(2), PAD.left - 6, y + 4);
@@ -47,10 +53,10 @@ function drawSigmoid(zActual) {
         const x = toX(z);
         ctx.beginPath();
         ctx.moveTo(x, PAD.top); ctx.lineTo(x, PAD.top + h);
-        ctx.strokeStyle = 'rgba(255,255,255,.06)';
+        ctx.strokeStyle = gridColor;
         ctx.lineWidth = 1;
         ctx.stroke();
-        ctx.fillStyle = '#7b82a8';
+        ctx.fillStyle = textColor;
         ctx.font = '10px Inter, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText(z, x, PAD.top + h + 16);
@@ -116,14 +122,14 @@ function drawSigmoid(zActual) {
         // Etiqueta
         const label = `z=${zActual.toFixed(2)}, σ=${sigmoid(zActual).toFixed(3)}`;
         const lx = px + 10 > PAD.left + w - 100 ? px - 115 : px + 10;
-        ctx.fillStyle = '#e8eaf6';
+        ctx.fillStyle = textColorStrong;
         ctx.font = 'bold 11px Inter, sans-serif';
         ctx.textAlign = 'left';
         ctx.fillText(label, lx, py - 8);
     }
 
     // Ejes etiquetas
-    ctx.fillStyle = '#7b82a8';
+    ctx.fillStyle = textColor;
     ctx.font = '11px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('z', PAD.left + w / 2, H - 2);
@@ -178,6 +184,27 @@ function renderTable(zActual) {
             setTimeout(() => tr.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
         }
     });
+}
+
+// ── Expand Graph ───────────────────────────────────────────────────────
+function toggleFullscreenGraph() {
+    const card = document.getElementById('sigmoidCard');
+    const btn = document.getElementById('btnToggleGraph');
+
+    card.classList.toggle('graph-fullscreen');
+
+    if (card.classList.contains('graph-fullscreen')) {
+        btn.textContent = '✕ Cerrar pantalla completa';
+        document.body.style.overflow = 'hidden';
+    } else {
+        btn.textContent = '⛶ Expandir';
+        document.body.style.overflow = '';
+    }
+
+    // Necesario redraw para corregir aspectos visuales del canvas scale bounds.
+    if (typeof currentZ !== 'undefined') {
+        setTimeout(() => drawSigmoid(currentZ), 50);
+    }
 }
 
 // Dibujar curva inicial vacía

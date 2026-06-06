@@ -41,6 +41,16 @@
         <span class="icon">📋</span> Datos del estudiante
       </h2>
 
+      <div class="field-explanation">
+        <p>Ajuste cada parámetro para analizar a un estudiante. <strong>Z</strong> se genera en base al impacto (peso)
+          de estas 6 variables independientes.</p>
+        <ul>
+          <li><strong>Asistencia/Promedio:</strong> Factores de mayor impacto directo (0-100).</li>
+          <li><strong>Horas/Trabajos:</strong> Evidencia de esfuerzo metódico sostenido (0-40 y 0-10).</li>
+          <li><strong>Participación/Concentración:</strong> Variables cualitativas observables (0-5).</li>
+        </ul>
+      </div>
+
       <form id="predictorForm" novalidate>
 
         <div class="field-group">
@@ -142,30 +152,39 @@
       </div>
 
       <!-- Gráfico sigmoide + tabla -->
-      <div class="card sigmoid-card">
-        <h2 class="card-title"><span class="icon">📈</span> Curva sigmoide σ(z) = 1 / (1 + e⁻ᶻ)</h2>
-        <p class="sens-desc">El punto <strong style="color:var(--accent2)">●</strong> marca el valor <em>z</em> del
-          estudiante actual</p>
-        <canvas id="sigmoidCanvas" width="560" height="220"></canvas>
+      <div class="card sigmoid-card" id="sigmoidCard">
+        <h2 class="card-title" style="justify-content: space-between;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="icon">📈</span> Curva sigmoide σ(z) = 1 / (1 + e⁻ᶻ)
+          </div>
+          <button class="theme-btn" id="btnToggleGraph" onclick="toggleFullscreenGraph()"
+            style="font-size:12px; padding:4px 8px;">⛶ Expandir</button>
+        </h2>
 
-        <div class="sig-table-wrap">
-          <table class="sig-table" id="sigTable">
-            <thead>
-              <tr>
-                <th>z</th>
-                <th>σ(z)</th>
-                <th>σ'(z)</th>
-                <th>Prob. %</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody id="sigTableBody">
-              <tr>
-                <td colspan="5" class="table-empty">Calcula una predicción para ver la tabla</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div id="sigmoidContent">
+          <p class="sens-desc">El punto <strong style="color:var(--accent2)">●</strong> marca el valor <em>z</em> del
+            estudiante actual</p>
+          <canvas id="sigmoidCanvas" width="560" height="220"></canvas>
+
+          <div class="sig-table-wrap">
+            <table class="sig-table" id="sigTable">
+              <thead>
+                <tr>
+                  <th>z</th>
+                  <th>σ(z)</th>
+                  <th>σ'(z)</th>
+                  <th>Prob. %</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="sigTableBody">
+                <tr>
+                  <td colspan="5" class="table-empty">Calcula una predicción para ver la tabla</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div> <!-- End sigmoidContent -->
       </div>
 
       <!-- GeoGebra export -->
@@ -230,7 +249,7 @@
     // Selector de tema
     const THEMES = {
       dark: { '--bg': '#0d0f1a', '--surface': '#161928', '--surface2': '#1e2235', '--border': 'rgba(255,255,255,.07)', '--accent': '#6c63ff', '--accent2': '#00d4aa', '--danger': '#ff5e7e', '--text': '#e8eaf6', '--muted': '#7b82a8' },
-      white: { '--bg': '#f0f2f8', '--surface': '#ffffff', '--surface2': '#e8eaf2', '--border': 'rgba(0,0,0,.08)', '--accent': '#5046e5', '--accent2': '#00a884', '--danger': '#e5294a', '--text': '#1a1d2e', '--muted': '#6b7199' },
+      white: { '--bg': '#f4f6fb', '--surface': '#ffffff', '--surface2': '#f0f3f9', '--border': 'rgba(0,0,0,.15)', '--accent': '#4338ca', '--accent2': '#059669', '--danger': '#dc2626', '--text': '#0f172a', '--muted': '#475569' },
       pink: { '--bg': '#1a0d18', '--surface': '#261222', '--surface2': '#31182e', '--border': 'rgba(255,150,200,.1)', '--accent': '#e040a0', '--accent2': '#ff80c0', '--danger': '#ff4444', '--text': '#f8e0f0', '--muted': '#b08098' },
     };
     function setTheme(name) {
