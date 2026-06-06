@@ -1,0 +1,16 @@
+Entrega Proyecto  
+
+Integrantes: Alejandra Miranda, Britanny Labraña & Sebastián Araujo
+Docente: Carolina Valeria Gómez Bravo
+Asignatura: Cálculo Diferencial
+Sección: 2026/O CVCD01/V-IEI-N5-P3-C1-CICLO1/V
+Carrera: Ingeniería en Informática
+
+
+En el presente documento adjuntamos los enlaces para acceder al video de la presentación del proyecto y el código fuente del proyecto desarrollado.
+
+1. Enlace video de presentación: 
+https://www.youtube.com/watch?v=oVoaVNpD6bE
+
+2. Enlace código:
+https://github.com/Britalab/predictor-consumidor/tree/estilos

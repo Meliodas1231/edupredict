@@ -1,0 +1,146 @@
+﻿EduPredict: 
+Predictor de rendimiento académico estudiantil
+Definición del proyecto
+El proyecto consiste en desarrollar una aplicación web capaz de predecir la probabilidad de aprobación de un estudiante a partir de distintas variables académicas y personales.
+El sistema permitirá ingresar datos como:
+Porcentaje de asistencia.
+Promedio de notas.
+Horas de estudio semanal.
+Cantidad de trabajos entregados.
+Participación en clases.
+Nivel de concentración o hábitos de estudio
+A partir de estos datos, la aplicación calculará una probabilidad estimada de aprobación, expresada en porcentaje, y entregará una interpretación del resultado.
+Por ejemplo:
+“El estudiante tiene un 78% de probabilidad de aprobar. Los factores que más favorecen el resultado son la alta asistencia y el promedio actual. El principal factor negativo es la baja cantidad de horas de estudio semanal.”
+
+
+Tema de investigación, nociones matemáticas y problemáticas a abordar
+Tema de investigación: 
+El tema principal del proyecto es el uso de modelos predictivos aplicados al rendimiento académico.
+Se busca analizar cómo distintas variables influyen en la probabilidad de que un estudiante apruebe una asignatura.
+Problemática:
+En muchos casos, los estudiantes no saben con claridad qué factores afectan más su rendimiento. A veces creen que solo importa la nota, pero también influyen la asistencia, la constancia, la participación y los hábitos de estudio.
+Por eso, el problema que aborda este proyecto es:
+¿Cómo podemos estimar matemáticamente la probabilidad de aprobación de un estudiante según sus datos académicos?
+Tema de investigación, nociones matemáticas y problemáticas a abordar
+Nociones matemáticas: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+El proyecto utilizará conceptos de Cálculo Diferencial, tales como:
+1. Función matemática
+ El rendimiento se modelará mediante una función que recibe varias variables de entrada.
+2. Combinación lineal
+ Cada variable tendrá un peso según su importancia.
+Ejemplo: z = w1·asistencia + w2·promedio + w3·horas de estudio + b
+3. Función sigmoide
+ Permitirá transformar el resultado en una probabilidad entre 0 y 1.
+4. Límites
+ Ayudarán a interpretar que la probabilidad se acerca a 0 o 1, pero no los supera.
+5. Continuidad
+ Permitirá explicar que pequeños cambios en las variables generan cambios graduales en el resultado.
+6. Derivadas
+ Se usarán para analizar cómo cambia la probabilidad de aprobación cuando aumenta o disminuye una variable, por ejemplo, las horas de estudio o la asistencia.
+Objetivo general
+Desarrollar una aplicación web predictiva que estime la probabilidad de aprobación de un estudiante mediante variables académicas y conceptos de Cálculo Diferencial.
+
+
+Objetivos específicos
+Identificar variables que influyen en el rendimiento académico.
+Construir un modelo matemático simple basado en ponderaciones.
+Aplicar una función sigmoide para transformar el resultado en porcentaje.
+Analizar cómo las derivadas permiten estudiar el cambio de la probabilidad.
+Crear una interfaz web sencilla para ingresar datos y visualizar resultados.
+
+
+Preguntas orientadoras
+¿Qué variables influyen más en la probabilidad de aprobar una asignatura?
+¿Cómo se puede representar el rendimiento académico mediante una función matemática?
+¿Cómo cambia la probabilidad de aprobación cuando aumenta la asistencia?
+¿Cómo cambia el resultado cuando aumentan las horas de estudio?
+¿Por qué la función sigmoide permite representar una probabilidad?
+¿Cómo se relacionan las derivadas con el análisis del rendimiento académico?
+Temas iniciales involucrados
+Los temas iniciales que se abordarán en el proyecto son:
+* Cálculo diferencial.
+* Funciones matemáticas.
+* Derivadas.
+* Límites y continuidad.
+* Función sigmoide.
+* Probabilidad.
+* Modelos predictivos básicos.
+* Programación en JavaScript.
+* Desarrollo web con HTML y CSS.
+* Análisis de datos académicos.
+* Visualización de resultados.
+También se considera el uso de variables académicas como:
+* Asistencia
+* Promedio de notas.
+* Horas de estudio.
+* Participación.
+* Trabajos entregados.
+* Nivel de concentración.
+6: Cronograma del proyecto 
+
+
+Tarea ¿Qué haremos?
+	Productos ¿Qué resultado obtendremos?
+	Plazos ¿Para cuándo debe estar hecho?
+	Responsables ¿Quién o quiénes lo harán?
+	Insumos ¿Qué necesitamos para hacerlo?
+	Investigar conceptos matemáticos: función, derivada, límites, continuidad y sigmoide
+	Resumen teórico para la presentación
+	Semana 1
+	Todo el grupo
+	Apuntes de clase, internet, material de Cálculo
+	Definir variables del modelo: asistencia, notas, estudio y participación
+	Lista de variables y fórmula inicial
+	Semana 1
+	Integrante 1 e Integrante 2
+	Datos simulados, ejemplos académicos
+	Diseñar el modelo matemático predictivo
+	Fórmula de cálculo y ponderaciones
+	Semana 2
+	Todo el grupo
+	Calculadora, Excel o JavaScript
+	Programar la aplicación web
+	Prototipo funcional en HTML, CSS y JavaScript
+	Semana 2
+	Integrante 2 e Integrante 3
+	Computador, editor de código, navegador
+	Crear visualización de resultados
+	Porcentaje de aprobación, barra visual y explicación textual
+	Semana 3
+	Integrante 3
+	Código JavaScript, diseño CSS
+	Preparar presentación y demostración final
+	PPT, guion y aplicación lista para presentar
+	Semana 3
+	Todo el grupo
+	PowerPoint, capturas, proyecto terminado
+	EduPredict será una aplicación web que permitirá estimar la probabilidad de aprobación de un estudiante según variables como asistencia, promedio, horas de estudio y participación. El proyecto aplicará conceptos de Cálculo Diferencial, especialmente funciones, límites, continuidad y derivadas, para analizar cómo cambia el rendimiento esperado cuando se modifican las variables del modelo.

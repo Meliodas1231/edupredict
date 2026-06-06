@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>EduPredict — DOOM Easter Egg</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://js-dos.com/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://js-dos.com/assets/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #000;
+            color: #67CC00;
+            font-family: monospace;
+            text-align: center;
+            visibility: hidden;
+        }
+
+        .emscripten-status,
+        .emscripten-padding {
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+
+        .fullscreen {
+            display: none;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+
+        .emscripten canvas {
+            border: 0;
+        }
+
+        #fullscreen {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 24px;
+            background: #c00;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: monospace;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        #fullscreen:hover {
+            background: #f00;
+        }
+    </style>
+</head>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+    <div class="emscripten-status">
+        <div style="text-align:left; width:830px; margin:0 auto;">
+            <pre style="font-size:1.5vw; color:#67CC00; line-height:1.5vw">
+
+            -.`                                                                      `.-            
+            yccess+/:-.`                                                    `.-:/+ccessy           
+            :MMMMMMMMNccess+:-.``                                  `..-:+ccessNMMMMMMMM:            
+             cMMMMMMMMMMMMMMMNNccess/:-.`                 ``.-:+ccessNMMMMMMMMMMMMMMMMm             
+             +MMMMMMMMMMMMMMMMMMMMMMMMNess+              essNMMMMMMMMMMMMMMMMMMMMMMMMM+             
+             `NMMMMMMccessNMMMMMMMMMMMMMMMN`            /MMMMMMMMMMMMMMMNNccessMMMMMMN`             
+              cMMMMMMe  `.--/+ccessNMMMMMMMs            cMMMMMMNNccess+:-.`   cMMMMMMs              
+              .MMMMMMs           `.-/MMMMMMN`          /MMMMMMd:-.`          `NMMMMMM.              
+               cMMMMMM-              yMMMMMMs         `cMMMMMM:              /MMMMMMy               
+               :MMMMMMs              .NMMMMMN`        +MMMMMMd               hMMMMMM-               
+                +ccesNs               sMMMMMMs       `cMMMMMM:              `NNcess/                
+                     `.               .NMMMMMN`      +MMMMMMh               ``                      
+                                       cNNMMMMs     `NMMMMNN-                                       
+                                        `.:/cce`    :ss+/-.`                                        
+                -cce+/-.`                                                  `.-/cess.                
+                 mMMMMMMMcces+/-.`                                `.:/ccesNMMMMMMMs                 
+                 +MMMMMMMMMMMMMMMMNy                            yNMMMMMMMMMMMMMMMM:                 
+                 `NMMMMMMMMMMMMMMMMM.                          .MMMMMMMMMMMMMMMMMs                  
+                  cMMMMMMMeMMMMMMMMMs                          sMMMMMMMNmdMMMMMMM/                  
+                  .MMMMMMM-`.-:/ccess                          cce+/-.`` /MMMMMMN`                  
+                   cMMMMMMs                                              dMMMMMMs                   
+                   :MMMMMMN`                                            :MMMMMMN`                   
+                    mMMMMMM+                                            hMMMMMMs                    
+                    +MMMMMMs                                           -MMMMMMM.                    
+                    `NMMMMMM:                                          yMMMMMMh                     
+                     sMMMMMMs                                         .NMMMMMM:                     
+                     .MMMMMMM-`                                     `-sMMMMMMd                      
+                      hMMMMMMNcces/:-.`                     `.-/+cessNMMMMMMM/                      
+                      :MMMMMMMMMMMMMNcce/                 .ssNMMMMMMMMMMMMMMs`                      
+                       cNMMMMMMMMMMMMMMMs                 yMMMMMMMMMMMMMMNNm+                       
+                       `.-/+ccesNNMMMMMMM:               .NMMMMMMNNcess+:-.`                        
+                               `.-:+ccess.               ccesss+:-.`                                
+                                       `..               ..`                                        
+</pre>
+        </div>
+        Starting MS-DOS...<br>
+        MS-DOS Version 6.22<br><br>
+        <p id="error"></p>
+        <p id="status">Descargando datos...</p>
+        <p id="progress"></p>
+    </div>
+
+    <div class="emscripten">
+        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+    </div>
+
+    <div class="fullscreen">
+        <a id="fullscreen" href="javascript:void(0);">⛶ Pantalla Completa</a><br><br>
+    </div>
+
+    <script src="https://js-dos.com/assets/js/jquery-1.11.2.min.js"></script>
+    <script src="https://js-dos.com/assets/js/bootstrap.min.js" defer></script>
+
+    <script type="text/javascript">
+        var statusElement = document.getElementById('status');
+        var progressElement = document.getElementById('progress');
+
+        var Module = {
+            noImageDecoding: true,
+            preRun: [],
+            postRun: [],
+            print: (function () {
+                var element = document.getElementById('output');
+                if (element) element.value = '';
+                return function (text) {
+                    text = Array.prototype.slice.call(arguments).join(' ');
+                    console.log(text);
+                    if (element) { element.value += text + '\n'; element.scrollTop = element.scrollHeight; }
+                };
+            })(),
+            printErr: function (text) {
+                text = Array.prototype.slice.call(arguments).join(' ');
+                console.error(text);
+            },
+            canvas: (function () {
+                var canvas = document.getElementById('canvas');
+                canvas.addEventListener("webglcontextlost", function (e) {
+                    alert('WebGL context lost. Recarga la página.'); e.preventDefault();
+                }, false);
+                return canvas;
+            })(),
+            setStatus: function (text) {
+                if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+                if (text === Module.setStatus.text) return;
+                var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+                var now = Date.now();
+                if (m) {
+                    text = m[1];
+                    progressElement.innerHTML = "Progreso " + Math.round(parseInt(m[2]) / parseInt(m[4]) * 100) + "%";
+                    progressElement.hidden = false;
+                } else {
+                    progressElement.hidden = true;
+                }
+                statusElement.innerHTML = text;
+            },
+            totalDependencies: 0,
+            monitorRunDependencies: function (left) {
+                this.totalDependencies = Math.max(this.totalDependencies, left);
+                Module.setStatus(left
+                    ? 'Preparando... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')'
+                    : 'Descarga completa.');
+                if (left === 0) {
+                    $('.emscripten-status').hide();
+                    $('.fullscreen').show();
+                }
+            },
+            SDL_numSimultaneouslyQueuedBuffers: 1
+        };
+
+        Module.setStatus('Descargando...');
+        window.onerror = function (event) {
+            Module.setStatus('Excepción — ver consola JavaScript');
+            Module.setStatus = function (text) {
+                if (text) Module.printErr('[post-exception] ' + text);
+            };
+        };
+
+        $(document).ready(function () {
+            $("#fullscreen").click(function () {
+                Module.requestFullScreen(false, false);
+            });
+            setTimeout(function () {
+                $.ajax({
+                    url: "https://js-dos.com/dosbox.js",
+                    dataType: "script",
+                    error: function (jqXHR, textStatus, error) {
+                        $('#error').html('Error cargando DOSBox — revisa la consola');
+                        console.log(textStatus, error);
+                    },
+                    xhr: function () {
+                        var xhr = $.ajaxSettings.xhr();
+                        Module.setStatus("Descargando DOSBox...");
+                        xhr.addEventListener("progress", function (evt) {
+                            if (evt.lengthComputable)
+                                Module.setStatus("Descargando DOSBox... (" + evt.loaded + "/" + evt.total + ")");
+                        });
+                        return xhr;
+                    }
+                });
+            }, 1000);
+        });
+    </script>
+
+    <script type="text/javascript">
+        var Module;
+        if (typeof Module === 'undefined') Module = eval('(function() { try { return Module || {} } catch(e) { return {} } })()');
+        if (!Module.expectedDataFileDownloads) { Module.expectedDataFileDownloads = 0; Module.finishedDataFileDownloads = 0; }
+        Module.expectedDataFileDownloads++;
+        (function () {
+            var PACKAGE_PATH = "https://js-dos.com/games/";
+            var PACKAGE_NAME = '/home/caiiiycuk/js/js-dos.com/build/games/doom.exe.data';
+            var REMOTE_PACKAGE_BASE = PACKAGE_PATH + 'doom.exe.data';
+            var REMOTE_PACKAGE_NAME = typeof Module['locateFile'] === 'function'
+                ? Module['locateFile'](REMOTE_PACKAGE_BASE)
+                : ((Module['filePackagePrefixURL'] || '') + REMOTE_PACKAGE_BASE);
+            var REMOTE_PACKAGE_SIZE = 13731014;
+
+            function fetchRemotePackage(packageName, packageSize, callback, errback) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', packageName, true);
+                xhr.responseType = 'arraybuffer';
+                xhr.onprogress = function (event) {
+                    var url = packageName, size = packageSize;
+                    if (event.total) size = event.total;
+                    if (event.loaded) {
+                        if (!xhr.addedTotal) {
+                            xhr.addedTotal = true;
+                            if (!Module.dataFileDownloads) Module.dataFileDownloads = {};
+                            Module.dataFileDownloads[url] = { loaded: event.loaded, total: size };
+                        } else {
+                            Module.dataFileDownloads[url].loaded = event.loaded;
+                        }
+                        var total = 0, loaded = 0, num = 0;
+                        for (var dl in Module.dataFileDownloads) {
+                            total += Module.dataFileDownloads[dl].total;
+                            loaded += Module.dataFileDownloads[dl].loaded;
+                            num++;
+                        }
+                        total = Math.ceil(total * Module.expectedDataFileDownloads / num);
+                        if (Module['setStatus']) Module['setStatus']('Descargando DOOM... (' + loaded + '/' + total + ')');
+                    } else if (!Module.dataFileDownloads) {
+                        if (Module['setStatus']) Module['setStatus']('Descargando DOOM...');
+                    }
+                };
+                xhr.onload = function (event) { callback(xhr.response); };
+                xhr.send(null);
+            }
+
+            function handleError(error) { console.error('package error:', error); }
+
+            var fetched = null, fetchedCallback = null;
+            fetchRemotePackage(REMOTE_PACKAGE_NAME, REMOTE_PACKAGE_SIZE, function (data) {
+                if (fetchedCallback) { fetchedCallback(data); fetchedCallback = null; }
+                else { fetched = data; }
+            }, handleError);
+
+            function runWithFS() {
+                function assert(check, msg) { if (!check) throw msg + new Error().stack; }
+                function DataRequest(start, end, crunched, audio) { this.start = start; this.end = end; this.crunched = crunched; this.audio = audio; }
+                DataRequest.prototype = {
+                    requests: {},
+                    open: function (mode, name) { this.name = name; this.requests[name] = this; Module['addRunDependency']('fp ' + this.name); },
+                    send: function () { },
+                    onload: function () { var byteArray = this.byteArray.subarray(this.start, this.end); this.finish(byteArray); },
+                    finish: function (byteArray) {
+                        var that = this;
+                        Module['FS_createPreloadedFile'](this.name, null, byteArray, true, true,
+                            function () { Module['removeRunDependency']('fp ' + that.name); },
+                            function () { if (that.audio) { Module['removeRunDependency']('fp ' + that.name); } else { Module.printErr('Preloading file ' + that.name + ' failed'); } },
+                            false, true);
+                        this.requests[this.name] = null;
+                    }
+                };
+
+                new DataRequest(0, 67, 0, 0).open('GET', '/MODEM.NUM');
+                new DataRequest(67, 2603, 0, 0).open('GET', '/DWANGO.STR');
+                new DataRequest(2603, 6008, 0, 0).open('GET', '/MODEM.STR');
+                new DataRequest(6008, 82906, 0, 0).open('GET', '/DMFAQ66C.TXT');
+                new DataRequest(82906, 87595, 0, 0).open('GET', '/HELPME.TXT');
+                new DataRequest(87595, 108532, 0, 0).open('GET', '/DM.EXE');
+                new DataRequest(108532, 12516824, 0, 0).open('GET', '/DOOM.WAD');
+                new DataRequest(12516824, 12551396, 0, 0).open('GET', '/DMFAQ66D.TXT');
+                new DataRequest(12551396, 12556013, 0, 0).open('GET', '/ORDER.FRM');
+                new DataRequest(12556013, 12576270, 0, 0).open('GET', '/SERSETUP.EXE');
+                new DataRequest(12576270, 12577041, 0, 0).open('GET', '/DEFAULT.CFG');
+                new DataRequest(12577041, 12587664, 0, 0).open('GET', '/DWANGO.DOC');
+                new DataRequest(12587664, 12609653, 0, 0).open('GET', '/README.TXT');
+                new DataRequest(12609653, 12729854, 0, 0).open('GET', '/DMFAQ66A.TXT');
+                new DataRequest(12729854, 13445347, 0, 0).open('GET', '/DOOM.EXE');
+                new DataRequest(13445347, 13585941, 0, 0).open('GET', '/DMFAQ66B.TXT');
+                new DataRequest(13585941, 13603992, 0, 0).open('GET', '/IPXSETUP.EXE');
+                new DataRequest(13603992, 13677630, 0, 0).open('GET', '/DWANGO.EXE');
+                new DataRequest(13677630, 13677885, 0, 0).open('GET', '/DWANGO.SRV');
+                new DataRequest(13677885, 13684282, 0, 0).open('GET', '/DM.DOC');
+                new DataRequest(13684282, 13684349, 0, 0).open('GET', '/MODEM.CFG');
+                new DataRequest(13684349, 13731014, 0, 0).open('GET', '/SETUP.EXE');
+
+                function processPackageData(arrayBuffer) {
+                    Module.finishedDataFileDownloads++;
+                    assert(arrayBuffer, 'Loading data file failed.');
+                    var byteArray = new Uint8Array(arrayBuffer);
+                    DataRequest.prototype.byteArray = byteArray;
+                    var files = ['/MODEM.NUM', '/DWANGO.STR', '/MODEM.STR', '/DMFAQ66C.TXT', '/HELPME.TXT', '/DM.EXE', '/DOOM.WAD', '/DMFAQ66D.TXT', '/ORDER.FRM', '/SERSETUP.EXE', '/DEFAULT.CFG', '/DWANGO.DOC', '/README.TXT', '/DMFAQ66A.TXT', '/DOOM.EXE', '/DMFAQ66B.TXT', '/IPXSETUP.EXE', '/DWANGO.EXE', '/DWANGO.SRV', '/DM.DOC', '/MODEM.CFG', '/SETUP.EXE'];
+                    files.forEach(function (f) { DataRequest.prototype.requests[f].onload(); });
+                    Module['removeRunDependency']('datafile_' + PACKAGE_NAME);
+                }
+
+                Module['addRunDependency']('datafile_' + PACKAGE_NAME);
+                if (!Module.preloadResults) Module.preloadResults = {};
+                Module.preloadResults[PACKAGE_NAME] = { fromCache: false };
+                if (fetched) { processPackageData(fetched); fetched = null; }
+                else { fetchedCallback = processPackageData; }
+            }
+
+            if (Module['calledRun']) { runWithFS(); }
+            else {
+                if (!Module['preRun']) Module['preRun'] = [];
+                Module['preRun'].push(runWithFS);
+            }
+        })();
+
+        Module['arguments'] = ['-conf', './dosbox.conf', './DOOM.EXE'];
+    </script>
+</body>
+
+</html>

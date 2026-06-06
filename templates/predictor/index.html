@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="EduPredict — Predictor de rendimiento académico basado en cálculo diferencial y función sigmoide." />
+  <title>EduPredict | Predictor de Rendimiento Académico</title>
+  {% load static %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+  <!-- HERO HEADER -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="logo-badge" id="logoBadge" title="???">EP</div>
+      <h1 class="hero-title">Edu<span class="accent">Predict</span></h1>
+      <p class="hero-sub">Predictor de rendimiento académico estudiantil</p>
+      <p class="hero-desc">Basado en <strong>Cálculo Diferencial</strong> — función sigmoide, derivadas y combinación
+        lineal</p>
+      <div class="theme-switcher" role="group" aria-label="Cambiar tema">
+        <button class="theme-btn active" id="theme-dark" onclick="setTheme('dark')">🌑 Oscuro</button>
+        <button class="theme-btn" id="theme-white" onclick="setTheme('white')">☀️ Claro</button>
+        <button class="theme-btn" id="theme-pink" onclick="setTheme('pink')">🌸 Rosa</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-grid">
+
+    <!-- ── FORMULARIO ─────────────────────────────────── -->
+    <section class="card form-card">
+      <h2 class="card-title">
+        <span class="icon">📋</span> Datos del estudiante
+      </h2>
+
+      <form id="predictorForm" novalidate>
+
+        <div class="field-group">
+          <label for="asistencia">Porcentaje de asistencia</label>
+          <div class="input-row">
+            <input type="range" id="asistencia" name="asistencia" min="0" max="100" value="75" step="1">
+            <span class="val-badge" id="asistencia-val">75%</span>
+          </div>
+          <small>Porcentaje de clases a las que asistió</small>
+        </div>
+
+        <div class="field-group">
+          <label for="promedio">Promedio de notas</label>
+          <div class="input-row">
+            <input type="range" id="promedio" name="promedio" min="0" max="100" value="60" step="1">
+            <span class="val-badge" id="promedio-val">60 pts</span>
+          </div>
+          <small>Promedio actual sobre 100 puntos</small>
+        </div>
+
+        <div class="field-group">
+          <label for="horas_estudio">Horas de estudio semanal</label>
+          <div class="input-row">
+            <input type="range" id="horas_estudio" name="horas_estudio" min="0" max="40" value="10" step="1">
+            <span class="val-badge" id="horas_estudio-val">10 h</span>
+          </div>
+          <small>Horas dedicadas al estudio por semana</small>
+        </div>
+
+        <div class="field-group">
+          <label for="trabajos">Trabajos entregados</label>
+          <div class="input-row">
+            <input type="range" id="trabajos" name="trabajos" min="0" max="10" value="7" step="1">
+            <span class="val-badge" id="trabajos-val">7 / 10</span>
+          </div>
+          <small>Cantidad de trabajos entregados de 10 posibles</small>
+        </div>
+
+        <div class="field-group">
+          <label for="participacion">Participación en clases</label>
+          <div class="input-row">
+            <input type="range" id="participacion" name="participacion" min="0" max="5" value="3" step="1">
+            <span class="val-badge" id="participacion-val">3 / 5</span>
+          </div>
+          <small>Nivel de participación (0 = nula, 5 = muy alta)</small>
+        </div>
+
+        <div class="field-group">
+          <label for="concentracion">Hábitos de concentración</label>
+          <div class="input-row">
+            <input type="range" id="concentracion" name="concentracion" min="0" max="5" value="3" step="1">
+            <span class="val-badge" id="concentracion-val">3 / 5</span>
+          </div>
+          <small>Nivel de concentración y hábitos de estudio (0 = muy bajo, 5 = excelente)</small>
+        </div>
+
+        <button type="submit" id="btnPredecir" class="btn-primary">
+          <span id="btnText">Calcular predicción</span>
+          <span id="btnSpinner" class="spinner hidden"></span>
+        </button>
+
+      </form>
+    </section>
+
+    <!-- ── RESULTADO ───────────────────────────────────── -->
+    <section class="results-col">
+
+      <!-- Gauge principal -->
+      <div class="card result-card" id="resultCard">
+        <h2 class="card-title"><span class="icon">🎯</span> Resultado</h2>
+        <div class="gauge-wrap">
+          <svg class="gauge-svg" viewBox="0 0 200 120">
+            <path class="gauge-bg" d="M 20 110 A 90 90 0 0 1 180 110" stroke-width="18" fill="none" />
+            <path class="gauge-fill" id="gaugeFill" d="M 20 110 A 90 90 0 0 1 180 110" stroke-width="18" fill="none"
+              stroke-dasharray="0 283" stroke-linecap="round" />
+            <text x="100" y="88" text-anchor="middle" class="gauge-pct" id="gaugePct">—</text>
+            <text x="100" y="108" text-anchor="middle" class="gauge-label">probabilidad</text>
+          </svg>
+        </div>
+        <div class="verdict" id="verdict">Ingresa los datos del estudiante</div>
+        <div class="formula-box">
+          <code id="formulaZ">z = —</code>
+          <small>Combinación lineal → σ(z) = 1 / (1 + e<sup>−z</sup>)</small>
+        </div>
+      </div>
+
+      <!-- Sensibilidades (derivadas) -->
+      <div class="card sens-card" id="sensCard">
+        <h2 class="card-title"><span class="icon">📐</span> Análisis de derivadas</h2>
+        <p class="sens-desc">∂σ/∂xᵢ — cuánto mueve la probabilidad cada variable (puntos %)</p>
+        <div id="sensChart" class="sens-chart"></div>
+      </div>
+
+      <!-- Factores -->
+      <div class="card factors-card" id="factorsCard">
+        <h2 class="card-title"><span class="icon">🔍</span> Factores identificados</h2>
+        <div id="positivos" class="factor-list"></div>
+        <div id="negativos" class="factor-list neg"></div>
+      </div>
+
+      <!-- Gráfico sigmoide + tabla -->
+      <div class="card sigmoid-card">
+        <h2 class="card-title"><span class="icon">📈</span> Curva sigmoide σ(z) = 1 / (1 + e⁻ᶻ)</h2>
+        <p class="sens-desc">El punto <strong style="color:var(--accent2)">●</strong> marca el valor <em>z</em> del
+          estudiante actual</p>
+        <canvas id="sigmoidCanvas" width="560" height="220"></canvas>
+
+        <div class="sig-table-wrap">
+          <table class="sig-table" id="sigTable">
+            <thead>
+              <tr>
+                <th>z</th>
+                <th>σ(z)</th>
+                <th>σ'(z)</th>
+                <th>Prob. %</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="sigTableBody">
+              <tr>
+                <td colspan="5" class="table-empty">Calcula una predicción para ver la tabla</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>EduPredict · Proyecto de Cálculo Diferencial · <span id="year"></span></p>
+  </footer>
+
+  <script src="{% static 'js/app.js' %}"></script>
+
+  <!-- DOOM Easter Egg Modal -->
+  <div id="doomOverlay" style="display:none; position:fixed; inset:0; z-index:9999;
+       background:rgba(0,0,0,.92); align-items:center; justify-content:center; flex-direction:column;">
+    <div style="position:relative;">
+      <button onclick="closeDoom()" style="position:absolute; top:-36px; right:0; background:#c00; border:none;
+               color:#fff; font-size:13px; padding:6px 14px; cursor:pointer;
+               border-radius:4px; font-family:monospace; letter-spacing:1px;">✕ SALIR</button>
+      <iframe id="doomFrame" src="" width="640" height="480" style="border:none; display:block; border-radius:8px;"
+        allow="autoplay"></iframe>
+    </div>
+    <p style="color:#555; font-size:11px; margin-top:12px; font-family:monospace;">Easter Egg &mdash; Triple click en el
+      logo</p>
+  </div>
+
+  <script>
+    // Easter Egg: triple click en logo
+    let _ec = 0, _et;
+    document.getElementById('logoBadge').addEventListener('click', () => {
+      _ec++; clearTimeout(_et);
+      if (_ec >= 3) { _ec = 0; openDoom(); }
+      else _et = setTimeout(() => { _ec = 0; }, 600);
+    });
+    function openDoom() {
+      document.getElementById('doomFrame').src = "{% static 'doom/doom.html' %}";
+      const o = document.getElementById('doomOverlay');
+      o.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDoom() {
+      document.getElementById('doomOverlay').style.display = 'none';
+      document.getElementById('doomFrame').src = '';
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDoom(); });
+
+    // Selector de tema
+    const THEMES = {
+      dark: { '--bg': '#0d0f1a', '--surface': '#161928', '--surface2': '#1e2235', '--border': 'rgba(255,255,255,.07)', '--accent': '#6c63ff', '--accent2': '#00d4aa', '--danger': '#ff5e7e', '--text': '#e8eaf6', '--muted': '#7b82a8' },
+      white: { '--bg': '#f0f2f8', '--surface': '#ffffff', '--surface2': '#e8eaf2', '--border': 'rgba(0,0,0,.08)', '--accent': '#5046e5', '--accent2': '#00a884', '--danger': '#e5294a', '--text': '#1a1d2e', '--muted': '#6b7199' },
+      pink: { '--bg': '#1a0d18', '--surface': '#261222', '--surface2': '#31182e', '--border': 'rgba(255,150,200,.1)', '--accent': '#e040a0', '--accent2': '#ff80c0', '--danger': '#ff4444', '--text': '#f8e0f0', '--muted': '#b08098' },
+    };
+    function setTheme(name) {
+      const vars = THEMES[name];
+      Object.entries(vars).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
+      document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('theme-' + name).classList.add('active');
+      if (typeof drawSigmoid === 'function') drawSigmoid(typeof currentZ !== 'undefined' ? currentZ : null);
+      localStorage.setItem('ep-theme', name);
+    }
+    const _saved = localStorage.getItem('ep-theme');
+    if (_saved && THEMES[_saved]) setTheme(_saved);
+  </script>
+</body>
+
+</html>

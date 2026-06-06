@@ -42,3 +42,5 @@ Sistema de gestión para el proyecto edupredict.
    python manage.py runserver
    ```
 4. Accede a `http://127.0.0.1:8000` en tu navegador.
+
+pip install -r requirements.txt
