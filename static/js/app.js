@@ -336,9 +336,16 @@ function renderGgb(data) {
         <div class="ggb-label">${l.label}</div>
         <div class="ggb-expr">${l.expr}</div>
       </div>
-      <button class="btn-copy" onclick="copyText('${l.expr}', this)">Copiar</button>
+      <button class="btn-copy ggb-copy-btn" data-expr="${l.expr.replace(/"/g, '&quot;')}">Copiar</button>
     </div>
   `).join('');
+
+    // Attach listeners instead of inline onclick to prevent quote issues
+    document.querySelectorAll('.ggb-copy-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            copyText(this.getAttribute('data-expr'), this);
+        });
+    });
 
     btn.style.display = 'block';
     btn.textContent = '📋 Copiar todo al portapapeles';
