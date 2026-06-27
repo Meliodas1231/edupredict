@@ -136,6 +136,64 @@
       color: var(--muted);
       font-size: .8rem;
     }
+    nav.toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 1.5rem;
+    }
+    nav.toc a {
+      font-size: .78rem;
+      padding: .35rem .65rem;
+      background: var(--surface2);
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    nav.toc a:hover { color: var(--accent2); }
+    .slide-guide {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: .85rem;
+    }
+    .slide-guide .num {
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .slide-guide h3 {
+      margin: .25rem 0 .5rem;
+      font-size: 1rem;
+      color: var(--text);
+    }
+    .slide-guide .who {
+      font-size: .78rem;
+      color: var(--paola);
+      margin-bottom: .5rem;
+    }
+    .slide-guide p, .slide-guide li { font-size: .88rem; color: var(--muted); }
+    .slide-guide .say {
+      margin-top: .6rem;
+      padding: .55rem .75rem;
+      background: var(--surface2);
+      border-radius: 6px;
+      font-size: .85rem;
+      color: var(--text);
+      font-style: italic;
+    }
+    .etapa {
+      display: inline-block;
+      font-size: .68rem;
+      padding: .15rem .45rem;
+      border-radius: 4px;
+      background: rgba(108,99,255,.15);
+      color: #a89fff;
+      margin-left: .4rem;
+    }
   </style>
 </head>
 <body>
@@ -145,37 +203,194 @@
     <header>
       <h1>Edu<span>Predict</span> — Guía de presentación</h1>
       <p class="meta">Aron Barrientos · Víctor Gangas · Paola Pereira · Ingeniería en Informática · Cálculo Diferencial</p>
-      <p class="hint">Demo: <a href="/">http://127.0.0.1:8000/</a> · GeoGebra: <a href="https://www.geogebra.org/calculator?lang=es" target="_blank" rel="noopener">GeoGebra Classic</a></p>
+      <p class="hint">Demo: <a href="/">http://127.0.0.1:8000/</a> · PDF: <code>presentacion/presentacion.pdf</code> · GeoGebra: <a href="https://www.geogebra.org/calculator?lang=es" target="_blank" rel="noopener">Classic</a></p>
     </header>
 
-    <h2>Orden del video (10–15 min)</h2>
+    <nav class="toc">
+      <a href="#slides">Diapositivas PDF</a>
+      <a href="#video">Orden video</a>
+      <a href="#app-aron">Demo app (Aron)</a>
+      <a href="#app-paola">Matemática (Paola)</a>
+      <a href="#app-victor">Derivadas (Víctor)</a>
+      <a href="#geogebra">GeoGebra</a>
+    </nav>
+
+    <h2 id="slides">Las diapositivas del PDF — explicadas fácil</h2>
+    <p style="color:var(--muted);margin-bottom:1rem;">Recorre el PDF en orden. Cada bloque dice <strong>de qué va la slide</strong>, <strong>quién puede hablar</strong> y <strong>qué decir</strong> sin tecnicismos.</p>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 1 · Portada</div>
+      <h3>EduPredict — datos del equipo</h3>
+      <div class="who">👤 Los tres (5 seg cada uno) o Aron presenta al grupo</div>
+      <p>Nombres, carrera, profesor, fecha. Solo saludar y decir el nombre del proyecto.</p>
+      <div class="say">“Somos Aron, Víctor y Paola. Nuestro proyecto se llama EduPredict: un predictor de si un estudiante aprueba o no, usando matemáticas de Cálculo.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 2 · Definición del proyecto <span class="etapa">Etapa I</span></div>
+      <h3>¿Qué hace EduPredict?</h3>
+      <div class="who">👤 Aron</div>
+      <p>Explica la idea general: una web donde ingresas datos del estudiante (asistencia, notas, horas de estudio, etc.) y la app responde con un <strong>porcentaje de probabilidad de aprobar</strong>, más un texto que lo interpreta.</p>
+      <div class="say">“Muchos estudiantes no saben qué les conviene mejorar. EduPredict junta varios datos y entrega un porcentaje claro, por ejemplo: 78 % de probabilidad de aprobar, y explica qué está ayudando y qué perjudicando.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 3 · Problemática + tabla matemática <span class="etapa">Etapa I</span></div>
+      <h3>El problema y los 6 conceptos de Cálculo</h3>
+      <div class="who">👤 Paola</div>
+      <p>Primero el <strong>problema</strong>: ¿cómo estimar matemáticamente la probabilidad de aprobar? Luego la <strong>tabla de 6 filas</strong>: no leas código; di en palabras simples:</p>
+      <ul>
+        <li><strong>Función</strong> — entran datos, sale un resultado.</li>
+        <li><strong>Combinación lineal</strong> — cada variable suma con un peso (nota y asistencia pesan más).</li>
+        <li><strong>Sigmoide</strong> — convierte el cálculo en un % entre 0 y 100.</li>
+        <li><strong>Límites</strong> — nunca da menos de 0 % ni más de 100 %.</li>
+        <li><strong>Continuidad</strong> — si mejoras un poco, sube un poco (sin saltos raros).</li>
+        <li><strong>Derivadas</strong> — muestran qué conviene mejorar primero.</li>
+      </ul>
+      <div class="say">“Usamos seis ideas de Cálculo que ya vimos en clase, aplicadas a notas y asistencia reales.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 4 · Objetivos y preguntas <span class="etapa">Etapa I</span></div>
+      <h3>Para qué hicimos el proyecto</h3>
+      <div class="who">👤 Aron</div>
+      <p><strong>Objetivo general:</strong> crear la web predictiva. <strong>Específicos:</strong> elegir variables, armar el modelo con sigmoide, usar derivadas. Las <strong>6 preguntas</strong> son las que investigamos (las responderán en slide 9).</p>
+      <div class="say">“Nuestro objetivo fue construir una app que estime la probabilidad de aprobar. Para eso nos hicimos preguntas como: ¿qué variable influye más? ¿por qué usamos sigmoide?”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 5 · Temas involucrados <span class="etapa">Etapa I</span></div>
+      <h3>Materias y herramientas del proyecto</h3>
+      <div class="who">👤 Cualquiera (30 seg)</div>
+      <p>Lista rápida: Cálculo, programación, web, GeoGebra y las 6 variables académicas. No profundizar.</p>
+      <div class="say">“Mezclamos Cálculo Diferencial con programación web y visualización.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 6 · Cronograma <span class="etapa">Etapa I</span></div>
+      <h3>Cómo organizamos el trabajo en 3 semanas</h3>
+      <div class="who">👤 Paola o Aron</div>
+      <p>Semana 1: teoría y variables. Semana 2: modelo y programación. Semana 3: gráficos y presentación. Menciona quién hizo qué (Víctor teoría, Aron variables, Paola pesos, etc.).</p>
+      <div class="say">“Planificamos en tres semanas: primero la matemática, luego la app, al final la demo y Canva.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 7 · Herramientas tecnológicas <span class="etapa">Etapa II</span></div>
+      <h3>Con qué programamos y calculamos</h3>
+      <div class="who">👤 Paola</div>
+      <p>GeoGebra para ver curvas · Excel/calculadora para probar pesos · VS Code para escribir código · Python/Django para el cerebro de la app · HTML/CSS/JS para la pantalla que ve el usuario.</p>
+      <div class="say">“Elegimos herramientas que nos permitieron calcular, programar y mostrar gráficos sin complicarnos.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 8 · Fuentes de información <span class="etapa">Etapa II</span></div>
+      <h3>De dónde sacamos la información</h3>
+      <div class="who">👤 Víctor</div>
+      <p>Cuatro fuentes: libros de Cálculo (Stewart, Ortiz), estudio sobre rendimiento académico (Vargas & Montero), y documentación web (MDN, GeoGebra). Una frase por fuente.</p>
+      <div class="say">“No inventamos todo: nos basamos en libros de Cálculo, un estudio sobre asistencia y notas, y tutoriales para programar y graficar.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 9 · Respuestas a preguntas orientadoras <span class="etapa">Etapa II</span></div>
+      <h3>Las respuestas a nuestras 6 preguntas</h3>
+      <div class="who">👤 Víctor (puede repartir filas con Paola)</div>
+      <p>Recorre la tabla fila por fila: cada pregunta → respuesta corta → fuente. Conecta con lo que ya dijeron en slide 3.</p>
+      <div class="say">“Con las fuentes y EduPredict respondimos: las variables que más pesan son promedio y asistencia; la sigmoide nos da el porcentaje; las derivadas dicen qué mejorar.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositivas 10–11 · Unidad IV Derivadas <span class="etapa">Etapa II</span></div>
+      <h3>La parte más importante de Cálculo en el proyecto</h3>
+      <div class="who">👤 Víctor + Paola</div>
+      <p>Slide 10: fórmulas de derivada (no memorizar, explicar idea). Slide 11: tablas de símbolos — qué significa P, w, etc. en palabras: “P = probabilidad”, “w = qué tan importante es cada dato”.</p>
+      <div class="say">“La derivada nos dice qué tan rápido sube la probabilidad si mejoras asistencia u horas. Cuando estás cerca del 50 %, el cambio se nota más.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 12 · Respuestas e ideas propuestas</div>
+      <h3>Conclusiones de la investigación</h3>
+      <div class="who">👤 Víctor</div>
+      <p>Tres ideas: (1) Promedio y asistencia pesan más. (2) Mejorar ayuda más cuando estás “en el aire” (~50 %). (3) EduPredict muestra factores y gráfico de sensibilidades.</p>
+      <div class="say">“En resumen: sabemos qué variables importan y la app le dice al estudiante en qué enfocarse.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 13 · Resumen de progreso</div>
+      <h3>Qué etapas llevamos listas</h3>
+      <div class="who">👤 Aron</div>
+      <p><strong>Importante:</strong> di “Etapa I y II completadas”, no “en desarrollo”. Etapa I: objetivos y matemática. Etapa II: herramientas, fuentes, derivadas, bitácora.</p>
+      <div class="say">“Completamos la planificación, la investigación, las fuentes, el modelo y la aplicación web.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 14 · Bitácora <span class="etapa">Etapa II</span></div>
+      <h3>Registro de lo que hizo el equipo</h3>
+      <div class="who">👤 Paola (rápido, 20 seg)</div>
+      <p>Muestra que hubo trabajo semanal con fechas, tareas y responsables. No leer toda la tabla.</p>
+      <div class="say">“En la bitácora quedó registrado quién investigó, quién programó y quién hizo los gráficos, semana a semana.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 15 · Presentación del producto <span class="etapa">Etapa III</span></div>
+      <h3>Demo en vivo de la web</h3>
+      <div class="who">👤 Aron (con Víctor mostrando gráficos)</div>
+      <p><strong>Aquí cambias al navegador</strong> (127.0.0.1:8000). Muestra captura o app en vivo: sliders → Calcular → gauge → sensibilidades → sigmoide → Exportar GeoGebra. Ver sección “Demo app” más abajo.</p>
+      <div class="say">“Este es EduPredict funcionando: ingresamos datos, calculamos y vemos el porcentaje y los gráficos.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 16 · Resultados y conclusiones <span class="etapa">Etapa III</span></div>
+      <h3>Qué logramos y qué aprendimos</h3>
+      <div class="who">👤 Los tres</div>
+      <p>Si la slide está vacía, agrega 3–4 bullets: cumplimos objetivos, app funciona, Cálculo aplicado a un caso real, el equipo aprendió a investigar y programar.</p>
+      <div class="say">“Logramos una app que predice aprobación, aplicamos derivadas en un caso real y aprendimos a trabajar en equipo con evidencia.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 17 · Área de impacto TFL <span class="etapa">Etapa III</span></div>
+      <h3>Cómo el proyecto conecta con otras asignaturas</h3>
+      <div class="who">👤 Víctor</div>
+      <p>La tabla muestra que no es solo Cálculo: también programación, estadística, requisitos, innovación (ABPro), ética. Una fila = una frase.</p>
+      <div class="say">“EduPredict une Cálculo con Informática: programamos, analizamos datos y definimos qué necesita el usuario.”</div>
+    </div>
+
+    <div class="slide-guide">
+      <div class="num">Diapositiva 18 · Bibliografía <span class="etapa">Etapa III</span></div>
+      <h3>Lista formal de fuentes</h3>
+      <div class="who">👤 Paola o Víctor</div>
+      <p>Mismas 4 fuentes de slide 8, en formato bibliográfico (autor, año, título). Cierra citando correctamente.</p>
+      <div class="say">“Estas son las referencias que usamos, citadas según el formato solicitado.”</div>
+    </div>
+
+    <h2 id="video">Orden del video (10–15 min)</h2>
     <table class="timeline">
       <thead><tr><th>Min</th><th>Quién</th><th>Qué</th></tr></thead>
       <tbody>
-        <tr><td>0–2</td><td>Aron</td><td>Qué es EduPredict + problemática</td></tr>
-        <tr><td>2–5</td><td>Paola</td><td>Modelo matemático (z, sigmoide)</td></tr>
-        <tr><td>5–8</td><td>Aron</td><td>Demo: formulario + resultado</td></tr>
-        <tr><td>8–11</td><td>Víctor</td><td>Derivadas, sensibilidades, factores</td></tr>
-        <tr><td>11–13</td><td>Víctor</td><td>GeoGebra paso a paso</td></tr>
-        <tr><td>13–15</td><td>Todos</td><td>Conclusiones + área TFL</td></tr>
+        <tr><td>0–2</td><td>Aron</td><td>Slides 1–2: portada + definición</td></tr>
+        <tr><td>2–4</td><td>Paola</td><td>Slides 3–5: matemática + objetivos</td></tr>
+        <tr><td>4–6</td><td>Paola / Víctor</td><td>Slides 6–9: cronograma, herramientas, fuentes, respuestas</td></tr>
+        <tr><td>6–8</td><td>Víctor</td><td>Slides 10–12: derivadas + ideas</td></tr>
+        <tr><td>8–11</td><td>Aron</td><td>Slide 15: <strong>demo app en vivo</strong></td></tr>
+        <tr><td>11–13</td><td>Víctor</td><td>GeoGebra (desde la app)</td></tr>
+        <tr><td>13–15</td><td>Todos</td><td>Slides 16–18: conclusiones, TFL, bibliografía</td></tr>
       </tbody>
     </table>
 
     <!-- ARON -->
-    <section class="speaker arons">
-      <span class="badge">Aron Barrientos</span>
-      <h2>Introducción y recorrido por la interfaz</h2>
+    <section class="speaker arons" id="app-aron">
+      <span class="badge">Aron Barrientos · Demo slide 15</span>
+      <h2>La página web — qué hace cada parte</h2>
 
-      <blockquote>“Desarrollamos una aplicación web que estima la probabilidad de aprobación usando 6 variables académicas y Cálculo Diferencial: combinación lineal, sigmoide, límites, continuidad y derivadas.”</blockquote>
+      <blockquote>“Ahora les mostramos EduPredict en el navegador: ponemos los datos del estudiante y la app nos dice qué tan probable es que apruebe.”</blockquote>
 
-      <h3>Encabezado</h3>
+      <h3>Parte superior</h3>
       <ul>
-        <li><strong>EduPredict</strong> — predictor de rendimiento académico</li>
-        <li><strong>Temas</strong> (Oscuro / Claro / Rosa) — solo cambian colores, no el cálculo</li>
+        <li><strong>EduPredict</strong> — nombre del proyecto</li>
+        <li><strong>Temas de color</strong> — solo cambian colores, el cálculo es el mismo</li>
       </ul>
 
-      <h3>Datos del estudiante (formulario izquierdo)</h3>
-      <p>6 sliders → al pulsar <strong>Calcular predicción</strong> se envía <code>POST /predecir/</code> al servidor Django.</p>
+      <h3>Columna izquierda — Datos del estudiante</h3>
+      <p>Seis barras deslizantes. Cada una es un dato real del alumno:</p>
       <table>
         <thead><tr><th>Variable</th><th>Rango</th><th>Peso w</th></tr></thead>
         <tbody>
@@ -187,92 +402,78 @@
           <tr><td>Concentración</td><td>0–5</td><td>1,0</td></tr>
         </tbody>
       </table>
-      <p><strong>Ejemplo demo:</strong> Asistencia 98 %, Promedio 60, Horas 24, Trabajos 7, Participación 5, Concentración 3.</p>
+      <p><strong>Ejemplo para la demo:</strong> Asistencia 98 %, Promedio 60, Horas 24, Trabajos 7, Participación 5, Concentración 3 → pulsa <strong>Calcular predicción</strong>.</p>
 
-      <h3>Resultado (gauge)</h3>
+      <h3>Columna derecha — Resultado (arriba)</h3>
       <ul>
-        <li><strong>Gauge</strong> — probabilidad % (ej. 72,7 %)</li>
-        <li><strong>Veredicto</strong> — ≥ 70 % aprueba probable; ≥ 50 % en riesgo; &lt; 50 % reprobación</li>
-        <li><strong>Fórmula</strong> — <code>z = … → σ(z) = …</code></li>
+        <li><strong>Medidor circular</strong> — el % grande (ej. 72,7 %)</li>
+        <li><strong>Frase de color</strong> — verde = va bien; amarillo = en riesgo; rojo = difícil aprobar</li>
+        <li><strong>Números abajo</strong> — el cálculo interno (z y probabilidad); puedes decir “aquí está la matemática”</li>
       </ul>
-      <blockquote>“El servidor calcula z, aplica la sigmoide y devuelve un porcentaje entre 0 y 100.”</blockquote>
+      <blockquote>“La app junta todos los datos, calcula y nos entrega un porcentaje fácil de entender.”</blockquote>
     </section>
 
     <!-- PAOLA -->
-    <section class="speaker paola">
-      <span class="badge">Paola Pereira</span>
-      <h2>Modelo matemático y sigmoide</h2>
+    <section class="speaker paola" id="app-paola">
+      <span class="badge">Paola Pereira · Slides 3 y 10</span>
+      <h2>La matemática — explicada simple</h2>
 
-      <h3>1. Normalización (servidor Python)</h3>
-      <p>asistencia÷100 · promedio÷100 · horas÷40 · trabajos÷10 · participación÷5 · concentración÷5</p>
+      <h3>Paso 1 — Preparar los números</h3>
+      <p>Antes de sumar, cada dato se lleva a una escala parecida (entre 0 y 1). Ejemplo: 75 % asistencia → 0,75.</p>
 
-      <h3>2. Combinación lineal</h3>
-      <pre>z = −7,2 + 2,5·asist + 3,0·prom + 1,8·horas + 1,5·trab + 1,2·part + 1,0·conc</pre>
+      <h3>Paso 2 — Sumar con pesos</h3>
+      <p>Cada variable suma distinto. <strong>Promedio pesa 3,0</strong> y <strong>asistencia 2,5</strong> — son las más importantes. Eso produce un número llamado <strong>z</strong>.</p>
 
-      <h3>3. Función sigmoide</h3>
-      <pre>σ(z) = 1 / (1 + e^(-z))
-Probabilidad % = σ(z) × 100</pre>
-      <blockquote>“La sigmoide acota entre 0 % y 100 % (límites). Al mover sliders el cambio es gradual (continuidad).”</blockquote>
+      <h3>Paso 3 — Pasar a porcentaje (sigmoide)</h3>
+      <p>Con una fórmula curva (sigmoide), z se convierte en probabilidad entre 0 % y 100 %. Nunca se pasa de esos límites.</p>
+      <blockquote>“Primero juntamos los datos con pesos, después la curva sigmoide lo transforma en un porcentaje.”</blockquote>
 
-      <h3>Curva sigmoide (gráfico en la app)</h3>
+      <h3>Gráfico de la curva (abajo en la app)</h3>
       <table>
         <thead><tr><th>Elemento</th><th>Significado</th></tr></thead>
         <tbody>
           <tr><td>Eje X = z</td><td>Combinación lineal</td></tr>
           <tr><td>Eje Y = σ(z)</td><td>Probabilidad 0–1</td></tr>
-          <tr><td>Punto ● verde</td><td>Estudiante actual</td></tr>
-          <tr><td>Línea en 0,5</td><td>Zona de incertidumbre (50 %)</td></tr>
+          <tr><td>Punto verde ●</td><td>Dónde está el estudiante que acabas de calcular</td></tr>
+          <tr><td>Línea en el medio (0,5)</td><td>Zona de “no sé si apruebo o no” (50 %)</td></tr>
         </tbody>
       </table>
     </section>
 
     <!-- VICTOR -->
-    <section class="speaker victor">
-      <span class="badge">Víctor Gangas</span>
-      <h2>Derivadas, sensibilidades y factores</h2>
+    <section class="speaker victor" id="app-victor">
+      <span class="badge">Víctor Gangas · Slides 10–12</span>
+      <h2>Derivadas y consejos — en la app</h2>
 
-      <pre>σ'(z) = σ(z) · (1 − σ(z))
-∂σ/∂xᵢ = wᵢ · σ'(z)
-Sensibilidad (app) = wᵢ · σ'(z) · 100</pre>
+      <p><strong>Idea simple:</strong> la derivada responde “si mejoro un poquito en X, ¿cuánto sube mi probabilidad?”</p>
 
-      <blockquote>“Las barras muestran cuánto mueve la probabilidad cada variable. Promedio e Asistencia impactan más. P·(1−P) es máximo cerca de P ≈ 50 %.”</blockquote>
-
-      <h3>Análisis de derivadas (barras)</h3>
-      <p>Orden típico de impacto: Promedio → Asistencia → Horas → Trabajos → Participación → Concentración.</p>
+      <h3>Gráfico de barras — Análisis de derivadas</h3>
+      <p>Barra más larga = esa variable mueve más el resultado. Normalmente <strong>Promedio</strong> y <strong>Asistencia</strong> salen arriba.</p>
+      <blockquote>“Este gráfico le dice al estudiante: ‘si quieres subir tu probabilidad, conviene enfocarte primero en esto’.”</blockquote>
 
       <h3>Factores identificados</h3>
       <ul>
-        <li><strong>Positivos (✔)</strong> — variables sobre umbrales favorables</li>
-        <li><strong>Negativos (✖)</strong> — riesgos detectados (asistencia baja, poco estudio, etc.)</li>
+        <li><strong>Lista verde (✔)</strong> — cosas que van bien (ej. buena asistencia)</li>
+        <li><strong>Lista roja (✖)</strong> — cosas que perjudican (ej. pocas horas de estudio)</li>
       </ul>
 
-      <h3>Tabla bajo la sigmoide</h3>
-      <table>
-        <thead><tr><th>Columna</th><th>Significado</th></tr></thead>
-        <tbody>
-          <tr><td>z</td><td>Entrada al modelo</td></tr>
-          <tr><td>σ(z)</td><td>Probabilidad</td></tr>
-          <tr><td>σ'(z)</td><td>Derivada</td></tr>
-          <tr><td>Prob. %</td><td>Porcentaje</td></tr>
-          <tr><td>Estado</td><td>Aprueba / En riesgo / Reprueba</td></tr>
-        </tbody>
-      </table>
+      <h3>Tabla de números (debajo del gráfico)</h3>
+      <p>Opcional: no explicar cada columna; solo di que muestra cómo cambia la probabilidad al variar z.</p>
     </section>
 
     <!-- GEOGEBRA -->
-    <section class="speaker victor">
-      <span class="badge">GeoGebra — Víctor o Paola</span>
-      <h2>Cómo explicarlo en GeoGebra</h2>
-      <p>Usar la tarjeta <strong>Exportar a GeoGebra</strong> en la app (botones Copiar).</p>
+    <section class="speaker victor" id="geogebra">
+      <span class="badge">GeoGebra · Slide 15 demo</span>
+      <h2>Cómo mostrarlo en GeoGebra (paso a paso)</h2>
+      <p>En la app, baja hasta <strong>Exportar a GeoGebra</strong>. Copia cada fórmula con el botón verde.</p>
       <table>
         <thead><tr><th>#</th><th>Expresión</th><th>Para qué</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td><code>f(x) = 1 / (1 + e^(-x))</code></td><td>Curva sigmoide</td></tr>
-          <tr><td>2</td><td><code>g(x) = f'(x)</code></td><td>Derivada</td></tr>
-          <tr><td>3</td><td>Desarrollo de z</td><td>Combinación lineal con datos</td></tr>
-          <tr><td>4</td><td><code>z_0 = …</code></td><td>Valor z del estudiante</td></tr>
-          <tr><td>5</td><td><code>P = (z_0, f(z_0))</code></td><td>Punto en la curva</td></tr>
-          <tr><td>6</td><td><code>t(x) = g(z_0)*(x-z_0)+f(z_0)</code></td><td>Recta tangente</td></tr>
+          <tr><td>1</td><td>Curva en S (sigmoide)</td><td>“Así se ve la probabilidad en matemáticas”</td></tr>
+          <tr><td>2</td><td>Derivada</td><td>“Qué tan inclinada está la curva”</td></tr>
+          <tr><td>3–4</td><td>Cálculo z del estudiante</td><td>“Con los datos que ingresamos”</td></tr>
+          <tr><td>5</td><td>Punto P en la curva</td><td>“Aquí está nuestro estudiante de ejemplo”</td></tr>
+          <tr><td>6</td><td>Recta tangente</td><td>“Unidad IV: la derivada como pendiente”</td></tr>
         </tbody>
       </table>
       <blockquote>“Graficamos la sigmoide, su derivada, marcamos el punto del estudiante y la recta tangente — Unidad IV: Derivadas.”</blockquote>
