@@ -21,7 +21,7 @@
     <div class="hero-bg"></div>
     <div class="hero-content">
       <div class="logo-badge" id="logoBadge" title="???">EP</div>
-      <h1 class="hero-title">Edu<span class="accent">Predict</span></h1>
+      <h1 class="hero-title" id="heroTitle" title="5 clics → guía de presentación">Edu<span class="accent">Predict</span></h1>
       <p class="hero-sub">Predictor de rendimiento académico estudiantil</p>
       <p class="hero-desc">Basado en <strong>Cálculo Diferencial</strong> — función sigmoide, derivadas y combinación
         lineal</p>
@@ -206,7 +206,9 @@
   </main>
 
   <footer class="footer">
-    <p>EduPredict · Proyecto de Cálculo Diferencial · <span id="year"></span></p>
+    <p>EduPredict · Proyecto de Cálculo Diferencial · <span id="year"></span>
+      <span style="opacity:.45; font-size:11px; display:block; margin-top:4px;">5× EduPredict → guía · 3× EP → ???</span>
+    </p>
   </footer>
 
   <script src="{% static 'js/app.js' %}"></script>
@@ -245,6 +247,18 @@
       document.body.style.overflow = '';
     }
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDoom(); });
+
+    // Guía de presentación: 5 clics en el título EduPredict
+    let _gc = 0, _gt;
+    document.getElementById('heroTitle').addEventListener('click', () => {
+      _gc++; clearTimeout(_gt);
+      if (_gc >= 5) {
+        _gc = 0;
+        window.open("{% static 'presentacion/guia.html' %}", '_blank');
+      } else {
+        _gt = setTimeout(() => { _gc = 0; }, 800);
+      }
+    });
 
     // Selector de tema
     const THEMES = {

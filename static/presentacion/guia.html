@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduPredict — Guía de presentación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f1a;
+      --surface: #161928;
+      --surface2: #1e2235;
+      --border: rgba(255,255,255,.08);
+      --accent: #6c63ff;
+      --accent2: #00d4aa;
+      --text: #e8eaf6;
+      --muted: #7b82a8;
+      --aron: #6c63ff;
+      --paola: #e040a0;
+      --victor: #00d4aa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 2rem 1rem 4rem;
+    }
+    .wrap { max-width: 920px; margin: 0 auto; }
+    header {
+      text-align: center;
+      padding: 2rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    header h1 { font-size: 2rem; font-weight: 800; }
+    header h1 span { color: var(--accent2); }
+    header .meta { color: var(--muted); font-size: .9rem; margin-top: .75rem; }
+    header .hint {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: .4rem .9rem;
+      background: var(--surface2);
+      border-radius: 8px;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+    h2 {
+      font-size: 1.35rem;
+      margin: 2rem 0 1rem;
+      padding-bottom: .5rem;
+      border-bottom: 2px solid var(--border);
+    }
+    h3 { font-size: 1.05rem; margin: 1.25rem 0 .6rem; color: var(--accent2); }
+    p { margin-bottom: .75rem; color: var(--text); }
+    .speaker {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem 1.75rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--accent);
+    }
+    .speaker.arons { border-left-color: var(--aron); }
+    .speaker.paola { border-left-color: var(--paola); }
+    .speaker.victor { border-left-color: var(--victor); }
+    .speaker .badge {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: .25rem .6rem;
+      border-radius: 6px;
+      margin-bottom: .75rem;
+    }
+    .speaker.arons .badge { background: rgba(108,99,255,.2); color: #a89fff; }
+    .speaker.paola .badge { background: rgba(224,64,160,.2); color: #ff80c0; }
+    .speaker.victor .badge { background: rgba(0,212,170,.15); color: var(--accent2); }
+    .speaker h2 { margin-top: 0; border: none; padding: 0; font-size: 1.2rem; }
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: .75rem 1rem;
+      margin: 1rem 0;
+      background: var(--surface2);
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: var(--muted);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .85rem;
+      margin: 1rem 0;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: .55rem .75rem;
+      text-align: left;
+    }
+    th { background: var(--surface2); color: var(--accent2); font-weight: 600; }
+    td { background: var(--surface); }
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+    }
+    pre {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      margin: .75rem 0;
+    }
+    ul { margin: .5rem 0 .75rem 1.25rem; color: var(--muted); }
+    li { margin-bottom: .35rem; }
+    .timeline { font-size: .85rem; }
+    .checklist { list-style: none; margin-left: 0; }
+    .checklist li::before { content: "☐ "; color: var(--accent2); }
+    a { color: var(--accent2); }
+    .back {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+    }
+    .back:hover { color: var(--accent2); }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">← Volver a EduPredict</a>
+
+    <header>
+      <h1>Edu<span>Predict</span> — Guía de presentación</h1>
+      <p class="meta">Aron Barrientos · Víctor Gangas · Paola Pereira · Ingeniería en Informática · Cálculo Diferencial</p>
+      <p class="hint">Demo: <a href="/">http://127.0.0.1:8000/</a> · GeoGebra: <a href="https://www.geogebra.org/calculator?lang=es" target="_blank" rel="noopener">GeoGebra Classic</a></p>
+    </header>
+
+    <h2>Orden del video (10–15 min)</h2>
+    <table class="timeline">
+      <thead><tr><th>Min</th><th>Quién</th><th>Qué</th></tr></thead>
+      <tbody>
+        <tr><td>0–2</td><td>Aron</td><td>Qué es EduPredict + problemática</td></tr>
+        <tr><td>2–5</td><td>Paola</td><td>Modelo matemático (z, sigmoide)</td></tr>
+        <tr><td>5–8</td><td>Aron</td><td>Demo: formulario + resultado</td></tr>
+        <tr><td>8–11</td><td>Víctor</td><td>Derivadas, sensibilidades, factores</td></tr>
+        <tr><td>11–13</td><td>Víctor</td><td>GeoGebra paso a paso</td></tr>
+        <tr><td>13–15</td><td>Todos</td><td>Conclusiones + área TFL</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ARON -->
+    <section class="speaker arons">
+      <span class="badge">Aron Barrientos</span>
+      <h2>Introducción y recorrido por la interfaz</h2>
+
+      <blockquote>“Desarrollamos una aplicación web que estima la probabilidad de aprobación usando 6 variables académicas y Cálculo Diferencial: combinación lineal, sigmoide, límites, continuidad y derivadas.”</blockquote>
+
+      <h3>Encabezado</h3>
+      <ul>
+        <li><strong>EduPredict</strong> — predictor de rendimiento académico</li>
+        <li><strong>Temas</strong> (Oscuro / Claro / Rosa) — solo cambian colores, no el cálculo</li>
+      </ul>
+
+      <h3>Datos del estudiante (formulario izquierdo)</h3>
+      <p>6 sliders → al pulsar <strong>Calcular predicción</strong> se envía <code>POST /predecir/</code> al servidor Django.</p>
+      <table>
+        <thead><tr><th>Variable</th><th>Rango</th><th>Peso w</th></tr></thead>
+        <tbody>
+          <tr><td>Asistencia</td><td>0–100 %</td><td>2,5</td></tr>
+          <tr><td>Promedio</td><td>0–100 pts</td><td>3,0</td></tr>
+          <tr><td>Horas de estudio</td><td>0–40 h/sem</td><td>1,8</td></tr>
+          <tr><td>Trabajos entregados</td><td>0–10</td><td>1,5</td></tr>
+          <tr><td>Participación</td><td>0–5</td><td>1,2</td></tr>
+          <tr><td>Concentración</td><td>0–5</td><td>1,0</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Ejemplo demo:</strong> Asistencia 98 %, Promedio 60, Horas 24, Trabajos 7, Participación 5, Concentración 3.</p>
+
+      <h3>Resultado (gauge)</h3>
+      <ul>
+        <li><strong>Gauge</strong> — probabilidad % (ej. 72,7 %)</li>
+        <li><strong>Veredicto</strong> — ≥ 70 % aprueba probable; ≥ 50 % en riesgo; &lt; 50 % reprobación</li>
+        <li><strong>Fórmula</strong> — <code>z = … → σ(z) = …</code></li>
+      </ul>
+      <blockquote>“El servidor calcula z, aplica la sigmoide y devuelve un porcentaje entre 0 y 100.”</blockquote>
+    </section>
+
+    <!-- PAOLA -->
+    <section class="speaker paola">
+      <span class="badge">Paola Pereira</span>
+      <h2>Modelo matemático y sigmoide</h2>
+
+      <h3>1. Normalización (servidor Python)</h3>
+      <p>asistencia÷100 · promedio÷100 · horas÷40 · trabajos÷10 · participación÷5 · concentración÷5</p>
+
+      <h3>2. Combinación lineal</h3>
+      <pre>z = −7,2 + 2,5·asist + 3,0·prom + 1,8·horas + 1,5·trab + 1,2·part + 1,0·conc</pre>
+
+      <h3>3. Función sigmoide</h3>
+      <pre>σ(z) = 1 / (1 + e^(-z))
+Probabilidad % = σ(z) × 100</pre>
+      <blockquote>“La sigmoide acota entre 0 % y 100 % (límites). Al mover sliders el cambio es gradual (continuidad).”</blockquote>
+
+      <h3>Curva sigmoide (gráfico en la app)</h3>
+      <table>
+        <thead><tr><th>Elemento</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td>Eje X = z</td><td>Combinación lineal</td></tr>
+          <tr><td>Eje Y = σ(z)</td><td>Probabilidad 0–1</td></tr>
+          <tr><td>Punto ● verde</td><td>Estudiante actual</td></tr>
+          <tr><td>Línea en 0,5</td><td>Zona de incertidumbre (50 %)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- VICTOR -->
+    <section class="speaker victor">
+      <span class="badge">Víctor Gangas</span>
+      <h2>Derivadas, sensibilidades y factores</h2>
+
+      <pre>σ'(z) = σ(z) · (1 − σ(z))
+∂σ/∂xᵢ = wᵢ · σ'(z)
+Sensibilidad (app) = wᵢ · σ'(z) · 100</pre>
+
+      <blockquote>“Las barras muestran cuánto mueve la probabilidad cada variable. Promedio e Asistencia impactan más. P·(1−P) es máximo cerca de P ≈ 50 %.”</blockquote>
+
+      <h3>Análisis de derivadas (barras)</h3>
+      <p>Orden típico de impacto: Promedio → Asistencia → Horas → Trabajos → Participación → Concentración.</p>
+
+      <h3>Factores identificados</h3>
+      <ul>
+        <li><strong>Positivos (✔)</strong> — variables sobre umbrales favorables</li>
+        <li><strong>Negativos (✖)</strong> — riesgos detectados (asistencia baja, poco estudio, etc.)</li>
+      </ul>
+
+      <h3>Tabla bajo la sigmoide</h3>
+      <table>
+        <thead><tr><th>Columna</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td>z</td><td>Entrada al modelo</td></tr>
+          <tr><td>σ(z)</td><td>Probabilidad</td></tr>
+          <tr><td>σ'(z)</td><td>Derivada</td></tr>
+          <tr><td>Prob. %</td><td>Porcentaje</td></tr>
+          <tr><td>Estado</td><td>Aprueba / En riesgo / Reprueba</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- GEOGEBRA -->
+    <section class="speaker victor">
+      <span class="badge">GeoGebra — Víctor o Paola</span>
+      <h2>Cómo explicarlo en GeoGebra</h2>
+      <p>Usar la tarjeta <strong>Exportar a GeoGebra</strong> en la app (botones Copiar).</p>
+      <table>
+        <thead><tr><th>#</th><th>Expresión</th><th>Para qué</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><code>f(x) = 1 / (1 + e^(-x))</code></td><td>Curva sigmoide</td></tr>
+          <tr><td>2</td><td><code>g(x) = f'(x)</code></td><td>Derivada</td></tr>
+          <tr><td>3</td><td>Desarrollo de z</td><td>Combinación lineal con datos</td></tr>
+          <tr><td>4</td><td><code>z_0 = …</code></td><td>Valor z del estudiante</td></tr>
+          <tr><td>5</td><td><code>P = (z_0, f(z_0))</code></td><td>Punto en la curva</td></tr>
+          <tr><td>6</td><td><code>t(x) = g(z_0)*(x-z_0)+f(z_0)</code></td><td>Recta tangente</td></tr>
+        </tbody>
+      </table>
+      <blockquote>“Graficamos la sigmoide, su derivada, marcamos el punto del estudiante y la recta tangente — Unidad IV: Derivadas.”</blockquote>
+    </section>
+
+    <!-- CIERRE -->
+    <section class="speaker">
+      <span class="badge" style="background:rgba(255,255,255,.08);color:var(--text)">Cierre — los tres</span>
+      <h2>Conclusiones</h2>
+      <ul>
+        <li>Modelo predictivo con 6 variables ponderadas</li>
+        <li>Probabilidad en tiempo real con interpretación</li>
+        <li>Derivadas para orientar qué mejorar</li>
+        <li>Integración Cálculo Diferencial + Informática</li>
+      </ul>
+      <blockquote>“EduPredict demuestra que funciones, límites y derivadas permiten estimar y explicar el rendimiento académico.”</blockquote>
+    </section>
+
+    <h2>Checklist antes de grabar</h2>
+    <ul class="checklist">
+      <li><code>python manage.py runserver</code> activo</li>
+      <li>Sliders con datos de ejemplo</li>
+      <li>“Calcular predicción” ejecutado (gauge lleno)</li>
+      <li>GeoGebra abierto en otra pestaña</li>
+      <li>Fórmulas copiadas desde Exportar a GeoGebra</li>
+      <li>Los 3 integrantes en cámara</li>
+    </ul>
+
+    <h2>Atajos en la app</h2>
+    <table>
+      <thead><tr><th>Acción</th><th>Efecto</th></tr></thead>
+      <tbody>
+        <tr><td>3 clics en logo <strong>EP</strong></td><td>Easter egg DOOM</td></tr>
+        <tr><td>5 clics en título <strong>EduPredict</strong></td><td>Abre esta guía</td></tr>
+      </tbody>
+    </table>
+
+    <footer>
+      EduPredict · Proyecto Cálculo Diferencial · Guía de presentación<br>
+      Markdown: <code>presentacion/GUIA_PRESENTACION.md</code>
+    </footer>
+  </div>
+</body>
+</html>
