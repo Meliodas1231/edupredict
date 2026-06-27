@@ -25,10 +25,12 @@ Sistema de gestión para el proyecto edupredict.
      source .venv/bin/activate
      ```
 
-4. **Instalar dependencias**:
+4. **Instalar dependencias** (desde `requirements.txt`):
    ```bash
-   pip install django
+   pip install -r requirements.txt
    ```
+
+   Esto instala Django y el resto de paquetes del proyecto con las versiones indicadas en el archivo.
 
 ## Cómo ejecutar el proyecto
 
@@ -42,5 +44,3 @@ Sistema de gestión para el proyecto edupredict.
    python manage.py runserver
    ```
 4. Accede a `http://127.0.0.1:8000` en tu navegador.
-
-pip install -r requirements.txt
