@@ -349,13 +349,26 @@
     body.solo-guion-mode .logic-grid,
     body.solo-guion-mode #video,
     body.solo-guion-mode #video + table { display: none !important; }
-    .slide-guide.guion-filter-active > *:not(.num):not(.slide-title-official):not(h3):not(.who-assign):not(.say.say-visible) {
+    /* Solo oculta bloques .say de otros; tablas y bullets siempre visibles */
+    .slide-guide.guion-filter-active .say:not(.say-visible) {
       display: none !important;
+    }
+    .slide-guide.guion-filter-active .say.say-visible {
+      box-shadow: inset 0 0 0 2px var(--accent2);
+      border-radius: 6px;
     }
     body.solo-guion-mode .speaker:not(.guion-section-visible) { display: none !important; }
-    body.solo-guion-mode .speaker.guion-section-visible > *:not(.badge):not(blockquote):not(h2) {
-      display: none !important;
+    .guion-mode-hint {
+      display: none;
+      font-size: .72rem;
+      color: var(--accent2);
+      background: rgba(0,212,170,.1);
+      border: 1px solid rgba(0,212,170,.3);
+      border-radius: 8px;
+      padding: .45rem .65rem;
+      margin: 0 0 .5rem;
     }
+    body.solo-guion-mode .guion-mode-hint { display: block; }
     .save-status {
       font-size: .68rem; color: var(--accent2); margin-left: .5rem;
     }
@@ -465,13 +478,14 @@
         </label>
         <label class="solo-toggle">
           <input type="checkbox" id="soloGuion" />
-          Solo lo que diré (guion y frases de mis slides)
+          Resaltar mis frases (oculta guiones de otros)
         </label>
         <button type="button" class="cycle-btn" id="cycleMember" title="Cambiar integrante">↻ Cambiar integrante</button>
         <button type="button" class="shuffle-btn" id="shuffleAssign" title="Repartir las diapositivas entre los tres de forma pareja y al azar">🎲 Repartir al azar (parejo)</button>
         <button type="button" class="shuffle-btn restore" id="restoreAssign" title="Volver al reparto original de la guía" hidden>↩ Reparto original</button>
         <button type="button" class="pin-btn" id="pinFilterBar" title="Anclar aquí: la barra no seguirá al hacer scroll">📌 Anclar en su lugar</button>
       </div>
+      <p class="guion-mode-hint" id="guionModeHint">Modo guion activo: las <strong>tablas y explicaciones se mantienen</strong>; solo se ocultan las frases «qué decir» de los otros integrantes.</p>
       <p class="assign-balance" id="assignBalance"></p>
       <p style="font-size:.72rem;color:var(--muted);margin:0 0 .35rem;">✏️ <strong>Reparto manual:</strong> usa el desplegable <em>Asignar</em> en cada diapositiva. Los cambios se guardan en la <strong>base de datos</strong> del servidor (compartido para todo el equipo). <span class="save-status" id="saveStatus"></span></p>
       <p class="filter-status" id="filterStatus">Viendo: <strong>todos</strong> · diapositivas y secciones de la guía</p>
@@ -1758,7 +1772,8 @@
 
         if (soloGuion && currentMember !== 'todos') {
           if (isSlide) {
-            show = slideHasSpeechFor(el, currentMember);
+            /* Mismas slides que el filtro por integrante; no ocultar contenido de la slide */
+            show = speakerMatch(el, currentMember);
           } else if (isSpeaker) {
             show = (el.dataset.speaker || '') === currentMember;
           } else if (el.classList.contains('logic-card')) {
@@ -1780,7 +1795,7 @@
       document.getElementById('noResults').classList.toggle('visible', showEmpty);
 
       const soloTxt = soloParte && currentMember !== 'todos' ? ' · <strong>solo su parte</strong>' : '';
-      const guionTxt = soloGuion && currentMember !== 'todos' ? ' · <strong>solo lo que diré</strong>' : '';
+      const guionTxt = soloGuion && currentMember !== 'todos' ? ' · <strong>mis frases resaltadas</strong>' : '';
       const qTxt = q ? ` · búsqueda: “${document.getElementById('guideSearch').value.replace(/</g,'')}”` : '';
       document.getElementById('filterStatus').innerHTML =
         `Viendo: <strong>${MEMBER_LABELS[currentMember]}</strong> · ` +
@@ -1821,6 +1836,13 @@
       soloGuion = e.target.checked;
       if (soloGuion && currentMember === 'todos') {
         currentMember = 'aron';
+      }
+      if (!soloGuion) {
+        document.querySelectorAll('.slide-guide.filterable').forEach(slide => {
+          slide.classList.remove('guion-filter-active');
+          slide.querySelectorAll('.say').forEach(s => s.classList.remove('say-visible'));
+        });
+        document.body.classList.remove('solo-guion-mode');
       }
       applyGuideFilter();
     });
