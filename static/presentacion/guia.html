@@ -185,6 +185,20 @@
       color: var(--text);
       font-style: italic;
     }
+    .slide-guide .say.guion-equipo {
+      border-left: 3px solid var(--accent);
+      font-style: normal;
+    }
+    .slide-guide .say .guion-tag {
+      display: block;
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--accent2);
+      margin-bottom: .35rem;
+      font-style: normal;
+    }
     .etapa {
       display: inline-block;
       font-size: .68rem;
@@ -446,7 +460,7 @@
         <li><strong>Profesor:</strong> Leonardo Andrés Olmos Saraniti</li>
         <li><strong>Fecha:</strong> 03/06/2026</li>
       </ul>
-      <div class="say">“Somos Aron, Víctor y Paola. Nuestro proyecto se llama EduPredict: Predictor de Rendimiento Académico Estudiantil, para la asignatura de Cálculo Diferencial.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Aron · slide 1</span>“¡Hola a todos! Somos el equipo conformado por Paola Pereira, Víctor Gangas y yo, Aron Barrientos, estudiantes de la carrera de Ingeniería en Informática. Hoy les presentamos nuestro proyecto de la asignatura de Cálculo Diferencial: EduPredict, un predictor de rendimiento académico estudiantil.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -466,7 +480,8 @@
       </ul>
       <p><strong>Columna derecha — qué entrega la app:</strong> un porcentaje de probabilidad de aprobar + una interpretación en texto (factores a favor y en contra).</p>
       <p><strong>Ejemplo de la slide (conecta con el código):</strong> “El estudiante tiene un 78 % de probabilidad de aprobar. Los factores que más favorecen el resultado son la alta asistencia y el promedio actual. El principal factor negativo es la baja cantidad de horas de estudio semanal.” — Eso es lo mismo que muestra la app en el <strong>medidor</strong> y en <strong>Factores identificados</strong> (listas verdes ✔ y rojas ✖).</p>
-      <div class="say">“Desarrollamos una web donde ingresamos seis datos del estudiante y la app calcula un porcentaje de aprobación, además de explicar qué lo favorece y qué lo perjudica.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Aron · slide 2</span>“El proyecto consiste en desarrollar una aplicación web capaz de predecir la probabilidad de aprobación de un estudiante a partir de distintas variables académicas y personales.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Víctor · slide 2 (variables y salida)</span>“Para alimentar este sistema, definimos que se ingresarán seis datos: asistencia, promedio, horas de estudio semanal, trabajos entregados, participación y concentración. La app calculará una probabilidad en porcentaje y entregará una interpretación. Por ejemplo: el estudiante tiene un 78 % de probabilidad de aprobar; los factores que más favorecen son la alta asistencia y el promedio actual.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -479,7 +494,7 @@
       <p><strong>Derecha — Problemática:</strong> muchos estudiantes no saben qué factores afectan más su rendimiento; creen que solo importa la nota, pero también influyen asistencia, constancia, participación y hábitos de estudio.</p>
       <p><strong>Pregunta central de la slide:</strong> ¿Cómo podemos estimar matemáticamente la probabilidad de aprobación de un estudiante según sus datos académicos?</p>
       <p><em>La tabla con las 6 nociones matemáticas está en la <strong>slide 4</strong> (siguiente).</em></p>
-      <div class="say">“Investigamos cómo predecir si un estudiante aprueba. El problema es que no siempre saben qué mejorar: no es solo la nota, también cuenta asistir, participar y estudiar con constancia.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Paola · slide 3</span>“Así es, Aron. La problemática principal es que, en muchos casos, los estudiantes no saben con claridad qué factores afectan más su rendimiento. A veces creen que solo importa la nota, pero también influyen la asistencia, la constancia, la participación y los hábitos de estudio. Por eso el problema es: ¿cómo podemos estimar matemáticamente la probabilidad de aprobación según sus datos académicos? Para esto desarrollamos una aplicación predictiva con conceptos de Cálculo Diferencial.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -529,7 +544,8 @@
           </tr>
         </tbody>
       </table>
-      <div class="say">“No usamos Cálculo por usarlo: cada concepto cumple un rol. La combinación lineal junta los datos, la sigmoide los traduce a porcentaje, y las derivadas indican qué conviene mejorar.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Aron · slide 4 (combinación lineal)</span>“Y aquí es donde entra la matemática detrás del código. Transformamos los datos con combinación lineal: z = −7,2 + 2,5·asist + 3,0·prom + 1,8·horas + 1,5·trab + 1,2·part + 1,0·conc. No todas las variables pesan igual; el promedio y la asistencia influyen mucho más que la concentración.”</div>
+      <div class="say">“No usamos Cálculo por usarlo: cada concepto de la tabla cumple un rol concreto en la app.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -553,7 +569,7 @@
         <li><strong>¿Por qué la sigmoide para probabilidad?</strong> → Porque acota entre 0 % y 100 % de forma natural.</li>
         <li><strong>¿Cómo se relacionan las derivadas con el rendimiento?</strong> → Para recomendar en qué enfocarse.</li>
       </ul>
-      <div class="say">“Nuestro objetivo fue una app que oriente al estudiante. Para lograrlo nos hicimos seis preguntas — por ejemplo, qué pesa más y por qué usamos sigmoide — y las respondimos con fuentes y con EduPredict.”</div>
+      <div class="say">“Nuestro objetivo fue una app que oriente al estudiante…” <em>(sin texto en guion del equipo — usar bullets de arriba)</em></div>
     </div>
 
     <div class="slide-guide filterable">
@@ -583,7 +599,7 @@
         <li><strong>Trabajos entregados</strong> — cumplimiento de evaluaciones.</li>
         <li><strong>Concentración</strong> — calidad del estudio, no solo cantidad.</li>
       </ul>
-      <div class="say">“El proyecto une tres piezas: la matemática explica el modelo, la tecnología lo muestra en una web clara, y las seis variables representan hábitos reales del estudiante.”</div>
+      <div class="say">“El proyecto une tres piezas…” <em>(sin texto en guion del equipo — usar bullets de arriba)</em></div>
     </div>
 
     <div class="slide-guide filterable">
@@ -634,7 +650,8 @@
         </tbody>
       </table>
       <p><strong>Texto inferior de la slide:</strong> EduPredict estima probabilidad de aprobar con variables académicas y aplica Cálculo (funciones, límites, continuidad, derivadas) para ver cómo cambia el resultado al modificar datos.</p>
-      <div class="say">“Organizamos el trabajo en tres semanas: primero investigamos y definimos variables, luego armamos el modelo y la app, y al final los gráficos y esta presentación. Cada tarea tenía un producto concreto — no trabajamos a ciegas.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Aron · slides 7 y 15 (cronograma)</span>“Para organizar todo este desarrollo, trabajamos con un cronograma de tres semanas documentado en nuestra bitácora. Víctor se encargó de investigar los conceptos matemáticos y diseñar la visualización de resultados. Paola diseñó el modelo matemático predictivo definiendo las ponderaciones. Y entre Paola y yo nos encargamos de programar la aplicación web.”</div>
+      <div class="say">“Planificamos en tres semanas con productos concretos por tarea.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -678,7 +695,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="say">“Cada herramienta cumplió un rol: Excel y GeoGebra para diseñar y visualizar, Django para calcular, y HTML/JS para que el usuario vea todo de forma clara.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Paola · slide 8</span>“A nivel tecnológico, unificamos el desarrollo en Visual Studio Code. Implementamos el modelo en el servidor con Python 3.13 y Django 6.0.6. Para la interfaz usamos HTML, CSS y JavaScript; JS envía los datos al servidor y muestra la barra de probabilidad y gráficos de sensibilidad interactivos.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -711,7 +728,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="say">“Con esas fuentes respondemos las seis preguntas orientadoras: qué variables pesan más, cómo modelamos con una función, cómo cambia la probabilidad, por qué usamos la sigmoide y cómo las derivadas orientan al estudiante en EduPredict.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Paola · slide 9</span>“Toda nuestra investigación se fundamentó teóricamente en libros como Cálculo de una Variable de James Stewart y estudios estadísticos de rendimiento académico.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -755,7 +772,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="say">“Estas respuestas no quedaron solo en papel: las probamos en EduPredict. Las preguntas de la slide 5 las resolvemos aquí con evidencia del código y las fuentes.”</div>
+      <div class="say">“Estas respuestas…” <em>(sin texto en guion del equipo — usar tabla de arriba)</em></div>
     </div>
 
     <div class="slide-guide filterable">
@@ -775,7 +792,8 @@
         <li>En <strong>GeoGebra</strong> → curva verde (sigmoide) + recta roja tangente: la tangente <em>es</em> la derivada dibujada — pendiente = rapidez del cambio.</li>
       </ul>
       <p><strong>Conexión con el código:</strong> <code>derivada_sigmoide(z)</code> calcula P·(1−P); luego <code>PESOS[k] * derivada_sigmoide(z) * 100</code> da las barras.</p>
-      <div class="say">“Usamos derivadas para saber qué tan rápido sube la probabilidad cuando el estudiante mejora. En la app lo vemos en las barras; en GeoGebra, la recta tangente muestra esa pendiente sobre la curva sigmoide.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Paola · slide 11 (sigmoide)</span>“Luego, para convertir z en una probabilidad continua entre 0 % y 100 %, utilizamos la función sigmoide σ(z) = 1 / (1 + e^(−z)). La usamos por dos propiedades vitales: límites y continuidad. La curva se acerca a 0 y 1 cuando z es muy bajo o muy alto, así la probabilidad nunca es negativa ni supera el 100 %. Al ser continua, una mejora pequeña produce un cambio gradual y realista.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Víctor · slide 11 (derivadas)</span>“Exactamente. Para la Unidad IV incorporamos derivadas. σ'(z) = σ(z)·(1−σ(z)), es decir P·(1−P). Con la regla de la cadena: ∂σ/∂xᵢ = wᵢ·P·(1−P). La derivada indica qué tan rápido sube la probabilidad por cada mejora en asistencia u otra variable; lo visualizamos en EduPredict y en GeoGebra.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -804,7 +822,7 @@
           <tr><td><strong>P·(1−P)</strong></td><td>Sensibilidad de la curva en el punto actual.</td><td>“Cerca del 50 % el cambio se nota más; cerca de 0 % o 100 % casi no.”</td></tr>
         </tbody>
       </table>
-      <div class="say">“Esta slide traduce la matemática al código: P es la probabilidad, w es el peso de cada dato, y las barras de la app son las derivadas parciales multiplicadas por 100.”</div>
+      <div class="say">“Esta slide traduce la matemática al código…” <em>(sin texto en guion del equipo — fórmulas de derivadas en slide 11, bloque Víctor)</em></div>
     </div>
 
     <div class="slide-guide filterable">
@@ -828,7 +846,7 @@
         <li>La app muestra <strong>factores negativos</strong> (qué perjudica) y el <strong>gráfico de sensibilidades (derivadas)</strong>.</li>
         <li><em>Para qué sirve:</em> no solo dice “tienes 72 %”, sino <strong>en qué debería enfocarse</strong> para subir esa probabilidad.</li>
       </ul>
-      <div class="say">“Concluimos que promedio y asistencia pesan más; que mejorar ayuda más cerca del 50 %; y EduPredict convierte eso en consejos visibles para el estudiante.”</div>
+      <div class="say">“Concluimos que promedio y asistencia pesan más…” <em>(sin texto en guion del equipo — usar bullets de arriba)</em></div>
     </div>
 
     <div class="slide-guide filterable">
@@ -849,7 +867,7 @@
         <li><strong>Fuentes revisadas</strong> → respaldamos decisiones con Stewart, Ortiz, Vargas (slide 9).</li>
         <li><strong>Modelo de derivadas</strong> → sensibilidades y orientación al estudiante (slides 11–13 + app).</li>
       </ul>
-      <div class="say">“Completamos la planificación, la investigación con fuentes, el modelo matemático con derivadas y la aplicación web EduPredict lista para demo.”</div>
+      <div class="say">“Completamos la planificación…” <em>(sin texto en guion del equipo — usar bullets Etapa I y II de arriba)</em></div>
     </div>
 
     <div class="slide-guide filterable">
@@ -900,7 +918,8 @@
         </tbody>
       </table>
       <p><strong>Texto inferior de la slide:</strong> la bitácora registra actividades grupales e individuales (mínimo dos entradas por semana en fechas distintas).</p>
-      <div class="say">“En la bitácora quedó el registro semanal: Víctor la teoría, Aron las variables, Paola los pesos, todos la app, y al final las visualizaciones y esta presentación.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Aron · slide 15 (roles — mismo bloque que slide 7)</span>“Para organizar todo este desarrollo, trabajamos con un cronograma de tres semanas documentado en nuestra bitácora. Víctor se encargó de investigar los conceptos matemáticos y diseñar la visualización de resultados. Paola diseñó el modelo matemático predictivo definiendo las ponderaciones. Y entre Paola y yo nos encargamos de programar la aplicación web.”</div>
+      <div class="say">“En la bitácora quedó el registro semanal con fechas y responsables.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -926,7 +945,7 @@
           <tr><td><strong>Tabla z / σ(z) / σ'(z) / Estado</strong></td><td>Referencia numérica: Reprueba (&lt;50 %), En riesgo (~50–70 %), Aprueba (≥70 %).</td></tr>
         </tbody>
       </table>
-      <div class="say">“Este es EduPredict: ingresamos seis datos, calculamos, y la app entrega probabilidad, gráfico de sensibilidades, factores y la curva sigmoide — todo lo que definimos en las slides anteriores.”</div>
+      <div class="say">“Este es EduPredict: ingresamos seis datos, calculamos…” <em>(sin línea en guion del equipo — agregar al grabar: demo en vivo en 127.0.0.1:8000)</em></div>
     </div>
 
     <div class="slide-guide filterable">
@@ -954,7 +973,7 @@
         <li>El equipo aprendió a investigar, programar y presentar con evidencia.</li>
       </ul>
       <p><strong>Tabla de estados (slide):</strong> z bajo → Reprueba · z medio → En riesgo · z alto → Aprueba — coherente con umbrales del código (≥70 % aprueba probable).</p>
-      <div class="say">“Con distintos datos la app cambia el veredicto: en un caso advierte reprobación y muestra qué mejorar; en otro confirma aprobación y lista los factores positivos. Eso es lo que buscábamos.”</div>
+      <div class="say">“Con distintos datos la app cambia el veredicto…” <em>(sin texto en guion del equipo — usar escenarios A y B de arriba)</em></div>
     </div>
 
     <div class="slide-guide filterable">
@@ -976,7 +995,7 @@
           <tr><td><strong>Ética profesional</strong></td><td>Datos simulados; cálculo en tiempo real sin guardar historial — uso responsable.</td></tr>
         </tbody>
       </table>
-      <div class="say">“EduPredict no es solo una tarea de Cálculo: integra programación, estadística, requisitos, gestión de proyecto e IA básica, siempre con ética en el manejo de datos.”</div>
+      <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Víctor · slide 18 (cierre)</span>“Como conclusión final, con EduPredict logramos articular la matemática, la informática y un contexto académico real. No solo aplicamos límites, continuidad y derivadas para modelar la tasa de variación, sino que implementamos soluciones computacionales reales con programación e ingeniería de requisitos. ¡Muchas gracias por su atención!”</div>
     </div>
 
     <div class="slide-guide filterable">
