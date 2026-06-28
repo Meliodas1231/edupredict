@@ -282,7 +282,17 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 5. **¿Por qué sigmoide?** → σ(z) ∈ (0,1): se acerca a 0 y 1 pero nunca llega exactamente; evita % imposibles. *Stewart*
 6. **¿Derivadas y rendimiento?** → wᵢ·P·(1−P) indica qué mejorar; gráfico de sensibilidades. *Ortiz + GeoGebra + EduPredict*
 
-> “Estas respuestas las probamos en EduPredict…” *(sin línea en guion del equipo — usar tabla de arriba)*
+> “En la slide 5 planteamos seis preguntas de investigación. Aquí les damos la respuesta — y cada fila de la tabla conecta con algo que ya pueden ver en EduPredict o en las fuentes que citamos.”
+
+> “Primera pregunta: **¿qué variables influyen más?** Según Vargas y Montero, y según nuestros `PESOS` en el código, el promedio pesa 3,0 y la asistencia 2,5. Esas dos arrastran más la probabilidad; las otras cuatro también suman, pero con menos peso. Por eso la app las resalta en factores y en el gráfico de sensibilidades.”
+
+> “Segunda: **¿cómo representamos el rendimiento con una función?** Con `calcular_prediccion`: tomamos los seis datos del estudiante, calculamos z y aplicamos la sigmoide σ(z). Eso es la traducción matemática del rendimiento — la idea de Stewart y Ortiz hecha código.”
+
+> “Tercera y cuarta van juntas: **¿qué pasa si sube la asistencia o las horas de estudio?** Más asistencia o más horas → z sube → la probabilidad sube de forma gradual, no a saltos. Lo pueden comprobar moviendo los sliders en la app. El impacto no es siempre igual: cuando P está cerca del 50 %, el factor P·(1−P) es mayor y el cambio se nota más; cerca de 0 % o 100 % la curva ya está casi plana.”
+
+> “Quinta: **¿por qué la sigmoide para probabilidad?** Porque σ(z) siempre queda entre 0 y 1 — se acerca a los extremos pero nunca llega exactamente a 0 % ni 100 %, como vimos en la slide 4. Así evitamos probabilidades imposibles, del tipo −10 % o 150 %. Stewart lo plantea como función continua ideal para este tipo de modelos.”
+
+> “Sexta: **¿para qué sirven las derivadas en el rendimiento académico?** La fórmula ∂P/∂xᵢ = wᵢ·P·(1−P) — que Víctor detalla en la slide 11 — nos dice qué variable conviene mejorar primero. Eso es exactamente lo que muestra el gráfico de barras de sensibilidades en EduPredict y lo que replicamos en GeoGebra: no solo ‘¿aprobará?’, sino ‘¿en qué debería enfocarse el estudiante?’.”
 
 ---
 
@@ -344,7 +354,13 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 | **wᵢ** | ¿Qué tan importante es la variable? | Promedio 3,0 vs concentración 1,0 |
 | **P·(1−P)** | ¿Cuándo el cambio se nota más? | Máximo cerca de 50 %; mínimo cerca de 0 % o 100 % |
 
-> “Esta slide traduce matemática → código…” *(sin línea en guion del equipo — fórmulas de derivadas en slide 11, bloque Víctor)*
+> “Esta diapositiva traduce la matemática de las slides anteriores — especialmente las fórmulas de derivadas que explicó Víctor en la slide 11 — al código real de EduPredict. No es decoración: cada símbolo de la tabla tiene una línea concreta en `predictor/views.py`.”
+
+> “En la **Tabla 1**, fila por fila: **P** es la probabilidad de aprobar entre 0 y 1 — en código, `probabilidad = sigmoid(z)`, lo que ve el estudiante al final. **x** es cada dato normalizado a la misma escala — por ejemplo asistencia entre 100 o horas entre 40 — para que todas las variables sean comparables. **wᵢ** es el peso de cada variable: por eso el promedio pesa más que la concentración; vive en el diccionario `PESOS`.”
+
+> “Siguen **P·(1−P)** y **∂P/∂xᵢ**: la primera es la derivada de la sigmoide en el punto actual — qué tan inclinada está la curva — y la calculamos con `derivada_sigmoide(z)`. La segunda combina ese factor con el peso wᵢ: `PESOS[k] * derivada_sigmoide(z)`. Eso responde ‘si mejoro solo esta variable un poquito, ¿cuánto sube P?’. El **× 100** al final solo escala el resultado para que las barras del gráfico se lean en porcentaje.”
+
+> “La **Tabla 2** descompone esa misma idea en tres piezas. **∂P/∂xᵢ** responde cuánto ayuda mejorar una variable concreta — ‘¿cuánto sube la probabilidad con una hora más de estudio?’. **wᵢ** dice qué tan crítica es esa variable en el modelo — el promedio pesa 3,0, la concentración 1,0. Y **P·(1−P)** recuerda que la sensibilidad depende de dónde esté el estudiante en la curva: cerca del 50 % un pequeño cambio se nota mucho; cerca de 0 % o 100 % casi no mueve la aguja. Con estas dos tablas, cualquiera puede ir de la fórmula en la pizarra a la línea exacta en el repositorio.”
 
 ---
 
