@@ -224,6 +224,95 @@
       margin-bottom: .5rem;
       font-weight: 600;
     }
+    /* ── Buscador y filtro por integrante ── */
+    .filter-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      position: sticky;
+      top: .5rem;
+      z-index: 50;
+      box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    }
+    .filter-bar label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: .35rem; }
+    .search-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .85rem; align-items: center; }
+    .search-row input[type="search"] {
+      flex: 1; min-width: 180px;
+      font-family: inherit; font-size: .88rem;
+      padding: .55rem .85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+    }
+    .search-row input[type="search"]:focus { outline: 2px solid var(--accent2); border-color: transparent; }
+    .member-btns { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: .75rem; }
+    .member-btn {
+      font-family: inherit; font-size: .78rem; font-weight: 600;
+      padding: .4rem .85rem; border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .member-btn:hover { color: var(--text); }
+    .member-btn.active { color: #fff; border-color: transparent; }
+    .member-btn[data-m="todos"].active { background: var(--accent); }
+    .member-btn[data-m="aron"].active { background: var(--aron); }
+    .member-btn[data-m="paola"].active { background: var(--paola); }
+    .member-btn[data-m="victor"].active { background: var(--victor); }
+    .filter-actions { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+    .filter-actions label.solo-toggle {
+      display: flex; align-items: center; gap: .4rem;
+      font-size: .82rem; color: var(--muted);
+      text-transform: none; letter-spacing: 0; cursor: pointer; margin: 0;
+    }
+    .filter-actions label.solo-toggle input { accent-color: var(--accent2); }
+    .cycle-btn {
+      font-family: inherit; font-size: .78rem;
+      padding: .4rem .85rem; border-radius: 8px;
+      border: 1px dashed var(--accent2);
+      background: transparent;
+      color: var(--accent2);
+      cursor: pointer;
+    }
+    .cycle-btn:hover { background: var(--surface2); }
+    .filter-status {
+      margin-top: .65rem;
+      font-size: .78rem;
+      color: var(--muted);
+    }
+    .filter-status strong { color: var(--accent2); }
+    .filterable.is-hidden { display: none !important; }
+    mark.search-hit { background: rgba(0,212,170,.25); color: inherit; border-radius: 2px; padding: 0 2px; }
+    /* ── Símbolos: significa → sirve para ── */
+    .logic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .75rem 1rem;
+      margin-bottom: .55rem;
+      font-size: .88rem;
+    }
+    .logic-card .sym { font-weight: 700; color: var(--accent2); font-family: 'JetBrains Mono', monospace; }
+    .logic-card .means { color: var(--text); margin: .25rem 0; }
+    .logic-card .for { color: var(--muted); font-size: .84rem; }
+    .logic-card .for strong { color: var(--accent2); font-weight: 500; }
+    .logic-grid { display: grid; gap: .5rem; margin: 1rem 0; }
+    @media (min-width: 640px) { .logic-grid { grid-template-columns: 1fr 1fr; } }
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      background: var(--surface);
+      border-radius: 12px;
+      margin: 1rem 0;
+    }
+    .no-results.visible { display: block; }
   </style>
 </head>
 <body>
@@ -241,6 +330,8 @@
     </header>
 
     <nav class="toc">
+      <a href="#filtro">Buscador</a>
+      <a href="#simbolos">Símbolos</a>
       <a href="#slides">Diapositivas PDF</a>
       <a href="#video">Orden video</a>
       <a href="#app-aron">Demo app (Aron)</a>
@@ -249,10 +340,78 @@
       <a href="#geogebra">GeoGebra</a>
     </nav>
 
-    <h2 id="slides">Las diapositivas del PDF — explicadas fácil</h2>
-    <p style="color:var(--muted);margin-bottom:1rem;">Recorre el PDF en orden. En cada slide explica <strong>para qué sirve</strong> cada cosa — no solo el nombre — y conecta con la app cuando puedas.</p>
+    <div class="filter-bar" id="filtro">
+      <label for="guideSearch">Buscar en la guía</label>
+      <div class="search-row">
+        <input type="search" id="guideSearch" placeholder="Ej: sigmoide, slide 11, derivada, Aron…" autocomplete="off" />
+      </div>
+      <label>Ver parte de</label>
+      <div class="member-btns" role="group" aria-label="Filtrar por integrante">
+        <button type="button" class="member-btn active" data-m="todos">👥 Todos</button>
+        <button type="button" class="member-btn" data-m="aron">Aron Barrientos</button>
+        <button type="button" class="member-btn" data-m="paola">Paola Pereira</button>
+        <button type="button" class="member-btn" data-m="victor">Víctor Gangas</button>
+      </div>
+      <div class="filter-actions">
+        <label class="solo-toggle">
+          <input type="checkbox" id="soloParte" />
+          Solo ver la parte del integrante seleccionado
+        </label>
+        <button type="button" class="cycle-btn" id="cycleMember" title="Cambiar integrante">↻ Cambiar integrante</button>
+      </div>
+      <p class="filter-status" id="filterStatus">Viendo: <strong>todos</strong> · diapositivas y secciones de la guía</p>
+    </div>
 
-    <div class="slide-guide">
+    <h2 id="simbolos">Símbolos del modelo — qué significan y para qué sirven</h2>
+    <p style="color:var(--muted);margin-bottom:1rem;">Formato lógico: <strong>el símbolo significa…</strong> y <strong>sirve para…</strong> en EduPredict. Útil para slides 4, 11 y 12.</p>
+    <div class="logic-grid">
+      <div class="logic-card filterable" data-speakers="aron paola victor">
+        <span class="sym">z</span>
+        <p class="means"><strong>Significa:</strong> la suma ponderada de las 6 variables (combinación lineal + sesgo −7,2).</p>
+        <p class="for"><strong>Sirve para:</strong> juntar todos los datos del estudiante en un solo número antes de convertirlo a probabilidad.</p>
+      </div>
+      <div class="logic-card filterable" data-speakers="aron paola victor">
+        <span class="sym">σ(z) · P</span>
+        <p class="means"><strong>Significa:</strong> la probabilidad de aprobar, un valor entre 0 y 1.</p>
+        <p class="for"><strong>Sirve para:</strong> mostrar el % en el medidor (ej. 72,7 % = P × 100).</p>
+      </div>
+      <div class="logic-card filterable" data-speakers="paola victor">
+        <span class="sym">wᵢ · PESOS</span>
+        <p class="means"><strong>Significa:</strong> qué tan importante es cada variable (promedio 3,0, asistencia 2,5…).</p>
+        <p class="for"><strong>Sirve para:</strong> que no todas las barras influyan igual — refleja la realidad académica.</p>
+      </div>
+      <div class="logic-card filterable" data-speakers="paola victor">
+        <span class="sym">x · xᵢ</span>
+        <p class="means"><strong>Significa:</strong> un dato del estudiante normalizado (entre 0 y 1).</p>
+        <p class="for"><strong>Sirve para:</strong> comparar en la misma escala asistencia %, horas, participación, etc.</p>
+      </div>
+      <div class="logic-card filterable" data-speakers="victor paola">
+        <span class="sym">σ'(z) · P·(1−P)</span>
+        <p class="means"><strong>Significa:</strong> qué tan inclinada está la sigmoide en ese punto (derivada).</p>
+        <p class="for"><strong>Sirve para:</strong> saber cuándo un pequeño cambio en un dato mueve mucho o poco la probabilidad.</p>
+      </div>
+      <div class="logic-card filterable" data-speakers="victor paola">
+        <span class="sym">∂P/∂xᵢ</span>
+        <p class="means"><strong>Significa:</strong> cuánto sube P si mejoras solo esa variable un poquito.</p>
+        <p class="for"><strong>Sirve para:</strong> el gráfico de barras de sensibilidades — orientar al estudiante.</p>
+      </div>
+      <div class="logic-card filterable" data-speakers="aron paola victor">
+        <span class="sym">× 100</span>
+        <p class="means"><strong>Significa:</strong> pasar de probabilidad (0–1) a porcentaje (0–100).</p>
+        <p class="for"><strong>Sirve para:</strong> que el usuario vea “72,7 %” en lugar de “0,727”.</p>
+      </div>
+      <div class="logic-card filterable" data-speakers="victor">
+        <span class="sym">Recta tangente</span>
+        <p class="means"><strong>Significa:</strong> la derivada dibujada como pendiente en GeoGebra.</p>
+        <p class="for"><strong>Sirve para:</strong> mostrar Unidad IV en clase — rapidez del cambio en un punto concreto.</p>
+      </div>
+    </div>
+
+    <h2 id="slides">Las diapositivas del PDF — explicadas fácil</h2>
+    <p style="color:var(--muted);margin-bottom:1rem;">Recorre el PDF en orden. Cada bloque explica: <strong>qué significa</strong> → <strong>para qué sirve</strong> → <strong>qué decir</strong>.</p>
+    <div class="no-results" id="noResults">No hay resultados con ese filtro o búsqueda. Prueba otro integrante o borra el texto.</div>
+
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 1</div>
       <div class="slide-title-official">EDUPREDICT — PREDICTOR DE RENDIMIENTO ACADÉMICO ESTUDIANTIL</div>
       <h3>Portada</h3>
@@ -269,7 +428,7 @@
       <div class="say">“Somos Aron, Víctor y Paola. Nuestro proyecto se llama EduPredict: Predictor de Rendimiento Académico Estudiantil, para la asignatura de Cálculo Diferencial.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 2 · Definición del proyecto <span class="etapa">Etapa I</span></div>
       <div class="slide-title-official">2 Definición del proyecto</div>
       <h3>Qué es y qué hace la aplicación web</h3>
@@ -289,7 +448,7 @@
       <div class="say">“Desarrollamos una web donde ingresamos seis datos del estudiante y la app calcula un porcentaje de aprobación, además de explicar qué lo favorece y qué lo perjudica.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 3 · Tema de investigación y problemática <span class="etapa">Etapa I</span></div>
       <div class="slide-title-official">3 Tema de investigación, nociones matemáticas y problemáticas a abordar</div>
       <h3>Por qué hicimos este proyecto</h3>
@@ -302,51 +461,57 @@
       <div class="say">“Investigamos cómo predecir si un estudiante aprueba. El problema es que no siempre saben qué mejorar: no es solo la nota, también cuenta asistir, participar y estudiar con constancia.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 4 · Nociones matemáticas <span class="etapa">Etapa I</span></div>
       <div class="slide-title-official">4 Tema de investigación, nociones matemáticas y problemáticas a abordar</div>
       <h3>Los 6 conceptos de Cálculo — qué hace cada uno en EduPredict</h3>
       <div class="who">👤 Paola (con apoyo de Víctor en derivadas)</div>
       <p>Tabla de 3 columnas. <strong>No leas la fórmula entera:</strong> para cada fila di <em>para qué sirve</em> y conecta con la app.</p>
       <table>
-        <thead><tr><th>Concepto</th><th>Para qué sirve (qué decir)</th><th>Dónde se ve en la app</th></tr></thead>
+        <thead><tr><th>Concepto</th><th>Significa</th><th>Sirve para</th><th>En la app</th></tr></thead>
         <tbody>
           <tr>
             <td><strong>Función matemática</strong></td>
-            <td>Recibe los 6 datos del estudiante y devuelve un solo resultado: la probabilidad. Es el “motor” del predictor.</td>
-            <td>Al pulsar <strong>Calcular predicción</strong> — función <code>calcular_prediccion</code> en el servidor.</td>
+            <td>Entran datos, sale un resultado calculado.</td>
+            <td>Ser el “motor” que transforma 6 hábitos en una probabilidad.</td>
+            <td><code>calcular_prediccion</code> al pulsar Calcular.</td>
           </tr>
           <tr>
             <td><strong>Combinación lineal</strong></td>
-            <td>Suma las variables, pero no todas pesan igual: el promedio (3,0) y la asistencia (2,5) influyen más que la concentración (1,0). Así el modelo se parece a la realidad.</td>
-            <td>Los números bajo el medidor muestran el valor <strong>z</strong> (la suma ponderada).</td>
+            <td>Suma ponderada: cada variable multiplicada por su peso wᵢ.</td>
+            <td>Reflejar que promedio y asistencia importan más que concentración.</td>
+            <td>Valor <strong>z</strong> bajo el medidor.</td>
           </tr>
           <tr>
             <td><strong>Función sigmoide</strong></td>
-            <td>Convierte ese número interno z en un porcentaje entre 0 % y 100 % que cualquiera puede entender.</td>
-            <td>El <strong>medidor circular</strong> y la curva en S del gráfico inferior.</td>
+            <td>Curva en S que convierte z en número entre 0 y 1.</td>
+            <td>Traducir el cálculo interno a un % que cualquiera entienda.</td>
+            <td>Medidor circular y curva en S.</td>
           </tr>
           <tr>
             <td><strong>Límites y asíntotas</strong></td>
-            <td>Evita resultados absurdos: nunca dirá −10 % ni 150 %. Siempre queda entre aprobar casi seguro y reprobar casi seguro.</td>
-            <td>La curva nunca sale del rango 0–1; el % nunca pasa de 100.</td>
+            <td>La curva se acerca a 0 y 1 pero no se pasa.</td>
+            <td>Evitar probabilidades absurdas (−10 % o 150 %).</td>
+            <td>El % siempre entre 0 y 100.</td>
           </tr>
           <tr>
             <td><strong>Continuidad</strong></td>
-            <td>Si mejoras un poco (ej. +5 % asistencia), la probabilidad sube un poco — no salta de golpe. Eso hace confiable la simulación con los sliders.</td>
-            <td>Mueve una barra despacio y verás cómo cambia el % gradualmente.</td>
+            <td>Sin saltos bruscos al cambiar un dato.</td>
+            <td>Que mover un slider un poco cambie el resultado un poco.</td>
+            <td>Prueba moviendo una barra despacio.</td>
           </tr>
           <tr>
             <td><strong>Derivadas</strong></td>
-            <td>Responden: “Si mejoro <em>esta</em> variable, ¿cuánto sube mi probabilidad?” — orienta al estudiante sobre dónde conviene esforzarse primero.</td>
-            <td>Gráfico de barras <strong>Análisis de derivadas</strong> y listas de factores ✔/✖.</td>
+            <td>Rapidez con que sube la probabilidad al mejorar xᵢ.</td>
+            <td>Decir al estudiante qué conviene mejorar primero.</td>
+            <td>Barras de sensibilidades y factores ✔/✖.</td>
           </tr>
         </tbody>
       </table>
       <div class="say">“No usamos Cálculo por usarlo: cada concepto cumple un rol. La combinación lineal junta los datos, la sigmoide los traduce a porcentaje, y las derivadas indican qué conviene mejorar.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 5 · Objetivos y preguntas <span class="etapa">Etapa I</span></div>
       <div class="slide-title-official">5 Objetivos y preguntas</div>
       <h3>Para qué hicimos el proyecto y qué nos preguntamos</h3>
@@ -370,7 +535,7 @@
       <div class="say">“Nuestro objetivo fue una app que oriente al estudiante. Para lograrlo nos hicimos seis preguntas — por ejemplo, qué pesa más y por qué usamos sigmoide — y las respondimos con fuentes y con EduPredict.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 6 · Temas iniciales involucrados <span class="etapa">Etapa I</span></div>
       <div class="slide-title-official">6 Temas iniciales involucrados</div>
       <h3>Qué áreas combina el proyecto y para qué aporta cada una</h3>
@@ -400,7 +565,7 @@
       <div class="say">“El proyecto une tres piezas: la matemática explica el modelo, la tecnología lo muestra en una web clara, y las seis variables representan hábitos reales del estudiante.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 7 · Cronograma <span class="etapa">Etapa I</span></div>
       <div class="slide-title-official">7 Cronograma del proyecto</div>
       <h3>Cómo repartimos el trabajo en 3 semanas — y para qué sirvió cada tarea</h3>
@@ -451,7 +616,7 @@
       <div class="say">“Organizamos el trabajo en tres semanas: primero investigamos y definimos variables, luego armamos el modelo y la app, y al final los gráficos y esta presentación. Cada tarea tenía un producto concreto — no trabajamos a ciegas.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 8 · Herramientas tecnológicas <span class="etapa">Etapa II</span></div>
       <div class="slide-title-official">8 Etapa II: Herramientas Tecnológicas</div>
       <h3>Con qué trabajamos y por qué elegimos cada herramienta</h3>
@@ -495,7 +660,7 @@
       <div class="say">“Cada herramienta cumplió un rol: Excel y GeoGebra para diseñar y visualizar, Django para calcular, y HTML/JS para que el usuario vea todo de forma clara.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 9 · Fuentes de información <span class="etapa">Etapa II</span></div>
       <div class="slide-title-official">9 Fuentes de Información</div>
       <h3>De dónde sacamos la base — y para qué nos sirvió cada fuente</h3>
@@ -528,7 +693,7 @@
       <div class="say">“Con esas fuentes respondemos las seis preguntas orientadoras: qué variables pesan más, cómo modelamos con una función, cómo cambia la probabilidad, por qué usamos la sigmoide y cómo las derivadas orientan al estudiante en EduPredict.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 10 · Respuestas a preguntas <span class="etapa">Etapa II</span></div>
       <div class="slide-title-official">10 Respuestas a preguntas</div>
       <h3>Las 6 preguntas de la slide 5 — respondidas con EduPredict</h3>
@@ -572,7 +737,7 @@
       <div class="say">“Estas respuestas no quedaron solo en papel: las probamos en EduPredict. Las preguntas de la slide 5 las resolvemos aquí con evidencia del código y las fuentes.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 11 · Unidad IV Derivadas <span class="etapa">Etapa II</span></div>
       <div class="slide-title-official">11 Aplicación de la Unidad IV: Derivadas</div>
       <h3>Para qué usamos derivadas en EduPredict</h3>
@@ -592,36 +757,36 @@
       <div class="say">“Usamos derivadas para saber qué tan rápido sube la probabilidad cuando el estudiante mejora. En la app lo vemos en las barras; en GeoGebra, la recta tangente muestra esa pendiente sobre la curva sigmoide.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 12 · Símbolos del modelo <span class="etapa">Etapa II</span></div>
       <div class="slide-title-official">Tabla 1 — Símbolos del modelo y su implementación en EduPredict · Tabla 2 — Interpretación de la derivada parcial</div>
       <h3>Traducir matemática → código → consejo al estudiante</h3>
       <div class="who">👤 Paola</div>
-      <p><strong>Tabla 1 — Para qué sirve cada símbolo</strong> (conecta la slide con <code>predictor/views.py</code>):</p>
+      <p><strong>Tabla 1 — Significa → Sirve para → Código</strong> (<code>predictor/views.py</code>):</p>
       <table>
-        <thead><tr><th>Símbolo</th><th>Para qué sirve</th><th>En el código</th></tr></thead>
+        <thead><tr><th>Símbolo</th><th>Significa</th><th>Sirve para</th><th>En el código</th></tr></thead>
         <tbody>
-          <tr><td><strong>P</strong></td><td>Probabilidad de aprobar (0 a 1) — el resultado final</td><td><code>probabilidad = sigmoid(z)</code></td></tr>
-          <tr><td><strong>x</strong></td><td>Un dato del estudiante llevado a escala 0–1</td><td><code>asistencia/100</code>, <code>horas_estudio/40</code>, etc.</td></tr>
-          <tr><td><strong>wᵢ</strong></td><td>Qué tan importante es esa variable en el modelo</td><td><code>PESOS[k]</code> (promedio 3,0, asistencia 2,5…)</td></tr>
-          <tr><td><strong>P·(1−P)</strong></td><td>Qué tan “sensible” está la curva en ese momento</td><td><code>derivada_sigmoide(z)</code></td></tr>
-          <tr><td><strong>∂P/∂xᵢ</strong></td><td>Cuánto sube P si mejoras solo esa variable</td><td><code>PESOS[k] * derivada_sigmoide(z)</code></td></tr>
-          <tr><td><strong>× 100</strong></td><td>Pasar a puntos de porcentaje para el gráfico de barras</td><td><code>sensibilidades = … * 100</code></td></tr>
+          <tr><td><strong>P</strong></td><td>Probabilidad de aprobar (0 a 1).</td><td>El resultado final que ve el estudiante.</td><td><code>probabilidad = sigmoid(z)</code></td></tr>
+          <tr><td><strong>x</strong></td><td>Un dato normalizado (ej. 75 % → 0,75).</td><td>Comparar variables en la misma escala.</td><td><code>asistencia/100</code>, <code>horas_estudio/40</code>…</td></tr>
+          <tr><td><strong>wᵢ</strong></td><td>Peso / importancia de esa variable.</td><td>Que promedio pese más que concentración.</td><td><code>PESOS[k]</code></td></tr>
+          <tr><td><strong>P·(1−P)</strong></td><td>Derivada de la sigmoide en ese punto.</td><td>Saber si un cambio pequeño mueve mucho la curva.</td><td><code>derivada_sigmoide(z)</code></td></tr>
+          <tr><td><strong>∂P/∂xᵢ</strong></td><td>Cambio en P al mejorar solo xᵢ.</td><td>Orientar: “enfócate en esta variable”.</td><td><code>PESOS[k] * derivada_sigmoide(z)</code></td></tr>
+          <tr><td><strong>× 100</strong></td><td>Pasar de 0–1 a porcentaje.</td><td>Mostrar barras legibles en el gráfico.</td><td><code>sensibilidades = … * 100</code></td></tr>
         </tbody>
       </table>
-      <p><strong>Tabla 2 — Para qué sirve cada parte de la derivada</strong> (explica sin tecnicismos):</p>
+      <p><strong>Tabla 2 — Lógica de la derivada parcial:</strong></p>
       <table>
-        <thead><tr><th>Parte</th><th>Pregunta que responde</th><th>Ejemplo al presentar</th></tr></thead>
+        <thead><tr><th>Parte</th><th>Significa</th><th>Sirve para (ejemplo)</th></tr></thead>
         <tbody>
-          <tr><td><strong>∂P/∂xᵢ</strong></td><td>Si mejoro un poquito esta variable, ¿cuánto sube mi probabilidad?</td><td>“¿Cuánto ayuda estudiar una hora más?”</td></tr>
-          <tr><td><strong>wᵢ</strong></td><td>¿Qué tan importante es esa variable en el modelo?</td><td>“El promedio pesa 3,0; la concentración 1,0.”</td></tr>
-          <tr><td><strong>P·(1−P)</strong></td><td>¿Cuándo un cambio se nota más?</td><td>“Cerca del 50 % el impacto es máximo; cerca de 0 % o 100 % casi no se mueve.”</td></tr>
+          <tr><td><strong>∂P/∂xᵢ</strong></td><td>Cuánto sube P si xᵢ mejora un poquito.</td><td>“¿Cuánto ayuda una hora más de estudio?”</td></tr>
+          <tr><td><strong>wᵢ</strong></td><td>Qué tan crítica es esa variable en el modelo.</td><td>“El promedio pesa 3,0; la concentración 1,0.”</td></tr>
+          <tr><td><strong>P·(1−P)</strong></td><td>Sensibilidad de la curva en el punto actual.</td><td>“Cerca del 50 % el cambio se nota más; cerca de 0 % o 100 % casi no.”</td></tr>
         </tbody>
       </table>
       <div class="say">“Esta slide traduce la matemática al código: P es la probabilidad, w es el peso de cada dato, y las barras de la app son las derivadas parciales multiplicadas por 100.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 13 · Respuestas e ideas propuestas</div>
       <div class="slide-title-official">13 Respuestas e Ideas Propuestas</div>
       <h3>Qué descubrimos y cómo lo resuelve EduPredict</h3>
@@ -645,7 +810,7 @@
       <div class="say">“Concluimos que promedio y asistencia pesan más; que mejorar ayuda más cerca del 50 %; y EduPredict convierte eso en consejos visibles para el estudiante.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 14 · Resumen de progreso</div>
       <div class="slide-title-official">14 Resumen de Progreso</div>
       <h3>Qué etapas llevamos listas — y qué significa cada logro</h3>
@@ -666,7 +831,7 @@
       <div class="say">“Completamos la planificación, la investigación con fuentes, el modelo matemático con derivadas y la aplicación web EduPredict lista para demo.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 15 · Bitácora <span class="etapa">Etapa II</span></div>
       <div class="slide-title-official">15 Bitácora Etapa II</div>
       <h3>Evidencia del trabajo del equipo — qué hicimos semana a semana</h3>
@@ -717,7 +882,7 @@
       <div class="say">“En la bitácora quedó el registro semanal: Víctor la teoría, Aron las variables, Paola los pesos, todos la app, y al final las visualizaciones y esta presentación.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 16 · Presentación del producto <span class="etapa">Etapa III</span></div>
       <div class="slide-title-official">16 Presentación del producto o prototipo</div>
       <h3>EduPredict en pantalla — qué hace cada parte de la interfaz</h3>
@@ -743,7 +908,7 @@
       <div class="say">“Este es EduPredict: ingresamos seis datos, calculamos, y la app entrega probabilidad, gráfico de sensibilidades, factores y la curva sigmoide — todo lo que definimos en las slides anteriores.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 17 · Resultados y conclusiones <span class="etapa">Etapa III</span></div>
       <div class="slide-title-official">17 Resultados y conclusiones</div>
       <h3>Qué demuestra la app — dos escenarios reales de la slide</h3>
@@ -771,7 +936,7 @@
       <div class="say">“Con distintos datos la app cambia el veredicto: en un caso advierte reprobación y muestra qué mejorar; en otro confirma aprobación y lista los factores positivos. Eso es lo que buscábamos.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 18 · Área de impacto TFL <span class="etapa">Etapa III</span></div>
       <div class="slide-title-official">18 EduPredict y competencias del tronco formativo (TFL)</div>
       <h3>El proyecto no es solo Cálculo — cómo conecta con otras asignaturas</h3>
@@ -793,7 +958,7 @@
       <div class="say">“EduPredict no es solo una tarea de Cálculo: integra programación, estadística, requisitos, gestión de proyecto e IA básica, siempre con ética en el manejo de datos.”</div>
     </div>
 
-    <div class="slide-guide">
+    <div class="slide-guide filterable">
       <div class="num">Diapositiva 19 · Bibliografía <span class="etapa">Etapa III</span></div>
       <h3>Lista formal de fuentes</h3>
       <div class="who">👤 Paola o Víctor</div>
@@ -805,21 +970,21 @@
     <table class="timeline">
       <thead><tr><th>Min</th><th>Quién</th><th>Qué</th></tr></thead>
       <tbody>
-        <tr><td>0–2</td><td>Aron</td><td>Slides 1–2: portada + definición del proyecto</td></tr>
-        <tr><td>2–3</td><td>Paola</td><td>Slide 3: tema de investigación y problemática</td></tr>
-        <tr><td>3–5</td><td>Paola</td><td>Slides 4–6: nociones matemáticas + objetivos + temas</td></tr>
-        <tr><td>5–7</td><td>Paola / Víctor</td><td>Slides 7–10: cronograma, herramientas, fuentes, respuestas</td></tr>
-        <tr><td>7–10</td><td>Víctor / Paola</td><td>Slides 11–14: derivadas, símbolos, ideas, progreso</td></tr>
-        <tr><td>10–11</td><td>Paola</td><td>Slide 15: bitácora (evidencia del trabajo)</td></tr>
-        <tr><td>11–14</td><td>Aron</td><td>Slide 16: <strong>demo app en vivo</strong></td></tr>
-        <tr><td>14–15</td><td>Todos</td><td>Slide 17: resultados y conclusiones (2 escenarios)</td></tr>
-        <tr><td>15–16</td><td>Víctor</td><td>Slide 18: área TFL + GeoGebra si queda tiempo</td></tr>
-        <tr><td>16–17</td><td>Paola/Víctor</td><td>Slide 19: bibliografía y cierre</td></tr>
+        <tr class="filterable" data-speakers="aron"><td>0–2</td><td>Aron</td><td>Slides 1–2: portada + definición del proyecto</td></tr>
+        <tr class="filterable" data-speakers="paola"><td>2–3</td><td>Paola</td><td>Slide 3: tema de investigación y problemática</td></tr>
+        <tr class="filterable" data-speakers="paola"><td>3–5</td><td>Paola</td><td>Slides 4–6: nociones matemáticas + objetivos + temas</td></tr>
+        <tr class="filterable" data-speakers="paola victor"><td>5–7</td><td>Paola / Víctor</td><td>Slides 7–10: cronograma, herramientas, fuentes, respuestas</td></tr>
+        <tr class="filterable" data-speakers="victor paola"><td>7–10</td><td>Víctor / Paola</td><td>Slides 11–14: derivadas, símbolos, ideas, progreso</td></tr>
+        <tr class="filterable" data-speakers="paola"><td>10–11</td><td>Paola</td><td>Slide 15: bitácora (evidencia del trabajo)</td></tr>
+        <tr class="filterable" data-speakers="aron"><td>11–14</td><td>Aron</td><td>Slide 16: <strong>demo app en vivo</strong></td></tr>
+        <tr class="filterable" data-speakers="aron paola victor"><td>14–15</td><td>Todos</td><td>Slide 17: resultados y conclusiones (2 escenarios)</td></tr>
+        <tr class="filterable" data-speakers="victor"><td>15–16</td><td>Víctor</td><td>Slide 18: área TFL + GeoGebra si queda tiempo</td></tr>
+        <tr class="filterable" data-speakers="paola victor"><td>16–17</td><td>Paola/Víctor</td><td>Slide 19: bibliografía y cierre</td></tr>
       </tbody>
     </table>
 
     <!-- ARON -->
-    <section class="speaker arons" id="app-aron">
+    <section class="speaker arons filterable" id="app-aron" data-speaker="aron">
       <span class="badge">Aron Barrientos · Demo slide 16 · conecta con slide 2</span>
       <h2>La página web — qué hace cada parte</h2>
 
@@ -857,7 +1022,7 @@
     </section>
 
     <!-- PAOLA -->
-    <section class="speaker paola" id="app-paola">
+    <section class="speaker paola filterable" id="app-paola" data-speaker="paola">
       <span class="badge">Paola Pereira · Slides 4, 12 y demo</span>
       <h2>La matemática — explicada simple</h2>
 
@@ -884,7 +1049,7 @@
     </section>
 
     <!-- VICTOR -->
-    <section class="speaker victor" id="app-victor">
+    <section class="speaker victor filterable" id="app-victor" data-speaker="victor">
       <span class="badge">Víctor Gangas · Slides 11, 13</span>
       <h2>Derivadas y consejos — en la app</h2>
 
@@ -905,7 +1070,7 @@
     </section>
 
     <!-- GEOGEBRA -->
-    <section class="speaker victor" id="geogebra">
+    <section class="speaker victor filterable" id="geogebra" data-speaker="victor">
       <span class="badge">GeoGebra · Slide 16 demo</span>
       <h2>Cómo mostrarlo en GeoGebra (paso a paso)</h2>
       <p>En la app, baja hasta <strong>Exportar a GeoGebra</strong>. Copia cada fórmula con el botón verde.</p>
@@ -923,7 +1088,7 @@
     </section>
 
     <!-- CIERRE -->
-    <section class="speaker">
+    <section class="speaker filterable" data-speaker="aron paola victor">
       <span class="badge" style="background:rgba(255,255,255,.08);color:var(--text)">Cierre — los tres</span>
       <h2>Conclusiones</h2>
       <ul>
@@ -983,6 +1148,103 @@
     }
     const saved = localStorage.getItem('ep-guia-theme');
     if (saved && THEMES[saved]) setTheme(saved);
+
+    /* ── Buscador y filtro por integrante ── */
+    const MEMBERS = ['todos', 'aron', 'paola', 'victor'];
+    const MEMBER_LABELS = {
+      todos: 'Todos los integrantes',
+      aron: 'Aron Barrientos',
+      paola: 'Paola Pereira',
+      victor: 'Víctor Gangas'
+    };
+    const CYCLE_ORDER = ['aron', 'paola', 'victor', 'todos'];
+    let currentMember = localStorage.getItem('ep-guia-member') || 'todos';
+    let soloParte = localStorage.getItem('ep-guia-solo') === '1';
+
+    function parseSpeakersFromWho(text) {
+      const t = text.toLowerCase().normalize('NFD').replace(/\u0307/g,'').replace(/[\u0300-\u036f]/g,'');
+      if (/los tres|todos|los 3|integrantes/.test(t)) return ['aron', 'paola', 'victor'];
+      const s = [];
+      if (t.includes('aron')) s.push('aron');
+      if (t.includes('paola')) s.push('paola');
+      if (t.includes('victor') || t.includes('víctor')) s.push('victor');
+      return s.length ? s : ['aron', 'paola', 'victor'];
+    }
+
+    document.querySelectorAll('.slide-guide.filterable').forEach(slide => {
+      const who = slide.querySelector('.who');
+      if (who) slide.dataset.speakers = parseSpeakersFromWho(who.textContent).join(' ');
+    });
+
+    function speakerMatch(el, member) {
+      if (member === 'todos') return true;
+      const raw = el.dataset.speakers || el.dataset.speaker || 'aron paola victor';
+      return raw.split(/\s+/).includes(member);
+    }
+
+    function applyGuideFilter() {
+      const q = (document.getElementById('guideSearch').value || '').trim().toLowerCase();
+
+      document.querySelectorAll('.filterable').forEach(el => {
+        const isSpeaker = el.classList.contains('speaker');
+        let show = speakerMatch(el, currentMember);
+
+        if (soloParte && currentMember !== 'todos' && isSpeaker) {
+          show = (el.dataset.speaker || '').split(/\s+/).includes(currentMember);
+        }
+
+        if (show && q) {
+          show = el.textContent.toLowerCase().includes(q);
+        }
+
+        el.classList.toggle('is-hidden', !show);
+      });
+
+      const visibleSlides = document.querySelectorAll('.slide-guide.filterable:not(.is-hidden)').length;
+      const showEmpty = visibleSlides === 0 && (currentMember !== 'todos' || q.length > 0);
+      document.getElementById('noResults').classList.toggle('visible', showEmpty);
+
+      const soloTxt = soloParte && currentMember !== 'todos' ? ' · <strong>solo su parte</strong>' : '';
+      const qTxt = q ? ` · búsqueda: “${document.getElementById('guideSearch').value.replace(/</g,'')}”` : '';
+      document.getElementById('filterStatus').innerHTML =
+        `Viendo: <strong>${MEMBER_LABELS[currentMember]}</strong> · ` +
+        `${visibleSlides} diapositiva(s)${soloTxt}${qTxt}`;
+
+      document.querySelectorAll('.member-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.m === currentMember);
+      });
+      document.getElementById('soloParte').checked = soloParte;
+      document.getElementById('cycleMember').textContent =
+        '↻ Siguiente: ' + MEMBER_LABELS[CYCLE_ORDER[(CYCLE_ORDER.indexOf(currentMember) + 1) % CYCLE_ORDER.length]];
+
+      localStorage.setItem('ep-guia-member', currentMember);
+      localStorage.setItem('ep-guia-solo', soloParte ? '1' : '0');
+    }
+
+    document.querySelectorAll('.member-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentMember = btn.dataset.m;
+        applyGuideFilter();
+      });
+    });
+
+    document.getElementById('cycleMember').addEventListener('click', () => {
+      const i = CYCLE_ORDER.indexOf(currentMember);
+      currentMember = CYCLE_ORDER[(i + 1) % CYCLE_ORDER.length];
+      applyGuideFilter();
+    });
+
+    document.getElementById('soloParte').addEventListener('change', e => {
+      soloParte = e.target.checked;
+      applyGuideFilter();
+    });
+
+    document.getElementById('guideSearch').addEventListener('input', applyGuideFilter);
+
+    if (MEMBERS.includes(currentMember)) {
+      document.querySelectorAll('.member-btn').forEach(b => b.classList.toggle('active', b.dataset.m === currentMember));
+    } else currentMember = 'todos';
+    applyGuideFilter();
   </script>
 </body>
 </html>

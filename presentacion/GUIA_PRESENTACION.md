@@ -5,7 +5,21 @@
 **URL demo:** http://127.0.0.1:8000/  
 **PDF de la presentación:** `presentacion/presentacion.pdf`
 
-> **Acceso rápido:** haz **5 clics** en el título **EduPredict** en la página principal (abre la versión web de esta guía). En la guía web puedes cambiar entre diseño **Oscuro** y **Claro** (botones arriba).
+> **Acceso rápido:** haz **5 clics** en el título **EduPredict** en la página principal (abre la versión web de esta guía). En la guía web puedes cambiar entre diseño **Oscuro** y **Claro**, **buscar** por texto, **filtrar por integrante** (Aron / Paola / Víctor) y activar **solo mi parte**.
+
+---
+
+## Símbolos — significa → sirve para
+
+| Símbolo | Significa | Sirve para |
+|---------|-----------|------------|
+| **z** | Suma ponderada de las 6 variables | Juntar todos los datos en un número antes de la probabilidad |
+| **P · σ(z)** | Probabilidad de aprobar (0–1) | Mostrar el % en el medidor |
+| **wᵢ · PESOS** | Importancia de cada variable | Que promedio y asistencia pesen más |
+| **x** | Dato normalizado (0–1) | Comparar asistencia, horas, etc. en la misma escala |
+| **P·(1−P)** | Derivada de la sigmoide | Saber si un cambio pequeño mueve mucho la curva |
+| **∂P/∂xᵢ** | Cuánto sube P al mejorar xᵢ | Gráfico de sensibilidades — orientar al estudiante |
+| **× 100** | De probabilidad a porcentaje | Ver “72,7 %” en lugar de “0,727” |
 
 ---
 
