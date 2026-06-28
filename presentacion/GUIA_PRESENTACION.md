@@ -5,7 +5,7 @@
 **URL demo:** http://127.0.0.1:8000/  
 **PDF de la presentación:** `presentacion/presentacion.pdf`
 
-> **Acceso rápido:** haz **5 clics** en el título **EduPredict** en la página principal (abre la versión web de esta guía).
+> **Acceso rápido:** haz **5 clics** en el título **EduPredict** en la página principal (abre la versión web de esta guía). En la guía web puedes cambiar entre diseño **Oscuro** y **Claro** (botones arriba).
 
 ---
 
@@ -15,176 +15,406 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 ### Diapositiva 1 · Portada
 
-**Quién:** Los tres (5 seg cada uno) o Aron presenta al grupo.
+**Título en Canva:** EDUPREDICT — PREDICTOR DE RENDIMIENTO ACADÉMICO ESTUDIANTIL
 
-**De qué va:** Nombres, carrera, profesor, fecha. Solo saludar y decir el nombre del proyecto.
+**Quién:** Los tres (saludo breve) o Aron presenta al equipo.
 
-> “Somos Aron, Víctor y Paola. Nuestro proyecto se llama EduPredict: un predictor de si un estudiante aprueba o no, usando matemáticas de Cálculo.”
+**De qué va:** Slide formal con nombre del proyecto, integrantes y datos del curso:
+
+- **Nombres:** Aron Barrientos, Víctor Gangas, Paola Pereira
+- **Carrera:** Ingeniería en Informática
+- **Asignatura:** Cálculo Diferencial
+- **Sección:** 2026/O CBCD01/D-IEI-N5-P2-C2(F)/D Ñuñoa
+- **Profesor:** Leonardo Andrés Olmos Saraniti
+- **Fecha:** 03/06/2026
+
+> “Somos Aron, Víctor y Paola. Nuestro proyecto se llama EduPredict: Predictor de Rendimiento Académico Estudiantil, para la asignatura de Cálculo Diferencial.”
 
 ---
 
 ### Diapositiva 2 · Definición del proyecto *(Etapa I)*
 
+**Título en Canva:** 2 Definición del proyecto
+
 **Quién:** Aron
 
-**De qué va:** Explica la idea general: una web donde ingresas datos del estudiante (asistencia, notas, horas de estudio, etc.) y la app responde con un **porcentaje de probabilidad de aprobar**, más un texto que lo interpreta.
+**De qué va:** Aplicación web que predice la probabilidad de aprobar según variables académicas y personales. Dos columnas:
 
-> “Muchos estudiantes no saben qué les conviene mejorar. EduPredict junta varios datos y entrega un porcentaje claro, por ejemplo: 78 % de probabilidad de aprobar, y explica qué está ayudando y qué perjudicando.”
+**Izquierda — datos que ingresa el usuario** (las 6 barras de la app):
+
+- Porcentaje de asistencia
+- Promedio de notas
+- Horas de estudio semanal
+- Cantidad de trabajos entregados
+- Participación en clases
+- Nivel de concentración o hábitos de estudio
+
+**Derecha — qué entrega la app:** porcentaje de probabilidad + interpretación en texto.
+
+**Ejemplo de la slide (conecta con el código):** “El estudiante tiene un 78 % de probabilidad de aprobar. Los factores que más favorecen el resultado son la alta asistencia y el promedio actual. El principal factor negativo es la baja cantidad de horas de estudio semanal.” — Es lo mismo que muestra la app en el medidor y en **Factores identificados** (listas ✔ y ✖ en `predictor/views.py`).
+
+> “Desarrollamos una web donde ingresamos seis datos del estudiante y la app calcula un porcentaje de aprobación, además de explicar qué lo favorece y qué lo perjudica.”
 
 ---
 
-### Diapositiva 3 · Problemática + tabla matemática *(Etapa I)*
+### Diapositiva 3 · Tema de investigación y problemática *(Etapa I)*
+
+**Título en Canva:** 3 Tema de investigación, nociones matemáticas y problemáticas a abordar
 
 **Quién:** Paola
 
-**De qué va:** Primero el **problema**: ¿cómo estimar matemáticamente la probabilidad de aprobar? Luego la **tabla de 6 filas** — no leas código; di en palabras simples:
+**De qué va:** Marco del problema. **No lleva tabla de fórmulas** en esta slide.
 
-- **Función** — entran datos, sale un resultado.
-- **Combinación lineal** — cada variable suma con un peso (nota y asistencia pesan más).
-- **Sigmoide** — convierte el cálculo en un % entre 0 y 100.
-- **Límites** — nunca da menos de 0 % ni más de 100 %.
-- **Continuidad** — si mejoras un poco, sube un poco (sin saltos raros).
-- **Derivadas** — muestran qué conviene mejorar primero.
+**Izquierda — Tema de investigación:** modelos predictivos aplicados al rendimiento académico; cómo distintas variables influyen en la probabilidad de aprobar.
 
-> “Usamos seis ideas de Cálculo que ya vimos en clase, aplicadas a notas y asistencia reales.”
+**Derecha — Problemática:** los estudiantes no saben qué factores afectan más; creen que solo importa la nota, pero también influyen asistencia, constancia, participación y hábitos de estudio.
+
+**Pregunta central:** ¿Cómo podemos estimar matemáticamente la probabilidad de aprobación según los datos académicos?
+
+*La tabla con las 6 nociones matemáticas está en la **slide 4** (siguiente).*
+
+> “Investigamos cómo predecir si un estudiante aprueba. El problema es que no siempre saben qué mejorar: no es solo la nota, también cuenta asistir, participar y estudiar con constancia.”
 
 ---
 
-### Diapositiva 4 · Objetivos y preguntas *(Etapa I)*
+### Diapositiva 4 · Nociones matemáticas *(Etapa I)*
+
+**Título en Canva:** 4 Tema de investigación, nociones matemáticas y problemáticas a abordar
+
+**Quién:** Paola (con apoyo de Víctor en derivadas)
+
+**De qué va:** Tabla de 6 conceptos. Para cada fila explica **para qué sirve**, no solo el nombre:
+
+| Concepto | Para qué sirve (qué decir) | Dónde se ve en la app |
+|----------|---------------------------|------------------------|
+| **Función matemática** | Recibe los 6 datos y devuelve la probabilidad — es el motor del predictor | Al pulsar **Calcular predicción** (`calcular_prediccion` en el servidor) |
+| **Combinación lineal** | Suma variables con pesos distintos; promedio (3,0) y asistencia (2,5) pesan más | El valor **z** bajo el medidor |
+| **Función sigmoide** | Convierte z en un % entre 0 y 100 que cualquiera entiende | Medidor circular y curva en S |
+| **Límites y asíntotas** | Evita resultados absurdos (−10 % o 150 %) | La curva nunca sale del rango 0–1 |
+| **Continuidad** | Mejorar un poco sube un poco — sin saltos raros al mover sliders | Mueve una barra y verás cambio gradual |
+| **Derivadas** | Indican qué variable conviene mejorar primero | Gráfico de barras y factores ✔/✖ |
+
+> “No usamos Cálculo por usarlo: la combinación lineal junta los datos, la sigmoide los traduce a porcentaje, y las derivadas indican qué conviene mejorar.”
+
+---
+
+### Diapositiva 5 · Objetivos y preguntas *(Etapa I)*
+
+**Título en Canva:** 5 Objetivos y preguntas
 
 **Quién:** Aron
 
-**De qué va:** **Objetivo general:** crear la web predictiva. **Específicos:** elegir variables, armar el modelo con sigmoide, usar derivadas. Las **6 preguntas** son las que investigaron (las responderán en slide 9).
+**Objetivo general — para qué sirve:** app web que estime si un estudiante aprueba, con datos reales y Cálculo — herramienta de orientación, no solo calculadora.
 
-> “Nuestro objetivo fue construir una app que estime la probabilidad de aprobar. Para eso nos hicimos preguntas como: ¿qué variable influye más? ¿por qué usamos sigmoide?”
+**Objetivos específicos — qué hicimos:**
+- **Identificar variables** → las 6 barras de la app
+- **Modelo con sigmoide** → convertir datos en probabilidad
+- **Derivadas** → saber qué mover para mejorar más rápido
 
----
+**Las 6 preguntas — para qué las hicimos** (respuestas en slide 10):
+1. ¿Qué variables influyen más? → priorizar esfuerzo
+2. ¿Cómo representar el rendimiento con una función? → formalizar en matemáticas
+3. ¿Cómo cambia si sube la asistencia? → impacto de ir a clases
+4. ¿Cómo cambia si aumentan las horas? → cuantificar esfuerzo extra
+5. ¿Por qué sigmoide? → acota entre 0 % y 100 %
+6. ¿Derivadas y rendimiento? → recomendar en qué enfocarse
 
-### Diapositiva 5 · Temas involucrados *(Etapa I)*
-
-**Quién:** Cualquiera (30 seg)
-
-**De qué va:** Lista rápida: Cálculo, programación, web, GeoGebra y las 6 variables académicas. No profundizar.
-
-> “Mezclamos Cálculo Diferencial con programación web y visualización.”
-
----
-
-### Diapositiva 6 · Cronograma *(Etapa I)*
-
-**Quién:** Paola o Aron
-
-**De qué va:** Semana 1: teoría y variables. Semana 2: modelo y programación. Semana 3: gráficos y presentación. Menciona quién hizo qué (Víctor teoría, Aron variables, Paola pesos, etc.).
-
-> “Planificamos en tres semanas: primero la matemática, luego la app, al final la demo y Canva.”
+> “Nuestro objetivo fue orientar al estudiante. Nos hicimos seis preguntas y las respondimos con fuentes y con EduPredict.”
 
 ---
 
-### Diapositiva 7 · Herramientas tecnológicas *(Etapa II)*
+### Diapositiva 6 · Temas iniciales involucrados *(Etapa I)*
+
+**Título en Canva:** 6 Temas iniciales involucrados
+
+**Quién:** Paola o Víctor (1 min)
+
+**Área matemática — el cerebro teórico:**
+- **Cálculo Diferencial** — base del proyecto
+- **Límites y continuidad** — resultados coherentes al cambiar datos
+- **Derivadas** — qué conviene mejorar primero
+- **Sigmoide** — probabilidad comprensible
+
+**Área tecnológica — cómo lo hicimos usable:**
+- **JS + HTML/CSS** — interfaz con barras y botones
+- **Visualización** — medidor, curva y barras sin leer fórmulas
+- **GeoGebra** — mostrar la matemática en clase
+
+**Variables académicas — qué mide cada una:**
+- Asistencia → constancia en clases
+- Promedio → desempeño evaluado
+- Horas → dedicación fuera del aula
+- Participación → involucramiento
+- Trabajos → cumplimiento de evaluaciones
+- Concentración → calidad del estudio
+
+> “El proyecto une tres piezas: la matemática explica el modelo, la tecnología lo muestra en una web clara, y las seis variables representan hábitos reales del estudiante.”
+
+---
+
+### Diapositiva 7 · Cronograma del proyecto *(Etapa I)*
+
+**Título en Canva:** 7 Cronograma del proyecto
+
+**Quién:** Paola o Aron (1 min — no leer toda la tabla)
+
+**Para qué sirve esta slide:** demostrar que hubo planificación, responsables y productos concretos en cada semana.
+
+| Semana | Tarea | Para qué la hicimos | Quién |
+|--------|-------|---------------------|-------|
+| 1 | Investigar Cálculo (funciones, derivadas, sigmoide…) | Base teórica antes de programar | Víctor |
+| 1 | Definir 6 variables | Elegir datos reales e ingresables | Aron |
+| 2 | Diseñar modelo (combinación lineal + sigmoide) | El “cerebro” matemático del predictor | Paola |
+| 2 | Programar web (HTML/CSS/JS + Django) | Producto usable en navegador | Aron y Paola |
+| 3 | Visualizaciones (medidor, sigmoide, sensibilidades) | Entender resultados sin fórmulas | Víctor |
+| 3 | Presentación y demo (Canva, GeoGebra) | Mostrar proyecto completo | Los tres |
+
+**Texto inferior:** EduPredict estima probabilidad de aprobar y aplica Cálculo para ver cómo cambia el resultado al modificar variables.
+
+> “Organizamos tres semanas con productos concretos: investigación, modelo, app, gráficos y esta presentación.”
+
+---
+
+### Diapositiva 8 · Herramientas Tecnológicas *(Etapa II)*
+
+**Título en Canva:** 8 Etapa II: Herramientas Tecnológicas
 
 **Quién:** Paola
 
-**De qué va:** GeoGebra para ver curvas · Excel/calculadora para probar pesos · VS Code para escribir código · Python/Django para el cerebro de la app · HTML/CSS/JS para la pantalla que ve el usuario.
+| Herramienta | Para qué la usamos | Por qué la elegimos |
+|-------------|-------------------|---------------------|
+| **GeoGebra** | σ(z), derivada, tangente, punto del estudiante | Ver Cálculo en clase; límites y asíntotas |
+| **Excel/Sheets** (opc.) | Probar pesos y z en diseño | Validar antes de Python; acordar en equipo |
+| **VS Code** | Escribir todo el código | Un editor para Python y web |
+| **Python + Django 6.0.6** | `calcular_prediccion()`, `/predecir/` | Servidor hace la matemática |
+| **HTML/CSS/JS** | Formulario, medidor, gráficos | Interfaz clara; JS conecta con servidor |
+| **SQLite** (opc.) | Config Django; no guardamos historial | Calculamos en tiempo real |
 
-> “Elegimos herramientas que nos permitieron calcular, programar y mostrar gráficos sin complicarnos.”
+> “Cada herramienta cumplió un rol: diseñar, calcular o mostrar. Django calcula; HTML/JS deja todo claro al usuario.”
 
 ---
 
-### Diapositiva 8 · Fuentes de información *(Etapa II)*
+### Diapositiva 9 · Fuentes de Información *(Etapa II)*
+
+**Título en Canva:** 9 Fuentes de Información
 
 **Quién:** Víctor
 
-**De qué va:** Cuatro fuentes: libros de Cálculo (Stewart, Ortiz), estudio sobre rendimiento académico (Vargas & Montero), y documentación web (MDN, GeoGebra). Una frase por fuente.
+| Fuente | Para qué nos sirvió |
+|--------|---------------------|
+| **Stewart** (7.ª ed.) | Funciones logísticas, límites, asíntotas, derivación |
+| **Vargas & Montero** (2016) | Respaldo real: asistencia, horas y aprobación |
+| **MDN + GeoGebra** | Implementar `e^(-z)` y visualizar la curva |
+| **Ortiz Campos** (Patria) | Funciones, límites, continuidad, derivadas aplicadas |
 
-> “No inventamos todo: nos basamos en libros de Cálculo, un estudio sobre asistencia y notas, y tutoriales para programar y graficar.”
-
----
-
-### Diapositiva 9 · Respuestas a preguntas orientadoras *(Etapa II)*
-
-**Quién:** Víctor (puede repartir filas con Paola)
-
-**De qué va:** Recorre la tabla fila por fila: cada pregunta → respuesta corta → fuente. Conecta con lo que ya dijeron en slide 3.
-
-> “Con las fuentes y EduPredict respondimos: las variables que más pesan son promedio y asistencia; la sigmoide nos da el porcentaje; las derivadas dicen qué mejorar.”
+> “Con esas fuentes respondemos las seis preguntas orientadoras: qué variables pesan más, cómo modelamos con una función, cómo cambia la probabilidad, por qué usamos la sigmoide y cómo las derivadas orientan al estudiante en EduPredict.”
 
 ---
 
-### Diapositivas 10–11 · Unidad IV Derivadas *(Etapa II)*
+### Diapositiva 10 · Respuestas a preguntas *(Etapa II)*
 
-**Quién:** Víctor + Paola
+**Título en Canva:** 10 Respuestas a preguntas
 
-**De qué va:** Slide 10: fórmulas de derivada (no memorizar, explicar idea). Slide 11: tablas de símbolos — qué significa P, w, etc. en palabras: “P = probabilidad”, “w = qué tan importante es cada dato”.
+**Quién:** Víctor (1–3) + Paola (4–6)
 
-> “La derivada nos dice qué tan rápido sube la probabilidad si mejoras asistencia u horas. Cuando estás cerca del 50 %, el cambio se nota más.”
+Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sentido de cada respuesta:
+
+1. **¿Qué variables influyen más?** → Promedio (3,0) y asistencia (2,5) pesan más; la app lo refleja en sensibilidades. *Fuente: Vargas & Montero + PESOS*
+2. **¿Función matemática?** → `calcular_prediccion`: 6 datos → z → σ(z). *Stewart, Ortiz*
+3. **¿Si sube asistencia?** → z y P suben gradualmente (continuidad); demo con slider. *EduPredict + Ortiz*
+4. **¿Si suben horas?** → Igual; impacto mayor cerca de P ≈ 50 % (P·(1−P)). *Ortiz + EduPredict*
+5. **¿Por qué sigmoide?** → σ(z) ∈ (0,1); límites evitan % imposibles. *Stewart*
+6. **¿Derivadas y rendimiento?** → wᵢ·P·(1−P) indica qué mejorar; gráfico de sensibilidades. *Ortiz + GeoGebra + EduPredict*
+
+> “Estas respuestas las probamos en EduPredict — no quedaron solo en la slide.”
 
 ---
 
-### Diapositiva 12 · Respuestas e ideas propuestas
+### Diapositiva 11 · Aplicación de la Unidad IV: Derivadas *(Etapa II)*
+
+**Título en Canva:** 11 Aplicación de la Unidad IV: Derivadas
+
+**Quién:** Víctor (con captura GeoGebra de la slide)
+
+**Para qué usamos derivadas:** responder *“si mejoro un poco en asistencia, horas u otra variable, ¿cuánto sube la probabilidad?”*
+
+**Fórmulas — qué significan (no memorizar):**
+- **σ'(z) = P · (1 − P)** → pendiente de la sigmoide en el punto del estudiante
+- **∂σ/∂xᵢ = wᵢ · P · (1 − P)** → pendiente × peso de la variable
+
+**Dónde se ve:**
+- **App** → gráfico “Análisis de derivadas” (barras)
+- **GeoGebra** → curva + recta tangente (la tangente *es* la derivada dibujada)
+
+**Código:** `derivada_sigmoide(z)` → `PESOS[k] * derivada_sigmoide(z) * 100` = barras
+
+> “Usamos derivadas para saber qué tan rápido sube la probabilidad. En la app son las barras; en GeoGebra, la tangente sobre la sigmoide.”
+
+---
+
+### Diapositiva 12 · Símbolos del modelo *(Etapa II)*
+
+**Título en Canva:** Tabla 1 — Símbolos del modelo y su implementación en EduPredict · Tabla 2 — Interpretación de la derivada parcial
+
+**Quién:** Paola
+
+**Tabla 1 — Para qué sirve cada símbolo** (`predictor/views.py`):
+
+| Símbolo | Para qué sirve | En el código |
+|---------|----------------|--------------|
+| **P** | Probabilidad de aprobar (0–1) | `probabilidad = sigmoid(z)` |
+| **x** | Dato normalizado (0–1) | `asistencia/100`, `horas_estudio/40`, … |
+| **wᵢ** | Importancia de la variable | `PESOS[k]` |
+| **P·(1−P)** | Sensibilidad de la curva | `derivada_sigmoide(z)` |
+| **∂P/∂xᵢ** | Cuánto sube P al mejorar xᵢ | `PESOS[k] * derivada_sigmoide(z)` |
+| **× 100** | Escala para el gráfico | `sensibilidades = … * 100` |
+
+**Tabla 2 — Para qué sirve cada parte:**
+
+| Parte | Pregunta que responde | Ejemplo |
+|-------|----------------------|---------|
+| **∂P/∂xᵢ** | Si mejoro un poquito, ¿cuánto sube P? | “¿Cuánto ayuda una hora más de estudio?” |
+| **wᵢ** | ¿Qué tan importante es la variable? | Promedio 3,0 vs concentración 1,0 |
+| **P·(1−P)** | ¿Cuándo el cambio se nota más? | Máximo cerca de 50 %; mínimo cerca de 0 % o 100 % |
+
+> “Esta slide traduce matemática → código: las barras de la app son las derivadas parciales × 100.”
+
+---
+
+### Diapositiva 13 · Respuestas e Ideas Propuestas
+
+**Título en Canva:** 13 Respuestas e Ideas Propuestas
 
 **Quién:** Víctor
 
-**De qué va:** Tres ideas: (1) Promedio y asistencia pesan más. (2) Mejorar ayuda más cuando estás “en el aire” (~50 %). (3) EduPredict muestra factores y gráfico de sensibilidades.
+**Tres bloques — para qué sirve cada uno:**
 
-> “En resumen: sabemos qué variables importan y la app le dice al estudiante en qué enfocarse.”
+1. **Variables de mayor peso** — Promedio y asistencia pesan más → el estudiante sabe dónde enfocarse primero.
+2. **Análisis de cambio** — Mejorar impacta más en la zona de incertidumbre (P ≈ 50 %), porque P·(1−P) es máximo → explica por qué a veces un esfuerzo “se nota mucho”.
+3. **Propuesta EduPredict** — Factores negativos + gráfico de sensibilidades → la app no solo da un %, **orienta qué mejorar**.
+
+> “Promedio y asistencia pesan más; cerca del 50 % el cambio se nota más; EduPredict lo convierte en consejos visibles.”
 
 ---
 
-### Diapositiva 13 · Resumen de progreso
+### Diapositiva 14 · Resumen de Progreso
+
+**Título en Canva:** 14 Resumen de Progreso
 
 **Quién:** Aron
 
-**De qué va:** **Importante:** di “Etapa I y II completadas”, no “en desarrollo”. Etapa I: objetivos y matemática. Etapa II: herramientas, fuentes, derivadas, bitácora.
+**⚠️ Canva dice “Etapa II en Desarrollo” — al presentar di “Etapa I y II completadas”.**
 
-> “Completamos la planificación, la investigación, las fuentes, el modelo y la aplicación web.”
+**Etapa I — para qué sirvió:**
+- Objetivos claros → supimos qué construir
+- Base matemática → sigmoide, pesos, derivadas antes de programar
+- Equipo organizado → tareas repartidas (slide 7)
 
----
+**Etapa II — para qué sirvió:**
+- Herramientas elegidas → Django, GeoGebra (slide 8)
+- Fuentes revisadas → Stewart, Ortiz, Vargas (slide 9)
+- Modelo de derivadas → sensibilidades en la app (slides 11–13)
 
-### Diapositiva 14 · Bitácora *(Etapa II)*
-
-**Quién:** Paola (rápido, 20 seg)
-
-**De qué va:** Muestra que hubo trabajo semanal con fechas, tareas y responsables. No leer toda la tabla.
-
-> “En la bitácora quedó registrado quién investigó, quién programó y quién hizo los gráficos, semana a semana.”
-
----
-
-### Diapositiva 15 · Presentación del producto *(Etapa III)*
-
-**Quién:** Aron (con Víctor mostrando gráficos)
-
-**De qué va:** **Aquí cambias al navegador** (127.0.0.1:8000). Muestra captura o app en vivo: sliders → Calcular → gauge → sensibilidades → sigmoide → Exportar GeoGebra. Ver sección “Demo app” más abajo.
-
-> “Este es EduPredict funcionando: ingresamos datos, calculamos y vemos el porcentaje y los gráficos.”
+> “Completamos planificación, investigación, modelo con derivadas y la web EduPredict lista para demo.”
 
 ---
 
-### Diapositiva 16 · Resultados y conclusiones *(Etapa III)*
+### Diapositiva 15 · Bitácora Etapa II
+
+**Título en Canva:** 15 Bitácora Etapa II
+
+**Quién:** Paola (30–40 seg)
+
+**Para qué sirve:** evidencia del trabajo con fechas y responsables — conecta con cronograma (slide 7).
+
+| Fecha | Qué hicimos | Para qué sirvió | Quién |
+|-------|-------------|-----------------|-------|
+| 10/06 · Sem. 1 | Investigar Cálculo (sigmoide, derivadas…) | Base teórica slides 4 y 11 | Víctor |
+| 10/06 · Sem. 1 | Definir 6 variables | Datos de las barras de la app | Aron |
+| 17/06 · Sem. 2 | Modelo en Excel (pesos) | Probar antes de Python — asist. 2,5, prom. 3,0 | Paola |
+| 17/06 · Sem. 2 | Programar web Django + JS | App funcional con `/predecir/` | Aron y Paola |
+| 26/06 · Sem. 3 | Medidor, sensibilidades, factores | Resultado comprensible sin fórmulas | Víctor |
+| 26/06 · Sem. 3 | Presentación + demo | Canva, GeoGebra, app lista | Los tres |
+
+> “En la bitácora quedó el registro semanal: teoría, variables, pesos, app, visualizaciones y presentación.”
+
+---
+
+### Diapositiva 16 · Presentación del producto o prototipo *(Etapa III)*
+
+**Título en Canva:** 16 Presentación del producto o prototipo
+
+**Quién:** Aron (demo en vivo en 127.0.0.1:8000 o captura de la slide)
+
+**Para qué sirve:** mostrar el prototipo terminado — conecta slide 2 con la app real.
+
+**Izquierda:** 6 barras + botón **Calcular predicción** → genera z y probabilidad.
+
+**Derecha — para qué sirve cada bloque:**
+
+| Bloque | Para qué sirve |
+|--------|----------------|
+| **Resultado** (medidor + σ(z)) | % de probabilidad — respuesta principal |
+| **Análisis de derivadas** | Qué variable mejorar primero |
+| **Factores identificados** | Interpretación ✔/✖ (como ejemplo 78 % slide 2) |
+| **Curva sigmoide** | Ver dónde está el estudiante en la curva |
+| **Tabla z / σ / σ' / Estado** | Reprueba · En riesgo · Aprueba |
+
+> “Ingresamos seis datos y la app entrega probabilidad, sensibilidades, factores y sigmoide — todo lo definido en el proyecto.”
+
+---
+
+### Diapositiva 17 · Resultados y conclusiones *(Etapa III)*
+
+**Título en Canva:** 17 Resultados y conclusiones
 
 **Quién:** Los tres
 
-**De qué va:** Si la slide está vacía, agrega 3–4 bullets: cumplimos objetivos, app funciona, Cálculo aplicado a un caso real, el equipo aprendió a investigar y programar.
+**Para qué sirve:** demostrar que el modelo funciona con **dos escenarios** de la slide.
 
-> “Logramos una app que predice aprobación, aplicamos derivadas en un caso real y aprendimos a trabajar en equipo con evidencia.”
+**Escenario A (~33 %):** reprobación probable → alerta + derivadas indican qué mejorar.
+
+**Escenario B (~73 %):** aprobación probable → factores ✔ positivos → punto más a la derecha en sigmoide.
+
+**Conclusiones (slide 13):**
+- Objetivo cumplido: probabilidad con Cálculo aplicado
+- La app orienta, no solo calcula
+- Trabajo en equipo con evidencia
+
+**Estados:** z bajo → Reprueba · medio → En riesgo · alto → Aprueba (≥70 % en código).
+
+> “Con distintos datos cambia el veredicto: en un caso advierte y orienta; en otro confirma aprobación.”
 
 ---
 
-### Diapositiva 17 · Área de impacto TFL *(Etapa III)*
+### Diapositiva 18 · Área de impacto TFL *(Etapa III)*
 
-**Quién:** Víctor
+**Título en Canva:** 18 EduPredict y competencias del tronco formativo (TFL)
 
-**De qué va:** La tabla muestra que no es solo Cálculo: también programación, estadística, requisitos, innovación (ABPro), ética. Una fila = una frase.
+**Quién:** Víctor (una frase por fila)
 
-> “EduPredict une Cálculo con Informática: programamos, analizamos datos y definimos qué necesita el usuario.”
+**Intro:** articula matemática, informática y contexto académico real.
+
+| Asignatura TFL | Para qué en EduPredict |
+|----------------|------------------------|
+| **Cálculo Diferencial** | Sigmoide, límites, derivadas — modelar cambio |
+| **Programación / Web** | Django + HTML/CSS/JS — solución usable |
+| **Estadística descriptiva** | Variables, pesos, probabilidad |
+| **Ing. de requisitos** | 6 variables según necesidad usuario |
+| **Innovación / ABPro** | Indagación, bitácora, prototipo |
+| **Gestión de proyectos** | Cronograma y roles del equipo |
+| **Ciencia de datos / IA** | Regresión logística (sigmoide) |
+| **Ética profesional** | Datos simulados; sin guardar historial |
+
+> “No es solo Cálculo: integra programación, estadística, requisitos, gestión e IA básica con ética en los datos.”
 
 ---
 
-### Diapositiva 18 · Bibliografía *(Etapa III)*
+### Diapositiva 19 · Bibliografía *(Etapa III)*
 
 **Quién:** Paola o Víctor
 
-**De qué va:** Mismas 4 fuentes de slide 8, en formato bibliográfico (autor, año, título). Cierra citando correctamente.
+**De qué va:** Mismas 4 fuentes de slide 9, en formato bibliográfico.
 
 > “Estas son las referencias que usamos, citadas según el formato solicitado.”
 
@@ -194,20 +424,23 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 | Min | Quién | Qué |
 |-----|-------|-----|
-| 0–2 | Aron | Slides 1–2: portada + definición |
-| 2–4 | Paola | Slides 3–5: matemática + objetivos |
-| 4–6 | Paola / Víctor | Slides 6–9: cronograma, herramientas, fuentes, respuestas |
-| 6–8 | Víctor | Slides 10–12: derivadas + ideas |
-| 8–11 | Aron | Slide 15: **demo app en vivo** |
-| 11–13 | Víctor | GeoGebra (desde la app) |
-| 13–15 | Todos | Slides 16–18: conclusiones, TFL, bibliografía |
+| 0–2 | Aron | Slides 1–2: portada + definición del proyecto |
+| 2–3 | Paola | Slide 3: tema de investigación y problemática |
+| 3–5 | Paola | Slides 4–6: nociones matemáticas + objetivos + temas |
+| 5–7 | Paola / Víctor | Slides 7–10: cronograma, herramientas, fuentes, respuestas |
+| 7–10 | Víctor / Paola | Slides 11–14: derivadas, símbolos, ideas, progreso |
+| 10–11 | Paola | Slide 15: bitácora |
+| 11–14 | Aron | Slide 16: **demo en vivo** |
+| 14–15 | Todos | Slide 17: resultados (2 escenarios) |
+| 15–16 | Víctor | Slide 18: área TFL |
+| 16–17 | Paola/Víctor | Slide 19: bibliografía y cierre |
 
 ---
 
 # PARTE 1 — Aron Barrientos
-## La página web — qué hace cada parte *(Demo slide 15)*
+## La página web — qué hace cada parte *(Demo slide 16 · conecta con slide 2)*
 
-> “Ahora les mostramos EduPredict en el navegador: ponemos los datos del estudiante y la app nos dice qué tan probable es que apruebe.”
+> “En la slide 2 definimos la app: ingresamos seis datos y obtenemos probabilidad más interpretación. Ahora lo mostramos en vivo.”
 
 ### Parte superior
 
@@ -227,7 +460,9 @@ Seis barras deslizantes. Cada una es un dato real del alumno:
 | Participación | 0–5 | 1,2 | Participación en clases |
 | Concentración | 0–5 | 1,0 | Hábitos de estudio |
 
-**Ejemplo para la demo:** Asistencia 98 %, Promedio 60, Horas 24, Trabajos 7, Participación 5, Concentración 3 → pulsa **Calcular predicción**.
+**Ejemplo como en la slide 2:** Asistencia alta (ej. 95 %), Promedio ~60, Horas bajas (ej. 3–4 h) → la app debería mostrar ~70–80 %, con ✔ asistencia y promedio, y ✖ pocas horas de estudio.
+
+**Otro ejemplo numérico:** Asistencia 98 %, Promedio 60, Horas 24, Trabajos 7, Participación 5, Concentración 3 → pulsa **Calcular predicción**.
 
 ### Columna derecha — Resultado (arriba)
 
@@ -240,7 +475,7 @@ Seis barras deslizantes. Cada una es un dato real del alumno:
 ---
 
 # PARTE 2 — Paola Pereira
-## La matemática — explicada simple *(Slides 3 y 10)*
+## La matemática — explicada simple *(Slides 4, 12 y demo)*
 
 ### Paso 1 — Preparar los números
 
@@ -268,7 +503,7 @@ Con una fórmula curva (sigmoide), z se convierte en probabilidad entre 0 % y 10
 ---
 
 # PARTE 3 — Víctor Gangas
-## Derivadas y consejos — en la app *(Slides 10–12)*
+## Derivadas y consejos — en la app *(Slides 11, 13)*
 
 **Idea simple:** la derivada responde “si mejoro un poquito en X, ¿cuánto sube mi probabilidad?”
 
@@ -289,7 +524,7 @@ Opcional: no explicar cada columna; solo di que muestra cómo cambia la probabil
 
 ---
 
-# PARTE 4 — GeoGebra *(Slide 15 demo)*
+# PARTE 4 — GeoGebra *(Slide 16 demo)*
 
 **URL:** https://www.geogebra.org/calculator?lang=es
 

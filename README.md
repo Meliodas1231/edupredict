@@ -16,14 +16,21 @@ Sistema de gestión para el proyecto edupredict.
    ```
 
 3. **Activar el entorno virtual**:
-   - **Windows**:
+   - **Windows (PowerShell)**:
      ```powershell
-     .venv\Scripts\activate
+     .\.venv\Scripts\Activate.ps1
+     ```
+     Si aparece error de permisos, ejecuta una vez: `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`
+   - **Windows (CMD)**:
+     ```cmd
+     .venv\Scripts\activate.bat
      ```
    - **Linux/macOS**:
      ```bash
      source .venv/bin/activate
      ```
+
+   > La carpeta se llama **`.venv`** (con punto al inicio), no `venv`. Si el comando falla, verifica que exista: debe haberse creado en el paso 2.
 
 4. **Instalar dependencias** (desde `requirements.txt`):
    ```bash
