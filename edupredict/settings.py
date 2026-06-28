@@ -69,6 +69,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'edupredict.wsgi.application'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
