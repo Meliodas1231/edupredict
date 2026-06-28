@@ -174,7 +174,17 @@
       font-size: .78rem;
       color: var(--paola);
       margin-bottom: .5rem;
+      font-weight: 600;
     }
+    .slide-guide .who.who-aron { color: var(--aron); }
+    .slide-guide .who.who-paola { color: var(--paola); }
+    .slide-guide .who.who-victor { color: var(--victor); }
+    .slide-guide .who.who-todos { color: var(--accent2); }
+    .slide-guide.assigned-aron { border-left-color: var(--aron); }
+    .slide-guide.assigned-paola { border-left-color: var(--paola); }
+    .slide-guide.assigned-victor { border-left-color: var(--victor); }
+    .slide-guide.assigned-todos { border-left-color: var(--accent2); }
+    .slide-guide.is-shuffled { box-shadow: inset 0 0 0 1px rgba(108,99,255,.25); }
     .slide-guide p, .slide-guide li { font-size: .88rem; color: var(--muted); }
     .slide-guide .say {
       margin-top: .6rem;
@@ -300,6 +310,20 @@
       cursor: pointer;
     }
     .cycle-btn:hover { background: var(--surface2); }
+    .shuffle-btn {
+      font-size: .78rem; padding: .35rem .65rem; border-radius: 6px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--text); cursor: pointer;
+    }
+    .shuffle-btn:hover { background: var(--surface2); border-color: var(--accent); }
+    .shuffle-btn.restore { border-color: var(--muted); color: var(--muted); }
+    .assign-balance {
+      font-size: .75rem; color: var(--muted); margin: .35rem 0 0; line-height: 1.5;
+    }
+    .assign-balance .b-aron { color: var(--aron); font-weight: 600; }
+    .assign-balance .b-paola { color: var(--paola); font-weight: 600; }
+    .assign-balance .b-victor { color: var(--victor); font-weight: 600; }
+    .assign-balance .shuf-note { display: block; font-size: .68rem; opacity: .85; margin-top: .2rem; }
     .pin-btn {
       font-family: inherit; font-size: .78rem;
       padding: .4rem .85rem; border-radius: 8px;
@@ -404,8 +428,11 @@
           Solo ver la parte del integrante seleccionado
         </label>
         <button type="button" class="cycle-btn" id="cycleMember" title="Cambiar integrante">↻ Cambiar integrante</button>
+        <button type="button" class="shuffle-btn" id="shuffleAssign" title="Repartir las diapositivas entre los tres de forma pareja y al azar">🎲 Repartir al azar (parejo)</button>
+        <button type="button" class="shuffle-btn restore" id="restoreAssign" title="Volver al reparto original de la guía" hidden>↩ Reparto original</button>
         <button type="button" class="pin-btn" id="pinFilterBar" title="Anclar aquí: la barra no seguirá al hacer scroll">📌 Anclar en su lugar</button>
       </div>
+      <p class="assign-balance" id="assignBalance"></p>
       <p class="filter-status" id="filterStatus">Viendo: <strong>todos</strong> · diapositivas y secciones de la guía</p>
     </div>
 
@@ -1235,8 +1262,218 @@
 
     document.querySelectorAll('.slide-guide.filterable').forEach(slide => {
       const who = slide.querySelector('.who');
-      if (who) slide.dataset.speakers = parseSpeakersFromWho(who.textContent).join(' ');
+      if (who) {
+        slide.dataset.originalWhoHtml = who.innerHTML;
+        slide.dataset.speakers = parseSpeakersFromWho(who.textContent).join(' ');
+      }
     });
+
+    /* ── Reparto de slides (parejo + al azar) ── */
+    const TEAM = ['aron', 'paola', 'victor'];
+    const SPEAKER_SHORT = { aron: 'Aron', paola: 'Paola', victor: 'Víctor' };
+    let isShuffled = false;
+
+    const SLIDE_WHO_EXTRAS = {
+      1: '(saludo breve — presenta al equipo)',
+      4: '(nociones matemáticas — 1 min)',
+      6: '(1 min)',
+      7: '(1 min — no leer toda la tabla)',
+      10: '(respuestas a las 6 preguntas)',
+      11: '(con imagen GeoGebra)',
+      15: '(30–40 seg — no leer fila por fila)',
+      16: '(ideal: abrir <a href="/">127.0.0.1:8000</a> en vivo)',
+      17: '(escenarios de resultados — pueden repartirse)',
+      18: '(1 min — una frase por fila)',
+      19: '(bibliografía formal)'
+    };
+
+    const PART_BLOCKS = [
+      { id: 'app-aron', theme: 'Demo slide 16 · conecta con slide 2', navLabel: 'Demo app' },
+      { id: 'app-paola', theme: 'Matemática · slides 4, 12', navLabel: 'Matemática' },
+      { id: 'app-victor', theme: 'Derivadas · slides 11, 13', navLabel: 'Derivadas' }
+    ];
+
+    PART_BLOCKS.forEach(b => {
+      const el = document.getElementById(b.id);
+      if (el) {
+        b.originalSpeaker = el.dataset.speaker;
+        b.originalBadge = el.querySelector('.badge')?.textContent || '';
+        b.originalClass = el.classList.contains('arons') ? 'arons' : (el.dataset.speaker || 'aron');
+        const nav = document.querySelector(`nav.toc a[href="#${b.id}"]`);
+        if (nav) b.originalNav = nav.textContent;
+      }
+    });
+
+    function slideNumber(slide) {
+      const m = (slide.querySelector('.num')?.textContent || '').match(/Diapositiva\s+(\d+)/i);
+      return m ? parseInt(m[1], 10) : 0;
+    }
+
+    function primarySpeakerFromSlide(slide) {
+      const sp = (slide.dataset.speakers || '').split(/\s+/).filter(Boolean);
+      if (sp.length === 1) return sp[0];
+      if (sp.length === 3) return 'todos';
+      return sp[0] || 'aron';
+    }
+
+    function countAssignments() {
+      const c = { aron: 0, paola: 0, victor: 0, todos: 0 };
+      document.querySelectorAll('.slide-guide.filterable').forEach(slide => {
+        const p = slide.dataset.primarySpeaker || primarySpeakerFromSlide(slide);
+        if (c[p] !== undefined) c[p]++;
+      });
+      return c;
+    }
+
+    function buildBalancedPool(n) {
+      const pool = [];
+      const per = Math.floor(n / 3);
+      let extra = n % 3;
+      TEAM.forEach(s => { for (let i = 0; i < per; i++) pool.push(s); });
+      const extraOrder = [...TEAM].sort(() => Math.random() - 0.5);
+      for (let i = 0; i < extra; i++) pool.push(extraOrder[i]);
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      return pool;
+    }
+
+    function setWhoOnSlide(slide, speaker) {
+      const who = slide.querySelector('.who');
+      if (!who) return;
+      const n = slideNumber(slide);
+      const extra = SLIDE_WHO_EXTRAS[n] || '';
+      who.classList.remove('who-aron', 'who-paola', 'who-victor', 'who-todos');
+      slide.classList.remove('assigned-aron', 'assigned-paola', 'assigned-victor', 'assigned-todos');
+
+      if (speaker === 'todos') {
+        who.innerHTML = `👤 Los tres ${extra}`.trim();
+        who.classList.add('who-todos');
+        slide.classList.add('assigned-todos');
+        slide.dataset.speakers = 'aron paola victor';
+        slide.dataset.primarySpeaker = 'todos';
+        return;
+      }
+
+      who.innerHTML = `👤 ${MEMBER_LABELS[speaker]} ${extra}`.trim();
+      who.classList.add('who-' + speaker);
+      slide.classList.add('assigned-' + speaker);
+      slide.dataset.speakers = speaker;
+      slide.dataset.primarySpeaker = speaker;
+    }
+
+    function shufflePartBlocks() {
+      const perm = buildBalancedPool(PART_BLOCKS.length);
+      PART_BLOCKS.forEach((b, i) => {
+        const el = document.getElementById(b.id);
+        if (!el) return;
+        const sp = perm[i];
+        el.dataset.speaker = sp;
+        el.classList.remove('arons', 'paola', 'victor');
+        TEAM.forEach(t => el.classList.remove(t));
+        if (sp === 'aron') el.classList.add('arons');
+        else el.classList.add(sp);
+        const badge = el.querySelector('.badge');
+        if (badge) badge.textContent = `${MEMBER_LABELS[sp]} · ${b.theme}`;
+        const nav = document.querySelector(`nav.toc a[href="#${b.id}"]`);
+        if (nav) nav.textContent = `${b.navLabel} (${SPEAKER_SHORT[sp]})`;
+      });
+    }
+
+    function restorePartBlocks() {
+      PART_BLOCKS.forEach(b => {
+        const el = document.getElementById(b.id);
+        if (!el) return;
+        el.dataset.speaker = b.originalSpeaker;
+        TEAM.forEach(t => el.classList.remove(t));
+        el.classList.remove('arons', 'paola', 'victor');
+        el.classList.add(b.originalClass);
+        const badge = el.querySelector('.badge');
+        if (badge) badge.textContent = b.originalBadge;
+        const nav = document.querySelector(`nav.toc a[href="#${b.id}"]`);
+        if (nav && b.originalNav) nav.textContent = b.originalNav;
+      });
+    }
+
+    function renderAssignBalance() {
+      const c = countAssignments();
+      const total = c.aron + c.paola + c.victor + c.todos;
+      let html = `Reparto slides: <span class="b-aron">Aron ${c.aron}</span> · ` +
+        `<span class="b-paola">Paola ${c.paola}</span> · ` +
+        `<span class="b-victor">Víctor ${c.victor}</span>`;
+      if (c.todos) html += ` · <span class="b-todos" style="color:var(--accent2);font-weight:600">Todos ${c.todos}</span>`;
+      html += ` <span style="opacity:.7">(${total} diapositivas)</span>`;
+      if (isShuffled) {
+        html += '<span class="shuf-note">Reparto aleatorio activo — el guion “Guion del equipo” sigue con el autor original del texto.</span>';
+      } else {
+        const diff = Math.max(c.aron, c.paola, c.victor) - Math.min(
+          c.aron || 99, c.paola || 99, c.victor || 99
+        );
+        if (diff > 1) {
+          html += '<span class="shuf-note">Reparto original desbalanceado — usa 🎲 para equilibrar al azar.</span>';
+        }
+      }
+      document.getElementById('assignBalance').innerHTML = html;
+    }
+
+    function shuffleAssignments() {
+      const slides = [...document.querySelectorAll('.slide-guide.filterable')];
+      const pool = buildBalancedPool(slides.length);
+      slides.forEach((slide, i) => setWhoOnSlide(slide, pool[i]));
+      shufflePartBlocks();
+      isShuffled = true;
+      slides.forEach(s => s.classList.add('is-shuffled'));
+      document.getElementById('restoreAssign').hidden = false;
+      renderAssignBalance();
+      applyGuideFilter();
+    }
+
+    function restoreAssignments() {
+      document.querySelectorAll('.slide-guide.filterable').forEach(slide => {
+        const who = slide.querySelector('.who');
+        if (who && slide.dataset.originalWhoHtml) {
+          who.innerHTML = slide.dataset.originalWhoHtml;
+          who.classList.remove('who-aron', 'who-paola', 'who-victor', 'who-todos');
+        }
+        slide.classList.remove('assigned-aron', 'assigned-paola', 'assigned-victor', 'assigned-todos', 'is-shuffled');
+        slide.dataset.speakers = slide.dataset.originalWhoHtml
+          ? parseSpeakersFromWho(slide.querySelector('.who').textContent).join(' ')
+          : 'aron paola victor';
+        delete slide.dataset.primarySpeaker;
+        const sp = primarySpeakerFromSlide(slide);
+        if (sp !== 'todos') {
+          who?.classList.add('who-' + sp);
+          slide.classList.add('assigned-' + sp);
+        } else {
+          who?.classList.add('who-todos');
+          slide.classList.add('assigned-todos');
+        }
+      });
+      restorePartBlocks();
+      isShuffled = false;
+      document.getElementById('restoreAssign').hidden = true;
+      renderAssignBalance();
+      applyGuideFilter();
+    }
+
+    document.getElementById('shuffleAssign').addEventListener('click', shuffleAssignments);
+    document.getElementById('restoreAssign').addEventListener('click', restoreAssignments);
+
+    document.querySelectorAll('.slide-guide.filterable').forEach(slide => {
+      const sp = primarySpeakerFromSlide(slide);
+      const who = slide.querySelector('.who');
+      if (who && sp !== 'todos') {
+        who.classList.add('who-' + sp);
+        slide.classList.add('assigned-' + sp);
+      } else if (who) {
+        who.classList.add('who-todos');
+        slide.classList.add('assigned-todos');
+      }
+      slide.dataset.primarySpeaker = sp;
+    });
+
+    renderAssignBalance();
 
     function speakerMatch(el, member) {
       if (member === 'todos') return true;
