@@ -5,7 +5,7 @@
 **URL demo:** http://127.0.0.1:8000/  
 **PDF de la presentación:** `presentacion/presentacion.pdf`
 
-> **Acceso rápido:** haz **5 clics** en el título **EduPredict** en la página principal (abre la versión web de esta guía). En la guía web: diseño **Oscuro/Claro**, **buscador**, **filtro por integrante**, **📌 Fijar barra** (opcional al scroll).
+> **Acceso rápido:** haz **5 clics** en el título **EduPredict** en la página principal. En la guía web: **Oscuro/Claro**, buscador, filtro por integrante, **📌 Anclar en su lugar** (la barra deja de seguirte al bajar).
 
 ---
 

@@ -235,19 +235,13 @@
       top: .5rem;
       z-index: 50;
       box-shadow: 0 8px 24px rgba(0,0,0,.25);
-      transition: box-shadow .2s;
     }
-    .filter-bar.is-pinned {
-      position: fixed;
-      top: .5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(920px, calc(100vw - 2rem));
-      margin-bottom: 0;
-      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    /* Anclada = queda en su sitio original, NO sigue al hacer scroll */
+    .filter-bar.is-anchored {
+      position: static;
+      top: auto;
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
     }
-    #filterBarSpacer { display: none; }
-    #filterBarSpacer.active { display: block; }
     .filter-bar label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: .35rem; }
     .search-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .85rem; align-items: center; }
     .search-row input[type="search"] {
@@ -384,11 +378,10 @@
           Solo ver la parte del integrante seleccionado
         </label>
         <button type="button" class="cycle-btn" id="cycleMember" title="Cambiar integrante">↻ Cambiar integrante</button>
-        <button type="button" class="pin-btn" id="pinFilterBar" title="Fijar esta barra al hacer scroll">📌 Fijar barra</button>
+        <button type="button" class="pin-btn" id="pinFilterBar" title="Anclar aquí: la barra no seguirá al hacer scroll">📌 Anclar en su lugar</button>
       </div>
       <p class="filter-status" id="filterStatus">Viendo: <strong>todos</strong> · diapositivas y secciones de la guía</p>
     </div>
-    <div id="filterBarSpacer" aria-hidden="true"></div>
 
     <h2 id="simbolos">Símbolos del modelo — qué significan y para qué sirven</h2>
     <p style="color:var(--muted);margin-bottom:1rem;">Formato lógico: <strong>el símbolo significa…</strong> y <strong>sirve para…</strong> en EduPredict. Útil para slides 4, 11 y 12.</p>
@@ -1269,38 +1262,27 @@
 
     document.getElementById('guideSearch').addEventListener('input', applyGuideFilter);
 
-    /* ── Fijar barra de búsqueda ── */
+    /* ── Anclar barra (no seguir scroll) ── */
     const filterBar = document.getElementById('filtro');
     const pinBtn = document.getElementById('pinFilterBar');
-    const filterSpacer = document.getElementById('filterBarSpacer');
 
-    function updateFilterBarSpacer() {
-      if (filterBar.classList.contains('is-pinned')) {
-        filterSpacer.style.height = filterBar.offsetHeight + 'px';
-        filterSpacer.classList.add('active');
-      } else {
-        filterSpacer.style.height = '0';
-        filterSpacer.classList.remove('active');
-      }
+    function setFilterBarAnchored(anchored) {
+      filterBar.classList.toggle('is-anchored', anchored);
+      pinBtn.classList.toggle('active', anchored);
+      pinBtn.textContent = anchored ? '📍 Anclada aquí' : '📌 Anclar en su lugar';
+      pinBtn.title = anchored
+        ? 'Desanclar: la barra volverá a seguirte al hacer scroll'
+        : 'Anclar aquí: la barra queda donde está y no te sigue al bajar';
+      localStorage.setItem('ep-guia-anchored', anchored ? '1' : '0');
     }
 
-    function setFilterBarPinned(pinned) {
-      filterBar.classList.toggle('is-pinned', pinned);
-      pinBtn.classList.toggle('active', pinned);
-      pinBtn.textContent = pinned ? '📍 Barra fija' : '📌 Fijar barra';
-      pinBtn.title = pinned ? 'Desfijar barra (vuelve al scroll normal)' : 'Fijar barra al hacer scroll';
-      localStorage.setItem('ep-guia-pinned', pinned ? '1' : '0');
-      updateFilterBarSpacer();
-    }
-
-    pinBtn.addEventListener('click', () => setFilterBarPinned(!filterBar.classList.contains('is-pinned')));
-    window.addEventListener('resize', updateFilterBarSpacer);
+    pinBtn.addEventListener('click', () => setFilterBarAnchored(!filterBar.classList.contains('is-anchored')));
 
     if (MEMBERS.includes(currentMember)) {
       document.querySelectorAll('.member-btn').forEach(b => b.classList.toggle('active', b.dataset.m === currentMember));
     } else currentMember = 'todos';
     applyGuideFilter();
-    if (localStorage.getItem('ep-guia-pinned') === '1') setFilterBarPinned(true);
+    if (localStorage.getItem('ep-guia-anchored') === '1') setFilterBarAnchored(true);
   </script>
 </body>
 </html>
