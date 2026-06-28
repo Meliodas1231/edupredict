@@ -335,6 +335,18 @@
     .logic-card .means { color: var(--text); margin: .25rem 0; }
     .logic-card .for { color: var(--muted); font-size: .84rem; }
     .logic-card .for strong { color: var(--accent2); font-weight: 500; }
+    .math-note {
+      margin: 1rem 0;
+      padding: .75rem 1rem;
+      background: rgba(0,212,170,.08);
+      border: 1px solid rgba(0,212,170,.25);
+      border-radius: 8px;
+      font-size: .88rem;
+      color: var(--text);
+    }
+    .math-note strong { color: var(--accent2); }
+    .math-note .means { margin: .35rem 0; }
+    .math-note .for { color: var(--muted); margin: .35rem 0 0; font-size: .84rem; }
     .logic-grid { display: grid; gap: .5rem; margin: 1rem 0; }
     @media (min-width: 640px) { .logic-grid { grid-template-columns: 1fr 1fr; } }
     .no-results {
@@ -407,8 +419,8 @@
       </div>
       <div class="logic-card filterable" data-speakers="aron paola victor">
         <span class="sym">σ(z) · P</span>
-        <p class="means"><strong>Significa:</strong> la probabilidad de aprobar, un valor entre 0 y 1.</p>
-        <p class="for"><strong>Sirve para:</strong> mostrar el % en el medidor (ej. 72,7 % = P × 100).</p>
+        <p class="means"><strong>Significa:</strong> la probabilidad de aprobar. Con nuestra fórmula queda siempre en el intervalo abierto (0, 1): se acerca a 0 o 1, pero no llega exactamente.</p>
+        <p class="for"><strong>Sirve para:</strong> mostrar el % en el medidor (ej. 72,7 % = P × 100) sin resultados imposibles como −5 % o 101 %.</p>
       </div>
       <div class="logic-card filterable" data-speakers="paola victor">
         <span class="sym">wᵢ · PESOS</span>
@@ -544,6 +556,11 @@
           </tr>
         </tbody>
       </table>
+      <div class="math-note filterable" data-speakers="paola victor">
+        <strong>¿Por qué nunca llega exactamente a 0 % ni a 100 %?</strong>
+        <p class="means"><strong>Significa:</strong> σ(z) = 1 / (1 + e^(−z)). Para cualquier <em>z</em> finito, e^(−z) es un número positivo, así que el denominador nunca es exactamente 1 ni tiende a infinito en un punto concreto → σ(z) queda estrictamente entre 0 y 1. Escribimos σ(z) ∈ (0, 1). Solo al tender <em>z</em> → +∞ la curva se acerca a 1, y con <em>z</em> → −∞ se acerca a 0: son las <strong>asíntotas horizontales</strong> del gráfico.</p>
+        <p class="for"><strong>Sirve para:</strong> explicar en clase por qué la app puede mostrar 99,9… % o 0,0… % pero nunca un extremo exacto — y por qué evitamos probabilidades absurdas fuera del rango.</p>
+      </div>
       <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Aron · slide 4 (combinación lineal)</span>“Y aquí es donde entra la matemática detrás del código. Transformamos los datos con combinación lineal: z = −7,2 + 2,5·asist + 3,0·prom + 1,8·horas + 1,5·trab + 1,2·part + 1,0·conc. No todas las variables pesan igual; el promedio y la asistencia influyen mucho más que la concentración.”</div>
       <div class="say">“No usamos Cálculo por usarlo: cada concepto de la tabla cumple un rol concreto en la app.”</div>
     </div>
@@ -762,7 +779,7 @@
           </tr>
           <tr>
             <td>¿Por qué la sigmoide para probabilidad?</td>
-            <td>σ(z) siempre queda entre 0 y 1 — los límites y asíntotas evitan porcentajes imposibles. Por eso es ideal para “probabilidad de aprobar”.</td>
+            <td>σ(z) ∈ (0, 1): se acerca a 0 y 1 pero nunca llega exactamente (asíntotas). Evita −10 % o 150 %. Ideal para “probabilidad de aprobar”. Ver nota en slide 4.</td>
             <td>Stewart</td>
           </tr>
           <tr>
@@ -792,6 +809,11 @@
         <li>En <strong>GeoGebra</strong> → curva verde (sigmoide) + recta roja tangente: la tangente <em>es</em> la derivada dibujada — pendiente = rapidez del cambio.</li>
       </ul>
       <p><strong>Conexión con el código:</strong> <code>derivada_sigmoide(z)</code> calcula P·(1−P); luego <code>PESOS[k] * derivada_sigmoide(z) * 100</code> da las barras.</p>
+      <div class="math-note filterable" data-speakers="paola victor">
+        <strong>Sigmoide: límites en el gráfico (slide 4 + 11)</strong>
+        <p class="means"><strong>Significa:</strong> en la curva de la app, las líneas horizontales en y = 0 y y = 1 son asíntotas: el punto verde ● se acerca pero no las toca nunca, porque e^(−z) &gt; 0 siempre.</p>
+        <p class="for"><strong>Sirve para:</strong> conectar Unidad III (límites y asíntotas) con la demo — mueve los sliders al extremo y verás ~0,1 % o ~99,9 %, no 0 % ni 100 % exactos.</p>
+      </div>
       <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Paola · slide 11 (sigmoide)</span>“Luego, para convertir z en una probabilidad continua entre 0 % y 100 %, utilizamos la función sigmoide σ(z) = 1 / (1 + e^(−z)). La usamos por dos propiedades vitales: límites y continuidad. La curva se acerca a 0 y 1 cuando z es muy bajo o muy alto, así la probabilidad nunca es negativa ni supera el 100 %. Al ser continua, una mejora pequeña produce un cambio gradual y realista.”</div>
       <div class="say guion-equipo"><span class="guion-tag">Guion del equipo · Víctor · slide 11 (derivadas)</span>“Exactamente. Para la Unidad IV incorporamos derivadas. σ'(z) = σ(z)·(1−σ(z)), es decir P·(1−P). Con la regla de la cadena: ∂σ/∂xᵢ = wᵢ·P·(1−P). La derivada indica qué tan rápido sube la probabilidad por cada mejora en asistencia u otra variable; lo visualizamos en EduPredict y en GeoGebra.”</div>
     </div>
@@ -1073,7 +1095,7 @@
       <p>Cada variable suma distinto. <strong>Promedio pesa 3,0</strong> y <strong>asistencia 2,5</strong> — son las más importantes. Eso produce un número llamado <strong>z</strong>.</p>
 
       <h3>Paso 3 — Pasar a porcentaje (sigmoide)</h3>
-      <p>Con una fórmula curva (sigmoide), z se convierte en probabilidad entre 0 % y 100 %. Nunca se pasa de esos límites.</p>
+      <p>Con la sigmoide, <em>z</em> se convierte en probabilidad en el intervalo (0, 1) — es decir, entre 0 % y 100 % pero sin llegar nunca al extremo exacto: e^(−z) siempre es positivo, así que σ(z) nunca es 0 ni 1. Solo se acerca (asíntotas). Ver la nota en slide 4.</p>
       <blockquote>“Primero juntamos los datos con pesos, después la curva sigmoide lo transforma en un porcentaje.”</blockquote>
 
       <h3>Gráfico de la curva (abajo en la app)</h3>

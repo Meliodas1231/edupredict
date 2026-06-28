@@ -14,7 +14,7 @@
 | Símbolo | Significa | Sirve para |
 |---------|-----------|------------|
 | **z** | Suma ponderada de las 6 variables | Juntar todos los datos en un número antes de la probabilidad |
-| **P · σ(z)** | Probabilidad de aprobar (0–1) | Mostrar el % en el medidor |
+| **P · σ(z)** | Probabilidad de aprobar en (0, 1) — se acerca a 0 o 1, no llega exacto | Mostrar el % en el medidor sin resultados imposibles |
 | **wᵢ · PESOS** | Importancia de cada variable | Que promedio y asistencia pesen más |
 | **x** | Dato normalizado (0–1) | Comparar asistencia, horas, etc. en la misma escala |
 | **P·(1−P)** | Derivada de la sigmoide | Saber si un cambio pequeño mueve mucho la curva |
@@ -114,9 +114,14 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 | **Función matemática** | Recibe los 6 datos y devuelve la probabilidad — es el motor del predictor | Al pulsar **Calcular predicción** (`calcular_prediccion` en el servidor) |
 | **Combinación lineal** | Suma variables con pesos distintos; promedio (3,0) y asistencia (2,5) pesan más | El valor **z** bajo el medidor |
 | **Función sigmoide** | Convierte z en un % entre 0 y 100 que cualquiera entiende | Medidor circular y curva en S |
-| **Límites y asíntotas** | Evita resultados absurdos (−10 % o 150 %) | La curva nunca sale del rango 0–1 |
+| **Límites y asíntotas** | La curva se acerca a 0 y 1 pero no llega exactamente (σ ∈ (0,1)) | Evita −10 % o 150 %; ver nota abajo |
 | **Continuidad** | Mejorar un poco sube un poco — sin saltos raros al mover sliders | Mueve una barra y verás cambio gradual |
 | **Derivadas** | Indican qué variable conviene mejorar primero | Gráfico de barras y factores ✔/✖ |
+
+**¿Por qué nunca llega exactamente a 0 % ni a 100 %?**
+
+- **Significa:** σ(z) = 1 / (1 + e^(−z)). Para cualquier *z* finito, e^(−z) > 0, así que σ(z) queda estrictamente entre 0 y 1. Solo cuando *z* → +∞ se acerca a 1 y cuando *z* → −∞ se acerca a 0 (asíntotas horizontales en el gráfico).
+- **Sirve para:** explicar en clase por qué la app muestra 99,9… % o 0,0… % pero no el extremo exacto.
 
 **Guion del equipo (Aron — combinación lineal):**
 
@@ -267,7 +272,7 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 2. **¿Función matemática?** → `calcular_prediccion`: 6 datos → z → σ(z). *Stewart, Ortiz*
 3. **¿Si sube asistencia?** → z y P suben gradualmente (continuidad); demo con slider. *EduPredict + Ortiz*
 4. **¿Si suben horas?** → Igual; impacto mayor cerca de P ≈ 50 % (P·(1−P)). *Ortiz + EduPredict*
-5. **¿Por qué sigmoide?** → σ(z) ∈ (0,1); límites evitan % imposibles. *Stewart*
+5. **¿Por qué sigmoide?** → σ(z) ∈ (0,1): se acerca a 0 y 1 pero nunca llega exactamente; evita % imposibles. *Stewart*
 6. **¿Derivadas y rendimiento?** → wᵢ·P·(1−P) indica qué mejorar; gráfico de sensibilidades. *Ortiz + GeoGebra + EduPredict*
 
 > “Estas respuestas las probamos en EduPredict…” *(sin línea en guion del equipo — usar tabla de arriba)*
@@ -291,6 +296,11 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 - **GeoGebra** → curva + recta tangente (la tangente *es* la derivada dibujada)
 
 **Código:** `derivada_sigmoide(z)` → `PESOS[k] * derivada_sigmoide(z) * 100` = barras
+
+**Sigmoide — límites en el gráfico (conecta con slide 4):**
+
+- **Significa:** las líneas y = 0 y y = 1 en la curva de la app son asíntotas; el punto del estudiante se acerca pero no las toca, porque e^(−z) > 0 siempre.
+- **Sirve para:** demostrar con los sliders que al ir al extremo ves ~0,1 % o ~99,9 %, no 0 % ni 100 % exactos.
 
 **Guion del equipo (Paola — sigmoide):**
 
@@ -629,7 +639,7 @@ Cada variable suma distinto. **Promedio pesa 3,0** y **asistencia 2,5** — son 
 
 ### Paso 3 — Pasar a porcentaje (sigmoide)
 
-Con una fórmula curva (sigmoide), z se convierte en probabilidad entre 0 % y 100 %. Nunca se pasa de esos límites.
+Con la sigmoide, *z* se convierte en probabilidad en el intervalo **(0, 1)**: entre 0 % y 100 % pero sin llegar nunca al extremo exacto (e^(−z) > 0 siempre → σ(z) nunca es 0 ni 1). Solo se acerca — asíntotas. Ver nota en slide 4.
 
 > “Primero juntamos los datos con pesos, después la curva sigmoide lo transforma en un porcentaje.”
 
