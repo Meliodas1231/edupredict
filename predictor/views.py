@@ -3,6 +3,9 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+
+from .models import GuiaReparto
 
 
 # ─── Modelo matemático ────────────────────────────────────────────────
@@ -135,3 +138,56 @@ def predecir(request):
         except Exception as e:
             return JsonResponse({'ok': False, 'error': str(e)}, status=400)
     return JsonResponse({'ok': False, 'error': 'Método no permitido'}, status=405)
+
+
+GUIA_REPARTO_CLAVE = 'equipo'
+
+
+@csrf_exempt
+@require_http_methods(['GET', 'POST', 'DELETE'])
+def guia_reparto(request):
+    """GET/POST/DELETE reparto de la guía de presentación (persistido en SQLite)."""
+    if request.method == 'GET':
+        obj = GuiaReparto.objects.filter(clave=GUIA_REPARTO_CLAVE).first()
+        if not obj:
+            return JsonResponse({
+                'ok': True,
+                'slides': {},
+                'parts': {},
+                'customized': False,
+            })
+        return JsonResponse({
+            'ok': True,
+            'slides': obj.slides,
+            'parts': obj.partes,
+            'customized': bool(obj.slides or obj.partes),
+            'updated_at': obj.modificado_en.isoformat(),
+        })
+
+    if request.method == 'DELETE':
+        GuiaReparto.objects.filter(clave=GUIA_REPARTO_CLAVE).delete()
+        return JsonResponse({'ok': True})
+
+    try:
+        payload = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'ok': False, 'error': 'JSON inválido'}, status=400)
+
+    slides = payload.get('slides') or {}
+    parts = payload.get('parts') or {}
+    if not isinstance(slides, dict) or not isinstance(parts, dict):
+        return JsonResponse({'ok': False, 'error': 'slides y parts deben ser objetos'}, status=400)
+
+    valid = {'aron', 'paola', 'victor', 'todos'}
+    for key, val in {**slides, **parts}.items():
+        if val not in valid:
+            return JsonResponse({'ok': False, 'error': f'Integrante no válido: {val}'}, status=400)
+
+    obj, _ = GuiaReparto.objects.update_or_create(
+        clave=GUIA_REPARTO_CLAVE,
+        defaults={'slides': slides, 'partes': parts},
+    )
+    return JsonResponse({
+        'ok': True,
+        'updated_at': obj.modificado_en.isoformat(),
+    })
