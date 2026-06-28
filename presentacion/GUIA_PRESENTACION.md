@@ -7,6 +7,15 @@
 
 > **Acceso rápido:** haz **5 clics** en el título **EduPredict** en la página principal. En la guía web: **Oscuro/Claro**, buscador, filtro por integrante, **Solo lo que diré (guion)**, reparto manual/al azar (**guardado en BD** vía `/api/guia/reparto/`), **📌 Anclar en su lugar**.
 
+**Reparto por defecto (6 slides cada uno + slide 17 compartida):**
+
+| Integrante | Slides que presenta |
+|------------|---------------------|
+| **Aron** | 1, 2, 8, 11, 14, 16 |
+| **Paola** | 3, 6, 7, 12, 15, 19 |
+| **Víctor** | 4, 5, 9, 10, 13, 18 |
+| **Los tres** | 17 (resultados) |
+
 ---
 
 ## Símbolos — significa → sirve para
@@ -31,7 +40,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** EDUPREDICT — PREDICTOR DE RENDIMIENTO ACADÉMICO ESTUDIANTIL
 
-**Quién:** Los tres (saludo breve) o Aron presenta al equipo.
+**Quién:** Aron (presenta al equipo — saludo breve).
 
 **De qué va:** Slide formal con nombre del proyecto, integrantes y datos del curso:
 
@@ -105,7 +114,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 4 Tema de investigación, nociones matemáticas y problemáticas a abordar
 
-**Quién:** Paola (con apoyo de Víctor en derivadas)
+**Quién:** Víctor
 
 **De qué va:** Tabla de 6 conceptos. Para cada fila explica **para qué sirve**, no solo el nombre:
 
@@ -137,7 +146,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 5 Objetivos y preguntas
 
-**Quién:** Aron
+**Quién:** Víctor
 
 **Objetivo general — para qué sirve:** app web que estime si un estudiante aprueba, con datos reales y Cálculo — herramienta de orientación, no solo calculadora.
 
@@ -162,7 +171,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 6 Temas iniciales involucrados
 
-**Quién:** Paola o Víctor (1 min)
+**Quién:** Paola
 
 **Área matemática — el cerebro teórico:**
 - **Cálculo Diferencial** — base del proyecto
@@ -191,7 +200,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 7 Cronograma del proyecto
 
-**Quién:** Paola o Aron (1 min — no leer toda la tabla)
+**Quién:** Paola
 
 **Para qué sirve esta slide:** demostrar que hubo planificación, responsables y productos concretos en cada semana.
 
@@ -220,9 +229,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 8 Etapa II: Herramientas Tecnológicas
 
-**Quién:** Paola
-
-| Herramienta | Para qué la usamos | Por qué la elegimos |
+**Quién:** Aron | Por qué la elegimos |
 |-------------|-------------------|---------------------|
 | **GeoGebra** | σ(z), derivada, tangente, punto del estudiante | Ver Cálculo en clase; límites y asíntotas |
 | **Excel/Sheets** (opc.) | Probar pesos y z en diseño | Validar antes de Python; acordar en equipo |
@@ -264,7 +271,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 10 Respuestas a preguntas
 
-**Quién:** Víctor (1–3) + Paola (4–6)
+**Quién:** Víctor
 
 Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sentido de cada respuesta:
 
@@ -283,7 +290,7 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 
 **Título en Canva:** 11 Aplicación de la Unidad IV: Derivadas
 
-**Quién:** Víctor (con captura GeoGebra de la slide)
+**Quién:** Aron
 
 **Para qué usamos derivadas:** responder *“si mejoro un poco en asistencia, horas u otra variable, ¿cuánto sube la probabilidad?”*
 
@@ -474,7 +481,7 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 
 ### Diapositiva 19 · Bibliografía *(Etapa III)*
 
-**Quién:** Paola o Víctor
+**Quién:** Paola
 
 **De qué va:** Mismas 4 fuentes de slide 9, en formato bibliográfico.
 
