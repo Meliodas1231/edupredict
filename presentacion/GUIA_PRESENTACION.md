@@ -7,14 +7,16 @@
 
 > **Acceso rápido:** haz **5 clics** en el título **EduPredict** en la página principal. En la guía web: **Oscuro/Claro**, buscador, filtro por integrante, **Solo lo que diré (guion)**, reparto manual/al azar (**guardado en BD** vía `/api/guia/reparto/`), **📌 Anclar en su lugar**.
 
-**Reparto por defecto (6 slides cada uno + slide 17 compartida):**
+**Reparto por defecto (6 slides cada uno + slide 17 compartida), alineado con el guion del equipo:**
 
 | Integrante | Slides que presenta |
 |------------|---------------------|
-| **Aron** | 1, 2, 8, 11, 14, 16 |
-| **Paola** | 3, 6, 7, 12, 15, 19 |
-| **Víctor** | 4, 5, 9, 10, 13, 18 |
+| **Aron** | 1, 2, 4, 7, 15, 16 |
+| **Paola** | 3, 6, 8, 9, 12, 19 |
+| **Víctor** | 5, 10, 11, 13, 14, 18 |
 | **Los tres** | 17 (resultados) |
+
+> **Slides con dos voces:** en la **2** hablan Aron (apertura) y Víctor (variables); en la **11** hablan Paola (sigmoide) y Víctor (derivadas). El campo **Quién** lo indica; la etiqueta *Guion del equipo* dice quién dice cada frase.
 
 ---
 
@@ -29,6 +31,15 @@
 | **P·(1−P)** | Derivada de la sigmoide | Saber si un cambio pequeño mueve mucho la curva |
 | **∂P/∂xᵢ** | Cuánto sube P al mejorar xᵢ | Gráfico de sensibilidades — orientar al estudiante |
 | **× 100** | De probabilidad a porcentaje | Ver “72,7 %” en lugar de “0,727” |
+| **Recta tangente** | Derivada como pendiente en GeoGebra | Mostrar Unidad IV en clase |
+
+**Qué decir (recorre las tarjetas de la guía web):**
+
+> “Esta sección resume los **símbolos del modelo** — útil antes de las slides 4, 11 y 12. **z** es la suma ponderada de las seis variables más el sesgo −7,2: junta todos los datos en un solo número antes de la probabilidad. **σ(z) o P** es la probabilidad de aprobar, siempre entre 0 y 1 — se acerca a los extremos pero no llega exacto; por eso el medidor muestra 72,7 % y nunca −5 % ni 101 %.”
+
+> “**wᵢ** y `PESOS` indican la importancia de cada variable — promedio 3,0, asistencia 2,5 — para que no todas las barras influyan igual. **x** es cada dato normalizado entre 0 y 1 — asistencia dividida 100, horas entre 40 — y así comparamos variables en la misma escala.”
+
+> “**P·(1−P)** es la derivada de la sigmoide: qué tan inclinada está la curva en ese punto. **∂P/∂xᵢ** combina ese factor con el peso wᵢ y alimenta el gráfico de sensibilidades. El **× 100** pasa a porcentaje legible. La **recta tangente** en GeoGebra es la derivada dibujada — ideal para explicar Unidad IV en clase.”
 
 ---
 
@@ -61,7 +72,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 2 Definición del proyecto
 
-**Quién:** Aron
+**Quién:** Aron + Víctor (Aron abre; Víctor detalla variables y salida)
 
 **De qué va:** Aplicación web que predice la probabilidad de aprobar según variables académicas y personales. Dos columnas:
 
@@ -114,7 +125,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 4 Tema de investigación, nociones matemáticas y problemáticas a abordar
 
-**Quién:** Víctor
+**Quién:** Aron
 
 **De qué va:** Tabla de 6 conceptos. Para cada fila explica **para qué sirve**, no solo el nombre:
 
@@ -163,7 +174,11 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 5. ¿Por qué sigmoide? → acota entre 0 % y 100 %
 6. ¿Derivadas y rendimiento? → recomendar en qué enfocarse
 
-> “Nuestro objetivo fue orientar al estudiante…” *(sin línea en guion del equipo — usar bullets de arriba)*
+> “Nuestro **objetivo general** fue construir una aplicación web que estime si un estudiante aprueba, usando datos reales y Cálculo Diferencial. No buscamos solo una calculadora: queremos una herramienta que **oriente** — probabilidad y también en qué conviene enfocarse.”
+
+> “Cumplimos tres **objetivos específicos**: identificar las variables — las seis barras de la app; construir el modelo con sigmoide; y usar derivadas para saber qué variable mover para mejorar más rápido.”
+
+> “Plantamos **seis preguntas orientadoras** — respuestas en slide 10: ¿qué variables influyen más? ¿cómo representar el rendimiento con una función? ¿qué pasa si sube asistencia u horas? ¿por qué sigmoide? ¿derivadas y rendimiento? Cada pregunta guió el diseño del modelo.”
 
 ---
 
@@ -192,7 +207,11 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 - Trabajos → cumplimiento de evaluaciones
 - Concentración → calidad del estudio
 
-> “El proyecto une tres piezas…” *(sin línea en guion del equipo — usar bullets de arriba)*
+> “El proyecto une tres áreas. En lo **matemático**: Cálculo Diferencial, límites y continuidad, derivadas y sigmoide — traducir el cálculo en probabilidad comprensible.”
+
+> “En lo **tecnológico**: JavaScript, HTML y CSS para la interfaz; visualización — medidor, curva y barras — sin leer fórmulas; GeoGebra para mostrar curva, punto del estudiante y tangente en clase.”
+
+> “Las **seis variables académicas**: asistencia, promedio, horas, participación, trabajos entregados y concentración — cada una captura un hábito distinto y alimenta el modelo de la demo.”
 
 ---
 
@@ -200,7 +219,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 7 Cronograma del proyecto
 
-**Quién:** Paola
+**Quién:** Aron
 
 **Para qué sirve esta slide:** demostrar que hubo planificación, responsables y productos concretos en cada semana.
 
@@ -229,7 +248,9 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 8 Etapa II: Herramientas Tecnológicas
 
-**Quién:** Aron | Por qué la elegimos |
+**Quién:** Paola
+
+| Herramienta | Para qué la usamos | Por qué la elegimos |
 |-------------|-------------------|---------------------|
 | **GeoGebra** | σ(z), derivada, tangente, punto del estudiante | Ver Cálculo en clase; límites y asíntotas |
 | **Excel/Sheets** (opc.) | Probar pesos y z en diseño | Validar antes de Python; acordar en equipo |
@@ -248,7 +269,7 @@ Recorre el PDF en orden. Cada bloque dice **de qué va la slide**, **quién pued
 
 **Título en Canva:** 9 Fuentes de Información
 
-**Quién:** Víctor
+**Quién:** Paola
 
 | Fuente | Para qué nos sirvió |
 |--------|---------------------|
@@ -300,7 +321,7 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 
 **Título en Canva:** 11 Aplicación de la Unidad IV: Derivadas
 
-**Quién:** Aron
+**Quién:** Paola + Víctor (Paola sigmoide; Víctor derivadas)
 
 **Para qué usamos derivadas:** responder *“si mejoro un poco en asistencia, horas u otra variable, ¿cuánto sube la probabilidad?”*
 
@@ -376,7 +397,11 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 2. **Análisis de cambio** — Mejorar impacta más en la zona de incertidumbre (P ≈ 50 %), porque P·(1−P) es máximo → explica por qué a veces un esfuerzo “se nota mucho”.
 3. **Propuesta EduPredict** — Factores negativos + gráfico de sensibilidades → la app no solo da un %, **orienta qué mejorar**.
 
-> “Promedio y asistencia pesan más…” *(sin línea en guion del equipo — usar bullets de arriba)*
+> “**Primer bloque:** promedio y asistencia son las variables de mayor peso — si el estudiante tiene poco tiempo, conviene enfocarse ahí primero.”
+
+> “**Segundo bloque:** mejorar una variable impacta más cerca del 50 % de probabilidad, porque P·(1−P) es máximo — explica por qué a veces el esfuerzo se nota mucho y otras casi no.”
+
+> “**Tercer bloque:** EduPredict muestra factores negativos y sensibilidades — no solo ‘tienes 72 %’, sino **en qué enfocarse** para subir la probabilidad.”
 
 ---
 
@@ -384,7 +409,7 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 
 **Título en Canva:** 14 Resumen de Progreso
 
-**Quién:** Aron
+**Quién:** Víctor
 
 **⚠️ Canva dice “Etapa II en Desarrollo” — al presentar di “Etapa I y II completadas”.**
 
@@ -398,7 +423,9 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 - Fuentes revisadas → Stewart, Ortiz, Vargas (slide 9)
 - Modelo de derivadas → sensibilidades en la app (slides 11–13)
 
-> “Completamos planificación, investigación…” *(sin línea en guion del equipo — usar bullets Etapa I y II de arriba)*
+> “Canva puede decir ‘Etapa II en desarrollo’ — aclaren que **Etapa I y II están completadas**. Etapa I: objetivos claros, base matemática y equipo organizado (slide 7).”
+
+> “Etapa II: herramientas elegidas (slide 8), fuentes revisadas (slide 9) y modelo de derivadas con sensibilidades en la app (slides 11–13). Producto y demo listos.”
 
 ---
 
@@ -406,7 +433,7 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 
 **Título en Canva:** 15 Bitácora Etapa II
 
-**Quién:** Paola (30–40 seg)
+**Quién:** Aron (30–40 seg)
 
 **Para qué sirve:** evidencia del trabajo con fechas y responsables — conecta con cronograma (slide 7).
 
@@ -443,7 +470,9 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 | **Curva sigmoide** | Ver dónde está el estudiante en la curva |
 | **Tabla z / σ / σ' / Estado** | Reprueba · En riesgo · Aprueba |
 
-> “Ingresamos seis datos y la app entrega probabilidad, sensibilidades, factores y sigmoide…” *(sin línea en guion del equipo — agregar al grabar: abrir http://127.0.0.1:8000/ y demo en vivo)*
+> “**EduPredict en pantalla** — slide 2 hecha app. Izquierda: seis barras + **Calcular predicción** envía datos al servidor. Derecha: medidor con σ(z), derivadas, factores ✔/✖, curva sigmoide y tabla de estados Reprueba / En riesgo / Aprueba.”
+
+> “Lo ideal: demo en vivo en http://127.0.0.1:8000/ — mover una barra y pulsar Calcular para ver cambiar medidor, sensibilidades y curva. Sin conexión, usar la captura de la slide.”
 
 ---
 
@@ -466,7 +495,11 @@ Conecta con **slide 5** (preguntas) y **slide 4** (matemática). Explica el sent
 
 **Estados:** z bajo → Reprueba · medio → En riesgo · alto → Aprueba (≥70 % en código).
 
-> “Con distintos datos cambia el veredicto…” *(sin línea en guion del equipo — usar escenarios A y B de arriba)*
+> “**Escenario A (~33 %):** reprobación probable — alerta temprana; las derivadas indican qué variable mover primero.”
+
+> “**Escenario B (~73 %):** aprobación probable — factores ✔ positivos; punto más a la derecha en la sigmoide.”
+
+> “Concluimos: objetivo cumplido con Cálculo aplicado; la app orienta, no solo calcula; trabajo en equipo con evidencia. Estados: z bajo → Reprueba, medio → En riesgo, alto → Aprueba (≥70 % en código).”
 
 ---
 

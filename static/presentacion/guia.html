@@ -180,6 +180,11 @@
     .slide-guide .who.who-paola { color: var(--paola); }
     .slide-guide .who.who-victor { color: var(--victor); }
     .slide-guide .who.who-todos { color: var(--accent2); }
+    .slide-guide .who .who-note {
+      font-weight: 400;
+      opacity: .85;
+      font-size: .72rem;
+    }
     .slide-guide.assigned-aron { border-left-color: var(--aron); }
     .slide-guide.assigned-paola { border-left-color: var(--paola); }
     .slide-guide.assigned-victor { border-left-color: var(--victor); }
@@ -347,6 +352,7 @@
     body.solo-guion-mode #simbolos,
     body.solo-guion-mode #simbolos + p,
     body.solo-guion-mode .logic-grid,
+    body.solo-guion-mode .simbolos-guion,
     body.solo-guion-mode #video,
     body.solo-guion-mode #video + table { display: none !important; }
     /* Solo oculta bloques .say de otros; tablas y bullets siempre visibles */
@@ -535,9 +541,14 @@
         <p class="for"><strong>Sirve para:</strong> mostrar Unidad IV en clase — rapidez del cambio en un punto concreto.</p>
       </div>
     </div>
+    <div class="simbolos-guion filterable" data-speakers="aron paola victor">
+      <div class="say">“Esta sección resume los <strong>símbolos del modelo</strong> — útil antes de las slides 4, 11 y 12. <strong>z</strong> es la suma ponderada de las seis variables más el sesgo −7,2: junta todos los datos en un solo número antes de la probabilidad. <strong>σ(z) o P</strong> es la probabilidad de aprobar, siempre entre 0 y 1 — se acerca a los extremos pero no llega exacto; por eso el medidor muestra 72,7 % y nunca −5 % ni 101 %.”</div>
+      <div class="say">“<strong>wᵢ</strong> y <code>PESOS</code> indican la importancia de cada variable — promedio 3,0, asistencia 2,5 — para que no todas las barras influyan igual. <strong>x</strong> es cada dato normalizado entre 0 y 1 — asistencia dividida 100, horas entre 40 — y así comparamos variables en la misma escala.”</div>
+      <div class="say">“<strong>P·(1−P)</strong> es la derivada de la sigmoide: qué tan inclinada está la curva en ese punto — si un cambio pequeño mueve mucho o poco la probabilidad. <strong>∂P/∂xᵢ</strong> combina ese factor con el peso wᵢ y alimenta el gráfico de sensibilidades — responde ‘¿en qué debería enfocarse el estudiante?’. El <strong>× 100</strong> pasa de 0–1 a porcentaje legible. Y la <strong>recta tangente</strong> en GeoGebra es la derivada dibujada — la pendiente en un punto concreto, ideal para explicar Unidad IV en clase.”</div>
+    </div>
 
     <h2 id="slides">Las diapositivas del PDF — explicadas fácil</h2>
-    <p style="color:var(--muted);margin-bottom:1rem;">Recorre el PDF en orden. Cada bloque explica: <strong>qué significa</strong> → <strong>para qué sirve</strong> → <strong>qué decir</strong>.</p>
+    <p style="color:var(--muted);margin-bottom:1rem;">Recorre el PDF en orden. Cada bloque explica: <strong>qué significa</strong> → <strong>para qué sirve</strong> → <strong>qué decir</strong>. <strong>Quién</strong> = integrante que presenta la slide (reparto 6-6-6). La etiqueta azul <em>Guion del equipo</em> indica quién dice cada frase — en las slides <strong>2</strong> y <strong>11</strong> hablan dos personas.</p>
     <div class="no-results" id="noResults">No hay resultados con ese filtro o búsqueda. Prueba otro integrante o borra el texto.</div>
 
     <div class="slide-guide filterable">
@@ -561,7 +572,7 @@
       <div class="num">Diapositiva 2 · Definición del proyecto <span class="etapa">Etapa I</span></div>
       <div class="slide-title-official">2 Definición del proyecto</div>
       <h3>Qué es y qué hace la aplicación web</h3>
-      <div class="who">👤 Aron</div>
+      <div class="who">👤 Aron + Víctor <span class="who-note">(Aron abre; Víctor detalla variables y salida — ver guiones abajo)</span></div>
       <p>Explica que el proyecto es una <strong>aplicación web</strong> que predice la probabilidad de que un estudiante apruebe según variables académicas y personales. La slide tiene dos columnas:</p>
       <p><strong>Columna izquierda — datos que ingresa el usuario</strong> (son las 6 barras de la app):</p>
       <ul>
@@ -595,7 +606,7 @@
       <div class="num">Diapositiva 4 · Nociones matemáticas <span class="etapa">Etapa I</span></div>
       <div class="slide-title-official">4 Tema de investigación, nociones matemáticas y problemáticas a abordar</div>
       <h3>Los 6 conceptos de Cálculo — qué hace cada uno en EduPredict</h3>
-      <div class="who">👤 Víctor</div>
+      <div class="who">👤 Aron</div>
       <p>Tabla de 3 columnas. <strong>No leas la fórmula entera:</strong> para cada fila di <em>para qué sirve</em> y conecta con la app.</p>
       <table>
         <thead><tr><th>Concepto</th><th>Significa</th><th>Sirve para</th><th>En la app</th></tr></thead>
@@ -668,7 +679,9 @@
         <li><strong>¿Por qué la sigmoide para probabilidad?</strong> → Porque acota entre 0 % y 100 % de forma natural.</li>
         <li><strong>¿Cómo se relacionan las derivadas con el rendimiento?</strong> → Para recomendar en qué enfocarse.</li>
       </ul>
-      <div class="say">“Nuestro objetivo fue una app que oriente al estudiante…” <em>(sin texto en guion del equipo — usar bullets de arriba)</em></div>
+      <div class="say">“Nuestro <strong>objetivo general</strong> fue construir una aplicación web que estime si un estudiante aprueba, usando datos reales y matemática de Cálculo Diferencial. No buscamos solo una calculadora: queremos una herramienta que <strong>oriente</strong> — que diga probabilidad y también en qué conviene enfocarse.”</div>
+      <div class="say">“En la práctica cumplimos tres <strong>objetivos específicos</strong>: primero, identificar las variables que importan — las seis barras que ven en la app; segundo, construir el modelo con sigmoide para convertir esos datos en probabilidad; y tercero, usar derivadas para saber qué variable mover si el estudiante quiere mejorar más rápido.”</div>
+      <div class="say">“La slide también plantea <strong>seis preguntas orientadoras</strong> — las respondemos con detalle en la slide 10: ¿qué variables influyen más? ¿cómo representar el rendimiento con una función? ¿qué pasa si sube la asistencia o las horas de estudio? ¿por qué la sigmoide para probabilidad? ¿y cómo se relacionan las derivadas con el rendimiento académico? Cada pregunta nos guió en el diseño del modelo.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -698,14 +711,16 @@
         <li><strong>Trabajos entregados</strong> — cumplimiento de evaluaciones.</li>
         <li><strong>Concentración</strong> — calidad del estudio, no solo cantidad.</li>
       </ul>
-      <div class="say">“El proyecto une tres piezas…” <em>(sin texto en guion del equipo — usar bullets de arriba)</em></div>
+      <div class="say">“El proyecto une tres áreas. En lo <strong>matemático</strong> apoyamos todo en Cálculo Diferencial: límites y continuidad para que el resultado sea coherente al cambiar un dato; derivadas para medir sensibilidad — qué conviene mejorar primero; y la sigmoide para traducir el cálculo interno en una probabilidad que cualquiera entienda.”</div>
+      <div class="say">“En lo <strong>tecnológico</strong> usamos JavaScript, HTML y CSS para la interfaz con barras y botones; visualización de datos — medidor, curva sigmoide y barras de sensibilidad — para entender el resultado sin leer fórmulas; y GeoGebra para mostrar la matemática en clase: curva, punto del estudiante y recta tangente.”</div>
+      <div class="say">“Las <strong>seis variables académicas</strong> capturan hábitos distintos: asistencia mide constancia en clases; promedio el desempeño evaluado; horas de estudio la dedicación fuera del aula; participación el involucramiento; trabajos entregados el cumplimiento de evaluaciones; y concentración la calidad del estudio, no solo la cantidad. Juntas alimentan el modelo que verán en la demo.”</div>
     </div>
 
     <div class="slide-guide filterable">
       <div class="num">Diapositiva 7 · Cronograma <span class="etapa">Etapa I</span></div>
       <div class="slide-title-official">7 Cronograma del proyecto</div>
       <h3>Cómo repartimos el trabajo en 3 semanas — y para qué sirvió cada tarea</h3>
-      <div class="who">👤 Paola</div>
+      <div class="who">👤 Aron</div>
       <p>La slide muestra <strong>quién hizo qué, cuándo y con qué resultado</strong>. Explica el sentido de cada fila:</p>
       <table>
         <thead><tr><th>Semana</th><th>Tarea</th><th>Para qué la hicimos</th><th>Quién</th></tr></thead>
@@ -757,7 +772,7 @@
       <div class="num">Diapositiva 8 · Herramientas tecnológicas <span class="etapa">Etapa II</span></div>
       <div class="slide-title-official">8 Etapa II: Herramientas Tecnológicas</div>
       <h3>Con qué trabajamos y por qué elegimos cada herramienta</h3>
-      <div class="who">👤 Aron</div>
+      <div class="who">👤 Paola</div>
       <p>No listes nombres solos — di <strong>para qué sirvió</strong> en EduPredict:</p>
       <table>
         <thead><tr><th>Herramienta</th><th>Para qué la usamos</th><th>Por qué la elegimos</th></tr></thead>
@@ -801,7 +816,7 @@
       <div class="num">Diapositiva 9 · Fuentes de información <span class="etapa">Etapa II</span></div>
       <div class="slide-title-official">9 Fuentes de Información</div>
       <h3>De dónde sacamos la base — y para qué nos sirvió cada fuente</h3>
-      <div class="who">👤 Víctor</div>
+      <div class="who">👤 Paola</div>
       <table>
         <thead><tr><th>Fuente</th><th>Para qué nos sirvió</th><th>Qué aportó al proyecto</th></tr></thead>
         <tbody>
@@ -883,7 +898,7 @@
       <div class="num">Diapositiva 11 · Unidad IV Derivadas <span class="etapa">Etapa II</span></div>
       <div class="slide-title-official">11 Aplicación de la Unidad IV: Derivadas</div>
       <h3>Para qué usamos derivadas en EduPredict</h3>
-      <div class="who">👤 Aron</div>
+      <div class="who">👤 Paola + Víctor <span class="who-note">(Paola sigmoide; Víctor derivadas — ver guiones abajo)</span></div>
       <p><strong>Idea central (no memorices fórmulas — explica el sentido):</strong> la derivada responde <em>“si mejoro un poco en asistencia, horas u otra variable, ¿cuánto sube la probabilidad?”</em></p>
       <p><strong>Fórmulas de la slide — qué significan en palabras:</strong></p>
       <ul>
@@ -958,14 +973,16 @@
         <li>La app muestra <strong>factores negativos</strong> (qué perjudica) y el <strong>gráfico de sensibilidades (derivadas)</strong>.</li>
         <li><em>Para qué sirve:</em> no solo dice “tienes 72 %”, sino <strong>en qué debería enfocarse</strong> para subir esa probabilidad.</li>
       </ul>
-      <div class="say">“Concluimos que promedio y asistencia pesan más…” <em>(sin texto en guion del equipo — usar bullets de arriba)</em></div>
+      <div class="say">“En el <strong>primer bloque</strong> concluimos que promedio actual y asistencia son las variables de mayor peso — la investigación y nuestro modelo coinciden. Si el estudiante tiene poco tiempo, conviene enfocarse ahí primero, no repartir el esfuerzo por igual en las seis barras.”</div>
+      <div class="say">“El <strong>segundo bloque</strong> es el análisis de cambio con derivadas: mejorar una variable — por ejemplo, sumar horas de estudio — impacta más cuando el estudiante está en la zona de incertidumbre, con probabilidad cerca del 50 %, porque ahí P·(1−P) es máximo. Eso explica por qué a veces un esfuerzo se nota mucho y otras casi no: depende de dónde está en la curva.”</div>
+      <div class="say">“El <strong>tercer bloque</strong> es nuestra propuesta: EduPredict. La app muestra factores negativos — qué perjudica — y el gráfico de sensibilidades con derivadas. No solo dice ‘tienes 72 %’: orienta <strong>en qué debería enfocarse</strong> el estudiante para subir esa probabilidad.”</div>
     </div>
 
     <div class="slide-guide filterable">
       <div class="num">Diapositiva 14 · Resumen de progreso</div>
       <div class="slide-title-official">14 Resumen de Progreso</div>
       <h3>Qué etapas llevamos listas — y qué significa cada logro</h3>
-      <div class="who">👤 Aron</div>
+      <div class="who">👤 Víctor</div>
       <p><strong>⚠️ En Canva dice “Etapa II en Desarrollo” — al presentar di “Etapa I y II completadas”</strong> (ya tienen app, fuentes, derivadas y bitácora).</p>
       <p><strong>Etapa I completada — para qué sirvió cada punto:</strong></p>
       <ul>
@@ -979,14 +996,15 @@
         <li><strong>Fuentes revisadas</strong> → respaldamos decisiones con Stewart, Ortiz, Vargas (slide 9).</li>
         <li><strong>Modelo de derivadas</strong> → sensibilidades y orientación al estudiante (slides 11–13 + app).</li>
       </ul>
-      <div class="say">“Completamos la planificación…” <em>(sin texto en guion del equipo — usar bullets Etapa I y II de arriba)</em></div>
+      <div class="say">“En Canva esta slide puede decir ‘Etapa II en desarrollo’ — al presentar aclaren que <strong>Etapa I y Etapa II están completadas</strong>. En Etapa I definimos objetivos claros — supimos qué construir: una web predictiva con Cálculo; sentamos la base matemática — sigmoide, pesos y derivadas antes de programar; y organizamos al equipo con tareas concretas, como ven en el cronograma de la slide 7.”</div>
+      <div class="say">“En <strong>Etapa II</strong> ya elegimos herramientas — Django, GeoGebra, VS Code, slide 8; revisamos fuentes con Stewart, Ortiz y Vargas, slide 9; e implementamos el modelo de derivadas con sensibilidades y orientación al estudiante, slides 11 a 13 y la app. Tenemos producto, evidencia y demo listos.”</div>
     </div>
 
     <div class="slide-guide filterable">
       <div class="num">Diapositiva 15 · Bitácora <span class="etapa">Etapa II</span></div>
       <div class="slide-title-official">15 Bitácora Etapa II</div>
       <h3>Evidencia del trabajo del equipo — qué hicimos semana a semana</h3>
-      <div class="who">👤 Paola (30–40 seg — no leer fila por fila)</div>
+      <div class="who">👤 Aron (30–40 seg — no leer fila por fila)</div>
       <p><strong>Para qué sirve la bitácora:</strong> demostrar que el proyecto avanzó con fechas, responsables y productos reales (no solo la idea). Conecta con el <strong>cronograma de la slide 7</strong>.</p>
       <table>
         <thead><tr><th>Fecha</th><th>Qué hicimos</th><th>Para qué sirvió</th><th>Quién</th></tr></thead>
@@ -1057,7 +1075,9 @@
           <tr><td><strong>Tabla z / σ(z) / σ'(z) / Estado</strong></td><td>Referencia numérica: Reprueba (&lt;50 %), En riesgo (~50–70 %), Aprueba (≥70 %).</td></tr>
         </tbody>
       </table>
-      <div class="say">“Este es EduPredict: ingresamos seis datos, calculamos…” <em>(sin línea en guion del equipo — agregar al grabar: demo en vivo en 127.0.0.1:8000)</em></div>
+      <div class="say">“Este es <strong>EduPredict en pantalla</strong> — conecta con la definición de la slide 2. A la izquierda ingresamos los <strong>seis datos</strong> del estudiante: el recuadro explica que se genera z según el peso de cada variable; las barras ajustan asistencia, promedio, horas, trabajos, participación y concentración; y al pulsar <strong>Calcular predicción</strong> los datos van al servidor y se activan todos los resultados.”</div>
+      <div class="say">“A la derecha, bloque por bloque: el <strong>Resultado</strong> con medidor y σ(z) es la respuesta principal — el porcentaje de probabilidad; <strong>Análisis de derivadas</strong> muestra barras con qué variable conviene mejorar primero; <strong>Factores identificados</strong> da la interpretación en texto ✔/✖, como el ejemplo del 78 % de la slide 2; la <strong>curva sigmoide</strong> muestra dónde está el estudiante en la S; y la tabla z / σ(z) / σ'(z) / Estado clasifica en Reprueba, En riesgo o Aprueba según los umbrales del código.”</div>
+      <div class="say">“Lo ideal es abrir la app en vivo en <a href="/">http://127.0.0.1:8000/</a>, mover una barra y pulsar Calcular para que vean cómo cambian medidor, sensibilidades y curva al mismo tiempo. Si no hay conexión, usen la captura de esta slide — pero la demo en vivo es lo más claro.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -1085,7 +1105,9 @@
         <li>El equipo aprendió a investigar, programar y presentar con evidencia.</li>
       </ul>
       <p><strong>Tabla de estados (slide):</strong> z bajo → Reprueba · z medio → En riesgo · z alto → Aprueba — coherente con umbrales del código (≥70 % aprueba probable).</p>
-      <div class="say">“Con distintos datos la app cambia el veredicto…” <em>(sin texto en guion del equipo — usar escenarios A y B de arriba)</em></div>
+      <div class="say">“Esta slide demuestra que el modelo <strong>funciona</strong> con dos escenarios reales. En el <strong>Escenario A</strong>, con datos bajos, la probabilidad ronda el 33 %: el medidor muestra alta probabilidad de reprobación — es una alerta temprana para que el estudiante cambie hábitos. Las derivadas indican qué variable conviene mover primero, por ejemplo promedio o asistencia.”</div>
+      <div class="say">“En el <strong>Escenario B</strong>, con mejores hábitos, subimos a ~73 %: alta probabilidad de aprobación, medidor en verde. Los factores ✔ destacan promedio sobre la nota mínima, horas de estudio adecuadas y trabajos entregados. En la curva sigmoide el punto azul queda más a la derecha — mayor z, mayor σ(z).”</div>
+      <div class="say">“Concluimos tres cosas: cumplimos el objetivo de estimar probabilidad con Cálculo aplicado; la app <strong>orienta</strong>, no solo calcula — derivadas más factores; y el equipo aprendió a investigar, programar y presentar con evidencia. La tabla de estados resume: z bajo → Reprueba, z medio → En riesgo, z alto → Aprueba — coherente con el umbral del 70 % en el código.”</div>
     </div>
 
     <div class="slide-guide filterable">
@@ -1343,16 +1365,25 @@
 
     const SLIDE_WHO_EXTRAS = {
       1: '(presenta al equipo — saludo breve)',
+      2: '(Aron abre; Víctor detalla variables)',
       4: '(nociones matemáticas — 1 min)',
       6: '(1 min)',
       7: '(1 min — no leer toda la tabla)',
       10: '(respuestas a las 6 preguntas)',
-      11: '(con imagen GeoGebra)',
+      11: '(Paola sigmoide; Víctor derivadas)',
       15: '(30–40 seg — no leer fila por fila)',
       16: '(ideal: abrir <a href="/">127.0.0.1:8000</a> en vivo)',
       17: '(escenarios de resultados — pueden repartirse)',
       18: '(1 min — una frase por fila)',
       19: '(bibliografía formal)'
+    };
+
+    /* Reparto 6-6-6 alineado con el guion del equipo (etiquetas azules) */
+    const ORIGINAL_REPARTO = {
+      1: 'aron', 2: 'aron', 3: 'paola', 4: 'aron', 5: 'victor', 6: 'paola',
+      7: 'aron', 8: 'paola', 9: 'paola', 10: 'victor', 11: 'victor',
+      12: 'paola', 13: 'victor', 14: 'victor', 15: 'aron', 16: 'aron',
+      17: 'todos', 18: 'victor', 19: 'paola'
     };
 
     const PART_BLOCKS = [
@@ -1405,6 +1436,27 @@
         [pool[i], pool[j]] = [pool[j], pool[i]];
       }
       return pool;
+    }
+
+    function applyOriginalReparto() {
+      document.querySelectorAll('.slide-guide.filterable').forEach(slide => {
+        const n = slideNumber(slide);
+        const sp = ORIGINAL_REPARTO[n];
+        if (!sp) return;
+        const who = slide.querySelector('.who');
+        who?.classList.remove('who-aron', 'who-paola', 'who-victor', 'who-todos');
+        slide.classList.remove('assigned-aron', 'assigned-paola', 'assigned-victor', 'assigned-todos');
+        slide.dataset.primarySpeaker = sp;
+        if (sp === 'todos') {
+          who?.classList.add('who-todos');
+          slide.classList.add('assigned-todos');
+        } else {
+          who?.classList.add('who-' + sp);
+          slide.classList.add('assigned-' + sp);
+        }
+        const sel = slide.querySelector('.who-picker');
+        if (sel) sel.value = sp;
+      });
     }
 
     function setWhoOnSlide(slide, speaker) {
@@ -1627,14 +1679,9 @@
       if (c.todos) html += ` · <span class="b-todos" style="color:var(--accent2);font-weight:600">Todos ${c.todos}</span>`;
       html += ` <span style="opacity:.7">(${total} diapositivas)</span>`;
       if (isShuffled) {
-        html += '<span class="shuf-note">Reparto personalizado activo (manual o al azar) — el guion “Guion del equipo” sigue con el autor original del texto.</span>';
+        html += '<span class="shuf-note">Reparto personalizado activo — el guion del equipo (etiqueta azul) sigue indicando quién dice cada frase.</span>';
       } else {
-        const diff = Math.max(c.aron, c.paola, c.victor) - Math.min(
-          c.aron || 99, c.paola || 99, c.victor || 99
-        );
-        if (diff > 1) {
-          html += '<span class="shuf-note">Reparto original desbalanceado — usa 🎲 para equilibrar al azar.</span>';
-        }
+        html += '<span class="shuf-note">Reparto alineado con el guion del equipo (6-6-6). En slides 2 y 11 intervienen dos integrantes — mira la etiqueta azul de cada bloque.</span>';
       }
       document.getElementById('assignBalance').innerHTML = html;
     }
@@ -1665,18 +1712,8 @@
           ? parseSpeakersFromWho(slide.querySelector('.who').textContent).join(' ')
           : 'aron paola victor';
         delete slide.dataset.primarySpeaker;
-        const sp = primarySpeakerFromSlide(slide);
-        slide.dataset.primarySpeaker = sp;
-        if (sp !== 'todos') {
-          who?.classList.add('who-' + sp);
-          slide.classList.add('assigned-' + sp);
-        } else {
-          who?.classList.add('who-todos');
-          slide.classList.add('assigned-todos');
-        }
-        const sel = slide.querySelector('.who-picker');
-        if (sel) sel.value = sp;
       });
+      applyOriginalReparto();
       restorePartBlocks();
       PART_BLOCKS.forEach(b => {
         const el = document.getElementById(b.id);
@@ -1731,24 +1768,13 @@
 
     tagGuionSpeakers();
     injectWhoPickers();
+    applyOriginalReparto();
     document.getElementById('shuffleAssign').addEventListener('click', shuffleAssignments);
     document.getElementById('restoreAssign').addEventListener('click', restoreAssignments);
 
-    document.querySelectorAll('.slide-guide.filterable').forEach(slide => {
-      const sp = primarySpeakerFromSlide(slide);
-      const who = slide.querySelector('.who');
-      if (who && sp !== 'todos') {
-        who.classList.add('who-' + sp);
-        slide.classList.add('assigned-' + sp);
-      } else if (who) {
-        who.classList.add('who-todos');
-        slide.classList.add('assigned-todos');
-      }
-      slide.dataset.primarySpeaker = sp;
-    });
-
     (async function initReparto() {
-      await loadSavedAssignments();
+      const hadCustom = await loadSavedAssignments();
+      if (!hadCustom) applyOriginalReparto();
       renderAssignBalance();
       applyGuideFilter();
     })();
