@@ -96,6 +96,162 @@ def calcular_prediccion(datos: dict) -> dict:
     elif datos['concentracion'] <= 2:
         negativos.append("✖ Hábitos de concentración deficientes.")
 
+    # Generar recomendaciones personalizadas con mínimos
+    recomendaciones = []
+    
+    # 1. Asistencia (min_ok = 80%)
+    asist_val = datos['asistencia']
+    if asist_val >= 80:
+        recomendaciones.append({
+            'tipo': 'bueno',
+            'titulo': 'Asistencia',
+            'descripcion': f"Tu asistencia es excelente ({asist_val}%). Sigue asistiendo a todas tus clases para no perder el hilo de las explicaciones y participar activamente.",
+            'icono': '✅'
+        })
+    elif asist_val >= 60:
+        dif = 80 - asist_val
+        recomendaciones.append({
+            'tipo': 'mejorar',
+            'titulo': 'Asistencia',
+            'descripcion': f"Tu asistencia es regular ({asist_val}%). Necesitas mejorarla en al menos {dif:.1f}% para alcanzar el nivel óptimo recomendado (80%). La asistencia es clave para la aprobación.",
+            'icono': '⚠️'
+        })
+    else:
+        dif = 80 - asist_val
+        recomendaciones.append({
+            'tipo': 'critico',
+            'titulo': 'Asistencia Crítica',
+            'descripcion': f"Alerta: Tu asistencia es críticamente baja ({asist_val}%). Debes subir tu asistencia en al menos {dif:.1f}% para llegar al 80% mínimo recomendado y evitar la reprobación por inasistencias.",
+            'icono': '🚨'
+        })
+
+    # 2. Promedio (min_ok = 70 pts para seguro, 60 pts para aprobado básico)
+    prom_val = datos['promedio']
+    if prom_val >= 70:
+        recomendaciones.append({
+            'tipo': 'bueno',
+            'titulo': 'Promedio Académico',
+            'descripcion': f"Tu promedio es sólido ({prom_val} pts). Continúa manteniendo esta disciplina en tus evaluaciones para consolidar tu aprobación.",
+            'icono': '✅'
+        })
+    elif prom_val >= 60:
+        dif = 70 - prom_val
+        recomendaciones.append({
+            'tipo': 'mejorar',
+            'titulo': 'Promedio Aceptable',
+            'descripcion': f"Tu promedio es de {prom_val} pts. Aunque está aprobado, te recomendamos subir tu promedio en al menos {dif:.1f} pts para alcanzar un margen seguro (70 pts).",
+            'icono': '⚠️'
+        })
+    else:
+        dif_aprob = 60 - prom_val
+        dif_seguro = 70 - prom_val
+        recomendaciones.append({
+            'tipo': 'critico',
+            'titulo': 'Promedio Insuficiente',
+            'descripcion': f"Tu promedio actual es reprobatorio ({prom_val} pts). Como mínimo absoluto debes subir {dif_aprob:.1f} pts para alcanzar la nota mínima de 60 pts, e idealmente {dif_seguro:.1f} pts para estar a salvo.",
+            'icono': '🚨'
+        })
+
+    # 3. Horas de estudio semanal (min_ok = 10 horas)
+    horas_val = datos['horas_estudio']
+    if horas_val >= 10:
+        recomendaciones.append({
+            'tipo': 'bueno',
+            'titulo': 'Horas de Estudio',
+            'descripcion': f"Dedicas un buen tiempo al estudio ({horas_val} h/semana). Mantén este valioso hábito de estudio independiente para afianzar tus conocimientos.",
+            'icono': '✅'
+        })
+    elif horas_val >= 5:
+        dif = 10 - horas_val
+        recomendaciones.append({
+            'tipo': 'mejorar',
+            'titulo': 'Horas de Estudio',
+            'descripcion': f"Estudias {horas_val} h/semana. Te sugerimos incrementar al menos {dif:.1f} horas adicionales de estudio a la semana para llegar a la meta mínima de 10 h/semana.",
+            'icono': '⚠️'
+        })
+    else:
+        dif = 10 - horas_val
+        recomendaciones.append({
+            'tipo': 'critico',
+            'titulo': 'Horas de Estudio Críticas',
+            'descripcion': f"Tu dedicación es muy baja ({horas_val} h/semana). Incrementa tu estudio en al menos {dif:.1f} horas semanales para alcanzar el mínimo sugerido de 10 horas.",
+            'icono': '🚨'
+        })
+
+    # 4. Trabajos entregados (min_ok = 7 trabajos)
+    trabajos_val = datos['trabajos']
+    if trabajos_val >= 8:
+        recomendaciones.append({
+            'tipo': 'bueno',
+            'titulo': 'Entregas de Trabajos',
+            'descripcion': f"Tienes un excelente cumplimiento en la entrega de tareas ({trabajos_val}/10). Sigue con este excelente nivel de cumplimiento.",
+            'icono': '✅'
+        })
+    elif trabajos_val >= 4:
+        dif = 7 - trabajos_val
+        recomendaciones.append({
+            'tipo': 'mejorar',
+            'titulo': 'Entrega de Trabajos',
+            'descripcion': f"Has entregado {trabajos_val}/10 trabajos. Deberías entregar al menos {dif} trabajo(s) más para alcanzar el mínimo ideal de 7 entregados y asegurar ese puntaje.",
+            'icono': '⚠️'
+        })
+    else:
+        dif = 7 - trabajos_val
+        recomendaciones.append({
+            'tipo': 'critico',
+            'titulo': 'Entrega de Trabajos Crítica',
+            'descripcion': f"Solo has entregado {trabajos_val}/10 trabajos. Es urgente que entregues al menos {dif} trabajo(s) adicionales para llegar al mínimo aceptable de 7 entregados.",
+            'icono': '🚨'
+        })
+
+    # 5. Participación en clases (min_ok = 3/5)
+    part_val = datos['participacion']
+    if part_val >= 4:
+        recomendaciones.append({
+            'tipo': 'bueno',
+            'titulo': 'Participación en Clases',
+            'descripcion': f"Tu participación en clase es alta ({part_val}/5). Esto te ayuda a internalizar los conceptos e interactuar mejor con los temas explicados.",
+            'icono': '✅'
+        })
+    elif part_val == 3:
+        recomendaciones.append({
+            'tipo': 'mejorar',
+            'titulo': 'Participación en Clases',
+            'descripcion': f"Tu nivel de participación es de {part_val}/5. Deberías intentar aumentar tu participación en al menos 1 nivel (llegar a 4/5) para consolidar tu proceso de aprendizaje activo.",
+            'icono': '⚠️'
+        })
+    else:
+        recomendaciones.append({
+            'tipo': 'critico',
+            'titulo': 'Baja Participación',
+            'descripcion': f"Tu participación es muy baja ({part_val}/5). Intenta incrementarla en al menos 2 niveles para alcanzar un nivel saludable (mínimo de 3/5 o 4/5). Preguntar dudas sencillas es un buen inicio.",
+            'icono': '🚨'
+        })
+
+    # 6. Hábitos de concentración (min_ok = 3/5)
+    conc_val = datos['concentracion']
+    if conc_val >= 4:
+        recomendaciones.append({
+            'tipo': 'bueno',
+            'titulo': 'Hábitos de Concentración',
+            'descripcion': f"Tus hábitos de concentración son excelentes ({conc_val}/5). Continúa estudiando en áreas libres de distracciones y con enfoque estructurado.",
+            'icono': '✅'
+        })
+    elif conc_val == 3:
+        recomendaciones.append({
+            'tipo': 'mejorar',
+            'titulo': 'Hábitos de Concentración',
+            'descripcion': f"Tu concentración es regular ({conc_val}/5). Intenta mejorar tus hábitos en al menos 1 nivel (meta de 4/5) organizando tus sesiones de estudio y desconectando el celular.",
+            'icono': '⚠️'
+        })
+    else:
+        recomendaciones.append({
+            'tipo': 'critico',
+            'titulo': 'Enfoque Deficiente',
+            'descripcion': f"Tu concentración al estudiar es baja ({conc_val}/5). Necesitas aumentar tu nivel de enfoque en al menos 2 niveles utilizando técnicas de estudio estructuradas como Pomodoro.",
+            'icono': '🚨'
+        })
+
     # Generar la expresión z extendida
     formula_z_str = f"z = {BIAS}"
     formula_z_str += f" + {PESOS['asistencia']}*{norm['asistencia']:.3f}"
@@ -112,6 +268,7 @@ def calcular_prediccion(datos: dict) -> dict:
         'positivos': positivos,
         'negativos': negativos,
         'sensibilidades': sensibilidades,
+        'recomendaciones': recomendaciones,
     }
 
 

@@ -312,6 +312,28 @@ function renderFactores(positivos, negativos) {
         : '<p class="factor-empty">Sin factores negativos destacados.</p>';
 }
 
+// ── Renderizar recomendaciones ─────────────────────────────────────────
+function renderRecomendaciones(recomendaciones) {
+    const contentEl = document.getElementById('recommendationsContent');
+    if (!contentEl) return;
+
+    if (!recomendaciones || recomendaciones.length === 0) {
+        contentEl.innerHTML = '<p class="factor-empty">No hay recomendaciones disponibles.</p>';
+        return;
+    }
+
+    contentEl.innerHTML = recomendaciones.map((rec, i) => `
+        <div class="recommendation-item ${rec.tipo}" style="animation-delay:${i * .06}s">
+            <div class="rec-header">
+                <span class="rec-icon">${rec.icono}</span>
+                <span class="rec-title">${rec.titulo}</span>
+                <span class="rec-tag tag-${rec.tipo}">${rec.tipo === 'bueno' ? 'Buen estado' : rec.tipo === 'mejorar' ? 'Por mejorar' : 'Crítico'}</span>
+            </div>
+            <p class="rec-desc">${rec.descripcion}</p>
+        </div>
+    `).join('');
+}
+
 // ── Veredicto ─────────────────────────────────────────────────────────
 function setVeredicto(pct) {
     const el = document.getElementById('verdict');
@@ -465,6 +487,7 @@ document.getElementById('predictorForm').addEventListener('submit', async (e) =>
         document.getElementById('formulaZ').textContent = `z = ${data.z}  →  σ(z) = ${(data.porcentaje / 100).toFixed(4)}`;
         renderSens(data.sensibilidades);
         renderFactores(data.positivos, data.negativos);
+        renderRecomendaciones(data.recomendaciones);
         // Curva sigmoide y tabla
         currentZ = data.z;
         drawSigmoid(data.z);
