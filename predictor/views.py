@@ -180,11 +180,11 @@ def calcular_prediccion(datos: dict) -> dict:
 
     # 4. Trabajos entregados (min_ok = 7 trabajos)
     trabajos_val = datos['trabajos']
-    if trabajos_val >= 8:
+    if trabajos_val >= 7:
         recomendaciones.append({
             'tipo': 'bueno',
             'titulo': 'Entregas de Trabajos',
-            'descripcion': f"Tienes un excelente cumplimiento en la entrega de tareas ({trabajos_val}/10). Sigue con este excelente nivel de cumplimiento.",
+            'descripcion': f"Tienes un excelente cumplimiento en la entrega de tareas ({int(trabajos_val)}/10). Sigue con este excelente nivel de cumplimiento.",
             'icono': '✅'
         })
     elif trabajos_val >= 4:
@@ -192,7 +192,7 @@ def calcular_prediccion(datos: dict) -> dict:
         recomendaciones.append({
             'tipo': 'mejorar',
             'titulo': 'Entrega de Trabajos',
-            'descripcion': f"Has entregado {trabajos_val}/10 trabajos. Deberías entregar al menos {dif} trabajo(s) más para alcanzar el mínimo ideal de 7 entregados y asegurar ese puntaje.",
+            'descripcion': f"Has entregado {int(trabajos_val)}/10 trabajos. Deberías entregar al menos {int(dif)} trabajo(s) más para alcanzar el mínimo ideal de 7 entregados y asegurar ese puntaje.",
             'icono': '⚠️'
         })
     else:
@@ -200,7 +200,7 @@ def calcular_prediccion(datos: dict) -> dict:
         recomendaciones.append({
             'tipo': 'critico',
             'titulo': 'Entrega de Trabajos Crítica',
-            'descripcion': f"Solo has entregado {trabajos_val}/10 trabajos. Es urgente que entregues al menos {dif} trabajo(s) adicionales para llegar al mínimo aceptable de 7 entregados.",
+            'descripcion': f"Solo has entregado {int(trabajos_val)}/10 trabajos. Es urgente que entregues al menos {int(dif)} trabajo(s) adicionales para llegar al mínimo aceptable de 7 entregados.",
             'icono': '🚨'
         })
 
@@ -210,21 +210,21 @@ def calcular_prediccion(datos: dict) -> dict:
         recomendaciones.append({
             'tipo': 'bueno',
             'titulo': 'Participación en Clases',
-            'descripcion': f"Tu participación en clase es alta ({part_val}/5). Esto te ayuda a internalizar los conceptos e interactuar mejor con los temas explicados.",
+            'descripcion': f"Tu participación en clase es alta ({int(part_val)}/5). Esto te ayuda a internalizar los conceptos e interactuar mejor con los temas explicados.",
             'icono': '✅'
         })
     elif part_val == 3:
         recomendaciones.append({
             'tipo': 'mejorar',
             'titulo': 'Participación en Clases',
-            'descripcion': f"Tu nivel de participación es de {part_val}/5. Deberías intentar aumentar tu participación en al menos 1 nivel (llegar a 4/5) para consolidar tu proceso de aprendizaje activo.",
+            'descripcion': f"Tu nivel de participación es de {int(part_val)}/5. Deberías intentar aumentar tu participación en al menos 1 nivel (llegar a 4/5) para consolidar tu proceso de aprendizaje activo.",
             'icono': '⚠️'
         })
     else:
         recomendaciones.append({
             'tipo': 'critico',
             'titulo': 'Baja Participación',
-            'descripcion': f"Tu participación es muy baja ({part_val}/5). Intenta incrementarla en al menos 2 niveles para alcanzar un nivel saludable (mínimo de 3/5 o 4/5). Preguntar dudas sencillas es un buen inicio.",
+            'descripcion': f"Tu participación es muy baja ({int(part_val)}/5). Intenta incrementarla en al menos 2 niveles para alcanzar un nivel saludable (mínimo de 3/5 o 4/5). Preguntar dudas sencillas es un buen inicio.",
             'icono': '🚨'
         })
 
@@ -234,21 +234,21 @@ def calcular_prediccion(datos: dict) -> dict:
         recomendaciones.append({
             'tipo': 'bueno',
             'titulo': 'Hábitos de Concentración',
-            'descripcion': f"Tus hábitos de concentración son excelentes ({conc_val}/5). Continúa estudiando en áreas libres de distracciones y con enfoque estructurado.",
+            'descripcion': f"Tus hábitos de concentración son excelentes ({int(conc_val)}/5). Continúa estudiando en áreas libres de distracciones y con enfoque estructurado.",
             'icono': '✅'
         })
     elif conc_val == 3:
         recomendaciones.append({
             'tipo': 'mejorar',
             'titulo': 'Hábitos de Concentración',
-            'descripcion': f"Tu concentración es regular ({conc_val}/5). Intenta mejorar tus hábitos en al menos 1 nivel (meta de 4/5) organizando tus sesiones de estudio y desconectando el celular.",
+            'descripcion': f"Tu concentración es regular ({int(conc_val)}/5). Intenta mejorar tus hábitos en al menos 1 nivel (meta de 4/5) organizando tus sesiones de estudio y desconectando el celular.",
             'icono': '⚠️'
         })
     else:
         recomendaciones.append({
             'tipo': 'critico',
             'titulo': 'Enfoque Deficiente',
-            'descripcion': f"Tu concentración al estudiar es baja ({conc_val}/5). Necesitas aumentar tu nivel de enfoque en al menos 2 niveles utilizando técnicas de estudio estructuradas como Pomodoro.",
+            'descripcion': f"Tu concentración al estudiar es baja ({int(conc_val)}/5). Necesitas aumentar tu nivel de enfoque en al menos 2 niveles utilizando técnicas de estudio estructuradas como Pomodoro.",
             'icono': '🚨'
         })
 
